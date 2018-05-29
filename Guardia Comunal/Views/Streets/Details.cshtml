@@ -1,0 +1,227 @@
+﻿@model GuardiaComunal.Models.Street
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Street</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Fecha)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Fecha)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Direccion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Direccion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Altura)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Altura)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Partida)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Partida)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Barrio)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Barrio)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BarrioConId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BarrioConId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Luz)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Luz)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Agua)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Agua)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Cloaca)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cloaca)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Gas)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Gas)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Pavimento)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Pavimento)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TipoPavimento)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TipoPavimento)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Cord)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cord)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RutaProvincial)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RutaProvincial)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CodCalleTexto)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CodCalleTexto)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ImpDesde)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ImpDesde)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ParDesde)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ParDesde)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ImpHasta)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ImpHasta)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ParHasta)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ParHasta)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CodCalle)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CodCalle)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UltimoPavimento)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UltimoPavimento)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Detalle)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Detalle)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Latitud)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Latitud)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Longitud)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Longitud)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Perimetro)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Perimetro)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,100 @@
+﻿@model IEnumerable<GuardiaComunal.Models.Liberation>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.NroLiberacion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FechaDeLiberacion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NroJuzgado)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FechaCarga)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Convenio)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Cuotas)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Acarreo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NroRecibo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Importe)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MontoEnCuotas)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FechaEmisionRecibo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Enable)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.NroLiberacion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FechaDeLiberacion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NroJuzgado)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FechaCarga)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Convenio)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Cuotas)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Acarreo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NroRecibo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Importe)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MontoEnCuotas)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FechaEmisionRecibo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Enable)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

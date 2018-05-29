@@ -1,0 +1,51 @@
+﻿@model GuardiaComunal.Models.Permission
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Permission</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Consulta)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Consulta)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AltaModificacion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AltaModificacion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Baja)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Baja)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Fecha)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Fecha)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

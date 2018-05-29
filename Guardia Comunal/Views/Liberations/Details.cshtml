@@ -1,0 +1,115 @@
+﻿@model GuardiaComunal.Models.Liberation
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Liberation</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.NroLiberacion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NroLiberacion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FechaDeLiberacion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FechaDeLiberacion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NroJuzgado)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NroJuzgado)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FechaCarga)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FechaCarga)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Convenio)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Convenio)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Cuotas)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cuotas)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Acarreo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Acarreo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NroRecibo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NroRecibo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Importe)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Importe)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MontoEnCuotas)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MontoEnCuotas)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FechaEmisionRecibo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FechaEmisionRecibo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Enable)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Enable)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

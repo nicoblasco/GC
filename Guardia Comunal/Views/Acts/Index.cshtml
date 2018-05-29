@@ -1,0 +1,184 @@
+﻿@model IEnumerable<GuardiaComunal.Models.Act>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.TipoDeActa)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NroActa)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FechaInfraccion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Tanda)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Calle)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Altura)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EntreCalle)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Barrio)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FechaEnvioAlJuzgado)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ActaAdjunta)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FechaCarga)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Color)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NroMotor)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NroChasis)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EstadoVehiculo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FechaEstado)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TipoAgente)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.VehiculoRetenido)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LicenciaRetenida)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TicketAlcoholemia)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ResultadoAlcoholemia)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TicketAlcoholemiaAdjunto)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Informe)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.InformeAdjunto)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Detalle)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Enable)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.TipoDeActa)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NroActa)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FechaInfraccion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Tanda)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Calle)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Altura)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EntreCalle)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Barrio)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FechaEnvioAlJuzgado)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ActaAdjunta)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FechaCarga)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Color)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NroMotor)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NroChasis)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EstadoVehiculo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FechaEstado)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TipoAgente)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.VehiculoRetenido)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LicenciaRetenida)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TicketAlcoholemia)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ResultadoAlcoholemia)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TicketAlcoholemiaAdjunto)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Informe)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.InformeAdjunto)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Detalle)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Enable)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

@@ -43,7 +43,7 @@ namespace GuardiaComunal.Models
             }
             catch (Exception e)
             {
-                throw;
+                rm.SetResponse(false, "Error en el sistema, contacte a su administrador");//Base de datos
             }
             return rm;
         }

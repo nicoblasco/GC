@@ -214,6 +214,7 @@
     <Content Include="Content\dataTables.responsive.css" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\lobibox.css" />
     <Content Include="Content\metisMenu.css" />
     <Content Include="Content\metisMenu.min.css" />
     <Content Include="Content\sb-admin-2.css" />
@@ -257,7 +258,14 @@
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="less\animations.less" />
+    <Content Include="less\lobibox.less" />
+    <Content Include="less\messageboxes.less" />
+    <Content Include="less\mixins.less" />
+    <Content Include="less\notifications.less" />
+    <Content Include="less\variables.less" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
+    <Content Include="Scripts\fnReloadAjax.js" />
     <Content Include="Scripts\ini.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -272,9 +280,12 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\lobibox.js" />
+    <Content Include="Scripts\messageboxes.js" />
     <Content Include="Scripts\metisMenu.js" />
     <Content Include="Scripts\metisMenu.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\notifications.js" />
     <Content Include="Scripts\popper-utils.js" />
     <Content Include="Scripts\popper-utils.min.js" />
     <Content Include="Scripts\popper.js" />
@@ -417,6 +428,12 @@
     <Content Include="Views\Windows\Edit.cshtml" />
     <Content Include="Views\Windows\Index.cshtml" />
     <Content Include="Views\Login\Index.cshtml" />
+    <Content Include="sounds\sound1.ogg" />
+    <Content Include="sounds\sound2.ogg" />
+    <Content Include="sounds\sound3.ogg" />
+    <Content Include="sounds\sound4.ogg" />
+    <Content Include="sounds\sound5.ogg" />
+    <Content Include="sounds\sound6.ogg" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

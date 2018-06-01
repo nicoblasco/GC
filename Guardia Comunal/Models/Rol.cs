@@ -11,7 +11,7 @@ namespace GuardiaComunal.Models
         public string Nombre { get; set; }
         public string Descripcion { get; set; }
 
-        public List<Permission> ListPermission { get; set; }
+        //public List<Permission> ListPermission { get; set; }
 
     }
 }

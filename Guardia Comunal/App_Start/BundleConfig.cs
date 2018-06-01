@@ -31,7 +31,12 @@ namespace Guardia_Comunal
 
             bundles.Add(new ScriptBundle("~/bundles/js").Include(
                       "~/Scripts/ini.js",
-                      "~/Scripts/jquery.form.js"
+                      "~/Scripts/jquery.form.js",
+                      "~/Scripts/lobibox.js",
+                      "~/Scripts/messageboxes.js",
+                      "~/Scripts/notifications.js",
+                      "~/Scripts/fnReloadAjax.js"
+
                       ));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
@@ -43,7 +48,8 @@ namespace Guardia_Comunal
                       "~/Content/dataTables.bootstrap.css",
                       "~/Content/sb-admin-2.css",
                       "~/Content/dataTables.responsive.css",
-                      "~/Content/font-awesome.min.css"
+                      "~/Content/font-awesome.min.css",
+                      "~/Content/lobibox.css"
                       ));
         }
     }

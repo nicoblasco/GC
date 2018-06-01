@@ -32,7 +32,7 @@
 
                 <div class="panel-body">
 
-                    <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+                    <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-Index">
                         <thead>
                             <tr>
                                 <th>ID</th>
@@ -40,16 +40,16 @@
                                 <th>Descripción</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            @foreach (var item in Model)
-                            {
-                                <tr class="odd gradeX">
-                                    <td>@item.Id</td>
-                                    <td class="center">@item.Nombre</td>
-                                    <td class="center">@item.Descripcion</td>
-                                </tr>
-                            }
-                        </tbody>
+                        @*<tbody>
+        @foreach (var item in Model)
+        {
+            <tr class="odd gradeX" id="@item.Id">
+                <td >@item.Id</td>
+                <td class="center">@item.Nombre</td>
+                <td class="center">@item.Descripcion</td>
+            </tr>
+        }
+    </tbody>*@
                     </table>
                     <!-- /.table-responsive -->
                 </div>
@@ -63,6 +63,12 @@
 </div>
 <!-- /#page-wrapper -->
 
+<!-- Progress Loader -->
+<div id="div-loader" style="margin: 0px; padding: 0px; position: fixed; right: 0px; top: 0px; width: 100%; height: 100%; background-color: rgb(102, 102, 102); z-index: 30001; opacity: 0.8; display: none">
+        <p style="position: absolute; color: White; top: 35%; left: 45%;">
+            <img src="~/Images/loading.gif" alt="Loading..." />
+        </p>
+</div>
 
 
 <!-- Modal -->
@@ -99,34 +105,149 @@
 
 
 @section scripts {
+    
+
+@*<script>
+    var table //add an global variable
+    $(document).ready(function () {
+        table = $("dataTables-Index").DataTable();
+    });
+</script>*@
+
 <script>
-    $(document).ready(function() {
-        $('#dataTables-example').DataTable({
-            responsive: true
-        });
 
-        var table = $('#dataTables-example').DataTable();
+    $(document).ready(function () {
+       // var dataSet = getRols();
+       // var table = $('#dataTables-Index').DataTable();
 
-        $('#dataTables-example tbody').on( 'click', 'tr', function () {
-            if ( $(this).hasClass('selected') ) {
+
+        //Lobibox.confirm('Atención', {
+        //    msg: 'Esta seguro?',
+        //    buttons: {
+        //        yes: {
+        //            'class': 'btn btn-success',
+        //            closeOnClick: false
+        //        },
+        //        no: {
+        //            'class': 'btn btn-success',
+        //            closeOnClick: false
+        //        },
+        //    },
+        //    callback: function (lobibox, type) {
+        //        if (type === 'no') {
+        //            return;
+        //        };
+        //    }
+        //});
+
+        prueba();
+        function prueba() {
+            Lobibox = Lobibox.confirm({
+                title: 'Atención',
+                msg: "Are you sure you want to delete this user?",
+                callback: function ($this, type, ev) {
+                    if (type === 'Yes') {
+                        alert("yes")
+                    } else {
+                        alert("NO")
+                    }
+
+                }
+                
+            });
+        };
+
+
+
+        $('#dataTables-Index').DataTable({
+              "ajax":
+                  {
+                      url: "@Url.Action("GetRols", "Rols")",
+                      type: "post",
+                      dataSrc: ""
+                  },
+           "columns": [
+               { "data": "Id" },
+               { "data": "Nombre" },
+               { "data": "Descripcion" }
+           ],
+           responsive: true
+       });
+
+        $('#dataTables-Index tbody').on('click', 'tr', function () {
+            if ($(this).hasClass('selected')) {
                 $(this).removeClass('selected');
+
             }
             else {
-                table.$('tr.selected').removeClass('selected');
+                $('#dataTables-Index').DataTable().$('tr.selected').removeClass('selected');
                 $(this).addClass('selected');
             }
-        } );
-
-        $('#btnBorrar').click( function () {
-            table.row('.selected').remove().draw( false );
         });
-
 
 
 
     });
 
-        $("#form-create").validate({
+
+           @*function getRols () {
+           var dataSet
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("GetRols", "Rols")',
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (response) {
+                    //$("#dataTables-Index").dataTable().fnReloadAjax(JSON.stringify(response));
+                    dataSet = JSON.stringify(response);
+
+                }
+
+
+           });
+
+            return dataSet;
+        }*@
+
+    $('#btnBorrar').click(function () {
+
+
+        
+
+        
+
+            $("#div-loader").show();
+            //var id = $("#dataTables-Index").dataTable().$("tr.selected").attr('id');
+            var id =$('#dataTables-Index').find('tr.selected>td').first().text();
+            $.ajax({
+                    url: '@Url.Action("DeleteRol", "Rols")',
+                    type: 'POST',
+                    data: JSON.stringify({
+                        "id": id
+                    }),
+                    contentType: 'application/json; charset=utf-8;',
+                    success: function (result) {
+                        //getRols();
+                        $("#dataTables-Index").dataTable().fnReloadAjax();
+                        $("#div-loader").hide();
+                        Lobibox.notify('success', {
+                            title: 'Exito',
+                            msg: 'Los cambios se han grabado correctamente.'
+                        });
+                    },
+                    error: function (response) {
+                        $("#div-loader").hide();
+                            Lobibox.notify('error', {
+                                title: 'Error',
+                                msg: 'Ah ocurrido un error, intente nuevamente.'
+                            });
+                    }
+                });
+
+
+        });
+
+    $("#form-create").validate({
         rules: {
             inputPerfil: { required: true, minlength: 2, maxlength: 64 },
             inputDescripcion: { required: true, minlength: 2, maxlength: 64 }
@@ -143,33 +264,45 @@
                 maxlength: "La longitud máxima permtida es de 64 caracteres."
             }
         },
-            submitHandler: function (form) {
-                // Creamos un div que bloqueara todo el formulario
-                var block = $('<div class="block-loading" />');
-                form.prepend(block);
-                var rol = new Object();
-                rol.Nombre = $("#input-Perfil").val();
-                rol.Descripcion = $("#input-Descripcion").val();
-                var data = JSON.stringify(rol);
+        submitHandler: function (form) {
+            $("#div-loader").show();
+            var rol = new Object();
+            rol.Nombre = $("#input-Perfil").val();
+            rol.Descripcion = $("#input-Descripcion").val();
+            var data = JSON.stringify(rol);
 
-                $.ajax({
-                    type: 'POST',
-                    url: '@Url.Action("CreateRol")',
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("CreateRol")',
                     data: data,
                     contentType: 'application/json; charset=utf-8',
                     dataType: 'json',
                     success: function (dataResponse) {
-                        block.remove();
-                        if (dataResponse.responseCode === '0') {
-                            alert('OK');
-
+                        $("#dataTables-Index").dataTable().fnReloadAjax();//Recargo la grilla
+                        $('#nuevoModal').modal('hide');
+                        $("#div-loader").hide();
+                        if (dataResponse.responseCode == 0)
+                            {
+                            $("#div-loader").hide();
+                            Lobibox.notify('success', {
+                                title: 'Exito',
+                                msg: 'Los cambios se han grabado correctamente.'
+                            });
                         } else {
-                            alert('Fallo');
+                                Lobibox.notify('error', {
+                                    title: 'Error',
+                                    msg: 'Ah ocurrido un error, intente nuevamente.'
+                            });
                         }
                     },
                     error: function (response) {
-                        block.remove();
-                        alert('Fallo');
+                        $("#div-loader").hide();
+                        $('#basicErrorCustomTitle').click(function () {
+                            Lobibox.notify('error', {
+                                title: 'Error',
+                                msg: 'Ah ocurrido un error, intente nuevamente.'
+                            });
+                        });
                     }
                 });
             },

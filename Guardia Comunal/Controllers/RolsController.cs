@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using GuardiaComunal.Models;
 using Guardia_Comunal.Models;
+using Newtonsoft.Json;
 
 namespace Guardia_Comunal.Controllers
 {
@@ -19,6 +20,25 @@ namespace Guardia_Comunal.Controllers
         public ActionResult Index()
         {
             return View(db.Rols.ToList());
+        }
+
+
+        [HttpPost]
+        public JsonResult GetRols()
+        {
+            List<Rol> list = new List<Rol>();
+            try
+            {
+                list = db.Rols.ToList();
+                var json = JsonConvert.SerializeObject(list);
+
+                return Json(list, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         // GET: Rols/Details/5
@@ -121,6 +141,27 @@ namespace Guardia_Comunal.Controllers
                 return HttpNotFound();
             }
             return View(rol);
+        }
+
+        public JsonResult DeleteRol(int id)
+        {
+            if (id == 0)
+            {
+                return Json(new { responseCode = "-10" });
+            }
+
+            Rol rol = db.Rols.Find(id);
+            db.Rols.Remove(rol);
+            db.SaveChanges();
+
+            var responseObject = new
+            {
+                responseCode = 0
+            };
+
+            return Json(responseObject);
+
+
         }
 
         // POST: Rols/Delete/5

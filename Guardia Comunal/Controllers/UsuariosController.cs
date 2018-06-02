@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using GuardiaComunal.Models;
 using Guardia_Comunal.Models;
+using Newtonsoft.Json;
 
 namespace Guardia_Comunal.Controllers
 {
@@ -26,6 +27,70 @@ namespace Guardia_Comunal.Controllers
 
             return View();
         }
+
+        [HttpPost]
+        public JsonResult GetUsuarios()
+        {
+            List<Usuario> list = new List<Usuario>();
+            try
+            {
+                list = db.Usuarios.ToList();
+                var json = JsonConvert.SerializeObject(list);
+
+                return Json(list, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+
+        [HttpPost]
+        public JsonResult GetUsuario(int id)
+        {
+            Usuario usuario = new Usuario();
+            try
+            {
+                usuario = db.Usuarios.Find(id);
+                var json = JsonConvert.SerializeObject(usuario);
+
+                return Json(usuario, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+
+        [HttpGet]
+        public JsonResult GetDuplicates(int id, string usuario)
+        {
+
+            try
+            {
+                var result = from c in db.Usuarios
+                             where c.Id != id
+                             && c.Nombreusuario.ToUpper() == usuario.ToUpper()
+                             select c;
+
+                var responseObject = new
+                {
+                    responseCode = result.Count()
+                };
+
+                return Json(responseObject, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
 
         // GET: Usuarios/Details/5
         public ActionResult Details(int? id)
@@ -65,6 +130,45 @@ namespace Guardia_Comunal.Controllers
             return View(usuario);
         }
 
+
+        public JsonResult CreateUsuario(Usuario usuario)
+        {
+            if (usuario == null)
+            {
+                return Json(new { responseCode = "-10" });
+            }
+
+            usuario.Enable = true;
+
+            db.Usuarios.Add(usuario);
+            db.SaveChanges();
+
+            var responseObject = new
+            {
+                responseCode = 0
+            };
+
+            return Json(responseObject);
+        }
+
+        public JsonResult EditUsuario(Usuario usuario)
+        {
+            if (usuario == null)
+            {
+                return Json(new { responseCode = "-10" });
+            }
+
+            db.Entry(usuario).State = EntityState.Modified;
+            db.SaveChanges();
+
+            var responseObject = new
+            {
+                responseCode = 0
+            };
+
+            return Json(responseObject);
+        }
+
         // GET: Usuarios/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -94,6 +198,28 @@ namespace Guardia_Comunal.Controllers
                 return RedirectToAction("Index");
             }
             return View(usuario);
+        }
+
+
+        public JsonResult DeleteUsuario(int id)
+        {
+            if (id == 0)
+            {
+                return Json(new { responseCode = "-10" });
+            }
+
+            Usuario usuario = db.Usuarios.Find(id);
+            db.Usuarios.Remove(usuario);
+            db.SaveChanges();
+
+            var responseObject = new
+            {
+                responseCode = 0
+            };
+
+            return Json(responseObject);
+
+
         }
 
         // GET: Usuarios/Delete/5

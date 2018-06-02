@@ -41,6 +41,53 @@ namespace Guardia_Comunal.Controllers
             }
         }
 
+
+        [HttpPost]
+        public JsonResult GetRol(int id)
+        {
+            Rol rol = new Rol();
+            try
+            {
+                rol = db.Rols.Find(id);
+                var json = JsonConvert.SerializeObject(rol);
+
+                return Json(rol, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+
+        [HttpGet]
+        public JsonResult GetDuplicates(int id, string nombre)
+        {
+           
+            try
+            {
+                var result = from c in db.Rols
+                             where c.Id != id
+                             && c.Nombre.ToUpper() == nombre.ToUpper()                        
+                             select c;
+
+                var responseObject = new
+                {
+                    responseCode = result.Count()
+                };
+
+                return Json(responseObject, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        //Validar si el nombre se repite
+
         // GET: Rols/Details/5
         public ActionResult Details(int? id)
         {
@@ -70,6 +117,25 @@ namespace Guardia_Comunal.Controllers
             }
 
             db.Rols.Add(rol);
+            db.SaveChanges();
+
+            var responseObject = new
+            {
+                responseCode = 0
+            };
+
+            return Json(responseObject);
+        }
+
+
+        public JsonResult EditRol(Rol rol)
+        {
+            if (rol == null)
+            {
+                return Json(new { responseCode = "-10" });
+            }
+
+            db.Entry(rol).State = EntityState.Modified;
             db.SaveChanges();
 
             var responseObject = new

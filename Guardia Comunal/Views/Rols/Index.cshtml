@@ -86,11 +86,11 @@
                     <form role="form">
                         <div class="form-group">
                             <label>Perfil</label>
-                            <input id="input-Perfil" name="inputPerfil" class="form-control">
+                            <input id="input-Perfil" name="inputPerfil" class="form-control" autocomplete="off">
                         </div>
                         <div class="form-group">
                             <label>Descripción</label>
-                            <input id="input-Descripcion" name="inputDescripcion" class="form-control">
+                            <input id="input-Descripcion" name="inputDescripcion" class="form-control" autocomplete="off">
                         </div>
                     </form>
                 </div>
@@ -103,60 +103,52 @@
 </div>
 </div>
 
+<div class="modal fade" id="editarModal" role="dialog">
+    <div class="modal-dialog">
+        <form id="form-edit" method="post">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Nuevo Rol</h4>
+                </div>
+                <div class="modal-body">
+                    <form role="form">
+
+                        <div class="form-group">
+                            <label>Id</label>
+                            <input id="input-Id" name="inputPerfil" class="form-control" disabled>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Perfil</label>
+                            <input id="input-Perfil" name="inputPerfil" class="form-control" autocomplete="off">
+                        </div>
+                        <div class="form-group">
+                            <label>Descripción</label>
+                            <input id="input-Descripcion" name="inputDescripcion" class="form-control" autocomplete="off">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
 
 @section scripts {
     
 
-@*<script>
-    var table //add an global variable
-    $(document).ready(function () {
-        table = $("dataTables-Index").DataTable();
-    });
-</script>*@
-
 <script>
 
     $(document).ready(function () {
-       // var dataSet = getRols();
-       // var table = $('#dataTables-Index').DataTable();
 
 
-        //Lobibox.confirm('Atención', {
-        //    msg: 'Esta seguro?',
-        //    buttons: {
-        //        yes: {
-        //            'class': 'btn btn-success',
-        //            closeOnClick: false
-        //        },
-        //        no: {
-        //            'class': 'btn btn-success',
-        //            closeOnClick: false
-        //        },
-        //    },
-        //    callback: function (lobibox, type) {
-        //        if (type === 'no') {
-        //            return;
-        //        };
-        //    }
-        //});
-
-        prueba();
-        function prueba() {
-            Lobibox = Lobibox.confirm({
-                title: 'Atención',
-                msg: "Are you sure you want to delete this user?",
-                callback: function ($this, type, ev) {
-                    if (type === 'Yes') {
-                        alert("yes")
-                    } else {
-                        alert("NO")
-                    }
-
-                }
-                
-            });
-        };
-
+        habilitaBotones(false);
 
 
         $('#dataTables-Index').DataTable({
@@ -177,46 +169,41 @@
         $('#dataTables-Index tbody').on('click', 'tr', function () {
             if ($(this).hasClass('selected')) {
                 $(this).removeClass('selected');
-
+                habilitaBotones(false);
             }
             else {
                 $('#dataTables-Index').DataTable().$('tr.selected').removeClass('selected');
                 $(this).addClass('selected');
+                habilitaBotones(true);
+
             }
         });
-
-
 
     });
 
 
-           @*function getRols () {
-           var dataSet
-            $.ajax({
-                type: "POST",
-                url: '@Url.Action("GetRols", "Rols")',
-                dataType: "json",
-                contentType: "application/json; charset=utf-8",
-                success: function (response) {
-                    //$("#dataTables-Index").dataTable().fnReloadAjax(JSON.stringify(response));
-                    dataSet = JSON.stringify(response);
 
-                }
-
-
-           });
-
-            return dataSet;
-        }*@
 
     $('#btnBorrar').click(function () {
 
 
-        
+        Lobibox.confirm({
+            title: 'Atención',
+            msg: "¿Esta seguro que desea eliminar el Rol?",
+            callback: function ($this, type, ev) {
+                if (type === 'yes') {
+                    Delete();
+                };
+            }
 
-        
+        });
+    });
 
-            $("#div-loader").show();
+
+    function Delete()
+    {
+        $("#div-loader").show();
+        
             //var id = $("#dataTables-Index").dataTable().$("tr.selected").attr('id');
             var id =$('#dataTables-Index').find('tr.selected>td').first().text();
             $.ajax({
@@ -227,13 +214,13 @@
                     }),
                     contentType: 'application/json; charset=utf-8;',
                     success: function (result) {
-                        //getRols();
                         $("#dataTables-Index").dataTable().fnReloadAjax();
                         $("#div-loader").hide();
                         Lobibox.notify('success', {
                             title: 'Exito',
                             msg: 'Los cambios se han grabado correctamente.'
                         });
+                        habilitaBotones(false);
                     },
                     error: function (response) {
                         $("#div-loader").hide();
@@ -243,9 +230,7 @@
                             });
                     }
                 });
-
-
-        });
+    }
 
     $("#form-create").validate({
         rules: {
@@ -270,6 +255,21 @@
             rol.Nombre = $("#input-Perfil").val();
             rol.Descripcion = $("#input-Descripcion").val();
             var data = JSON.stringify(rol);
+
+
+            //Antes de editar, verifico que no este duplicando el Rol
+            var isDuplicate = getDuplicates(0, rol.Nombre);
+
+            if (isDuplicate) {
+                $("#div-loader").hide();
+                Lobibox.notify('warning', {
+                    title: 'Cuidado',
+                    msg: 'El rol ya existe, debe asignar otro nombre.'
+                });
+
+                return;
+            }
+
 
             $.ajax({
                 type: 'POST',
@@ -297,17 +297,163 @@
                     },
                     error: function (response) {
                         $("#div-loader").hide();
-                        $('#basicErrorCustomTitle').click(function () {
                             Lobibox.notify('error', {
                                 title: 'Error',
                                 msg: 'Ah ocurrido un error, intente nuevamente.'
                             });
-                        });
                     }
                 });
             },
             errorElement: "p"
     });
+
+
+    $("#form-edit").validate({
+        rules: {
+            inputPerfil: { required: true, minlength: 2, maxlength: 64 },
+            inputDescripcion: { required: true, minlength: 2, maxlength: 64 }
+        },
+        messages: {
+            inputPerfil: {
+                required: "Este campo es requerido.",
+                minlength: "Introduzca al menos 2 caracteres.",
+                maxlength: "La longitud máxima permtida es de 64 caracteres."
+            },
+            inputDescripcion: {
+                required: "Este campo es requerido.",
+                minlength: "Introduzca al menos 2 caracteres.",
+                maxlength: "La longitud máxima permtida es de 64 caracteres."
+            }
+        },
+        submitHandler: function (form) {
+            $("#div-loader").show();
+           
+            var rol = new Object();
+            rol.Id = $('#editarModal').find('input#input-Id').val();
+            rol.Nombre = $('#editarModal').find('input#input-Perfil').val();
+            rol.Descripcion = $('#editarModal').find('input#input-Descripcion').val();
+            var data = JSON.stringify(rol);
+
+            //Antes de editar, verifico que no este duplicando el Rol
+            var isDuplicate = getDuplicates(rol.Id, rol.Nombre);
+
+            if (isDuplicate)
+            {
+                $("#div-loader").hide();
+                Lobibox.notify('warning', {
+                    title: 'Cuidado',
+                    msg: 'El rol ya existe, debe asignar otro nombre.'
+                });
+
+                return;
+            }
+
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("EditRol")',
+                    data: data,
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    success: function (dataResponse) {
+                        $("#dataTables-Index").dataTable().fnReloadAjax();//Recargo la grilla
+                        $('#editarModal').modal('hide');
+                        $("#div-loader").hide();
+                        if (dataResponse.responseCode == 0)
+                            {
+                            $("#div-loader").hide();
+                            Lobibox.notify('success', {
+                                title: 'Exito',
+                                msg: 'Los cambios se han grabado correctamente.'
+                            });                            
+                        } else {
+                                Lobibox.notify('error', {
+                                    title: 'Error',
+                                    msg: 'Ah ocurrido un error, intente nuevamente.'
+                            });
+                        }
+                        habilitaBotones(false);
+                    },
+                    error: function (response) {
+                        $("#div-loader").hide();
+                            Lobibox.notify('error', {
+                                title: 'Error',
+                                msg: 'Ah ocurrido un error, intente nuevamente.'
+                            });
+                    }
+                });
+            },
+            errorElement: "p"
+    });
+
+
+    //Completo el modal edit con los datos de la grilla
+    $('#editarModal').on('shown.bs.modal', function (e) {
+        var idRol = $('#dataTables-Index').find('tr.selected>td').first().text();
+
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("GetRol", "Rols")',
+            data: {
+                id: idRol
+            },
+            cache: false,
+            success: function (result) {
+                $('#editarModal').find('input#input-Id').val(result.Id);
+                $('#editarModal').find('input#input-Perfil').val(result.Nombre);
+                $('#editarModal').find('input#input-Descripcion').val(result.Descripcion);
+            },
+            error: function (response) {
+                    Lobibox.notify('error', {
+                        title: 'Error',
+                        msg: 'Ah ocurrido un error, intente nuevamente.'
+                });
+                    $('#editarModal').modal('hide');
+            }
+        });
+
+
+    });
+
+
+    //Reinicio los modal
+    $('.modal').on('hidden.bs.modal', function (e) {
+        $(".modal-body input").val("")
+    });
+
+    function getDuplicates(pid,pParam)
+    {
+        var isDuplicate = false;
+            $.ajax({
+                type: 'GET',
+                async: false ,
+            url: '@Url.Action("GetDuplicates", "Rols")',
+            data: {                
+                id: pid,
+                nombre: pParam                
+            },
+            cache: false,
+            success: function (result) {
+                if (result.responseCode > 0)
+                    isDuplicate= true;
+                else
+                    isDuplicate= false;
+            }
+        });
+
+            return isDuplicate;
+    }
+
+    function habilitaBotones(boHabilita) {
+        if (boHabilita) {
+            $('#btnEditar').removeAttr("disabled");
+            $('#btnBorrar').removeAttr("disabled");
+        }
+        else {
+            $('#btnEditar').attr("disabled", true);
+            $('#btnBorrar').attr("disabled", true);
+        }
+
+    }
 
 </script>
 }

@@ -557,12 +557,12 @@ var Lobibox = Lobibox || {};
             },
             cancel: {
                 'class': 'lobibox-btn lobibox-btn-cancel',
-                text: 'Cancel',
+                text: 'Cancelar',
                 closeOnClick: true
             },
             yes: {
                 'class': 'lobibox-btn lobibox-btn-yes',
-                text: 'Yes',
+                text: 'Si',
                 closeOnClick: true
             },
             no: {

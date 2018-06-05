@@ -19,7 +19,12 @@ namespace Guardia_Comunal.Controllers
         // GET: Usuarios
         public ActionResult Index()
         {
-            return View(db.Usuarios.ToList());
+            List<Usuario> list = db.Usuarios.ToList();
+            List<Rol> lRoles = new List<Rol>();
+            lRoles = db.Rols.ToList();
+            ViewBag.listaRoles = lRoles;
+
+            return View(list);
         }
 
         public ActionResult Login()
@@ -73,7 +78,7 @@ namespace Guardia_Comunal.Controllers
             try
             {
                 var result = from c in db.Usuarios
-                             where c.Id != id
+                             where c.UsuarioId != id
                              && c.Nombreusuario.ToUpper() == usuario.ToUpper()
                              select c;
 

@@ -38,6 +38,7 @@ namespace Guardia_Comunal.Controllers
             {
 
                 throw;
+
             }
         }
 
@@ -68,7 +69,7 @@ namespace Guardia_Comunal.Controllers
             try
             {
                 var result = from c in db.Rols
-                             where c.Id != id
+                             where c.RolId != id
                              && c.Nombre.ToUpper() == nombre.ToUpper()                        
                              select c;
 

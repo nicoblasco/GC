@@ -159,7 +159,7 @@
                       dataSrc: ""
                   },
            "columns": [
-               { "data": "Id" },
+               { "data": "RolId" },
                { "data": "Nombre" },
                { "data": "Descripcion" }
            ],
@@ -329,7 +329,7 @@
             $("#div-loader").show();
            
             var rol = new Object();
-            rol.Id = $('#editarModal').find('input#input-Id').val();
+            rol.RolId = $('#editarModal').find('input#input-Id').val();
             rol.Nombre = $('#editarModal').find('input#input-Perfil').val();
             rol.Descripcion = $('#editarModal').find('input#input-Descripcion').val();
             var data = JSON.stringify(rol);
@@ -398,7 +398,7 @@
             },
             cache: false,
             success: function (result) {
-                $('#editarModal').find('input#input-Id').val(result.Id);
+                $('#editarModal').find('input#input-Id').val(result.RolId);
                 $('#editarModal').find('input#input-Perfil').val(result.Nombre);
                 $('#editarModal').find('input#input-Descripcion').val(result.Descripcion);
             },

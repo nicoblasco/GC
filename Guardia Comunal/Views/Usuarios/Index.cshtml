@@ -67,38 +67,37 @@
 
 <div class="modal fade" id="nuevoModal" role="dialog">
     <div class="modal-dialog">
-        <form id="form-create" method="post">
+        <form id="form-create" method="post" autocomplete="off">
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Nuevo Rol</h4>
+                    <h4 class="modal-title">Nuevo Usuario</h4>
                 </div>
                 <div class="modal-body">
-                    <form role="form">
+                    <form role="form" autocomplete="off">
+                                                
                         <div class="form-group">
                             <label>Usuario</label>
-                            <input id="input-Usuario" name="inputUsuario" class="form-control" autocomplete="off">
+                            <input id="username" style="opacity: 0;position: absolute;" type="text" name="fakeusernameremembered">
+                            <input id="input-Usuario-Create" name="inputNombreUsuario" class="form-control" autocomplete="nope">
                         </div>
                         <div class="form-group">
                             <label>Contraseña</label>
-                            <input type="password" id="input-Contraseña" name="inputContraseña" class="form-control" autocomplete="off">
+                            <input id="password" style="opacity: 0;position: absolute;" class="cp-password_stub" type="password" name="fakepasswordremembered">                            
+                            <input type="password" id="input-Contraseña-Create" name="inputPassword" class="form-control" autocomplete="new-password">
                         </div>
                         <div class="form-group">
                             <label>Nombre</label>
-                            <input id="input-Nombre" name="inputNombre" class="form-control" autocomplete="off">
+                            <input id="input-Nombre-Create" name="inputNombre" class="form-control" autocomplete="off">
                         </div>
                         <div class="form-group">
                             <label>Apellido</label>
-                            <input id="input-Apellido" name="inputApellido" class="form-control" autocomplete="off">
+                            <input id="input-Apellido-Create" name="inputApellido" class="form-control" autocomplete="off">
                         </div>
                         <div class="form-group">
                             <label>Rol</label>
-                            <select class="form-control">
-                                <option>Rol1</option>
-                                <option>Rol2</option>
-                                <option>Rol3</option>
-                            </select>
+                            @Html.DropDownList("selectRolCreate", new SelectList(ViewBag.listaRoles, "RolId", "Nombre"), new { @class = "form-control" })
 
                         </div> 
                     </form>
@@ -126,32 +125,28 @@
 
                         <div class="form-group">
                             <label>Id</label>
-                            <input id="input-Id" name="inputPerfil" class="form-control" disabled>
+                            <input id="input-Id-Edit" name="inputPerfil" class="form-control" disabled>
                         </div>
 
                         <div class="form-group">
                             <label>Usuario</label>
-                            <input id="input-Usuario" name="inputUsuario" class="form-control" autocomplete="off">
+                            <input id="input-Usuario-Edit" name="inputNombreUsuario" class="form-control" autocomplete="off">
                         </div>
                         <div class="form-group">
                             <label>Contraseña</label>
-                            <input type="password" id="input-Contraseña" name="inputContraseña" class="form-control" autocomplete="off">
+                            <input type="password" id="input-Contraseña-Edit" name="inputPassword" class="form-control" autocomplete="off">
                         </div>
                         <div class="form-group">
                             <label>Nombre</label>
-                            <input id="input-Nombre" name="inputNombre" class="form-control" autocomplete="off">
+                            <input id="input-Nombre-Edit" name="inputNombre" class="form-control" autocomplete="off">
                         </div>
                         <div class="form-group">
                             <label>Apellido</label>
-                            <input id="input-Apellido" name="inputApellido" class="form-control" autocomplete="off">
+                            <input id="input-Apellido-Edit" name="inputApellido" class="form-control" autocomplete="off">
                         </div>
                         <div class="form-group">
                             <label>Rol</label>
-                            <select class="form-control" name="inputRol" id="input-Rol">
-                                <option>Rol1</option>
-                                <option>Rol2</option>
-                                <option>Rol3</option>
-                            </select>
+                            @Html.DropDownList("selectRolEdit", new SelectList(ViewBag.listaRoles, "RolId", "Nombre"), new { @class = "form-control" })
 
                         </div> 
                     </form>
@@ -185,12 +180,12 @@
                       dataSrc: ""
                   },
            "columns": [
-               { "data": "Id" },
-               { "data": "Usuario" },
-               { "data": "Contraseña" },
+               { "data": "UsuarioId" },
+               { "data": "Nombreusuario" },
                { "data": "Nombre" },
                { "data": "Apellido" },
-               { "data": "Rol" }
+               { "data": "Rol.Nombre" }
+
            ],
            responsive: true
        });
@@ -259,17 +254,17 @@
 
     $("#form-create").validate({
         rules: {
-            inputUsuario: { required: true, minlength: 2, maxlength: 64 },
-            inputContraseña: { required: true, minlength: 2, maxlength: 64 },
+            inputNombreUsuario: { required: true, minlength: 2, maxlength: 64 },
+            inputPassword: { required: true, minlength: 2, maxlength: 64 },
             inputRol: { required: true}
         },
         messages: {
-            inputUsuario: {
+            inputNombreUsuario: {
                 required: "Este campo es requerido.",
                 minlength: "Introduzca al menos 2 caracteres.",
                 maxlength: "La longitud máxima permtida es de 64 caracteres."
             },
-            inputContraseña: {
+            inputPassword: {
                 required: "Este campo es requerido.",
                 minlength: "Introduzca al menos 2 caracteres.",
                 maxlength: "La longitud máxima permtida es de 64 caracteres."
@@ -281,11 +276,11 @@
         submitHandler: function (form) {
             $("#div-loader").show();
             var object = new Object();
-            object.Nombre = $("#input-Nombre").val();
-            object.Apellido = $("#input-Apellido").val();
-            object.Nombreusuario = $("#input-Usuario").val();
-            object.Contraseña = $("#input-Contraseña").val();
-            object.Rol = $("#input-Rol").val();
+            object.Nombre = $("#input-Nombre-Create").val();
+            object.Apellido = $("#input-Apellido-Create").val();
+            object.Nombreusuario = $("#input-Usuario-Create").val();
+            object.Contraseña = $("#input-Contraseña-Create").val();
+            object.RolId = $("#selectRolCreate option:selected").val();
             var data = JSON.stringify(object);
 
 
@@ -342,17 +337,17 @@
 
     $("#form-edit").validate({
         rules: {
-            inputUsuario: { required: true, minlength: 2, maxlength: 64 },
-            inputContraseña: { required: true, minlength: 2, maxlength: 64 },
+            inputNombreUsuario: { required: true, minlength: 2, maxlength: 64 },
+            inputPassword: { required: true, minlength: 2, maxlength: 64 },
             inputRol: { required: true }
         },
         messages: {
-            inputUsuario: {
+            inputNombreUsuario: {
                 required: "Este campo es requerido.",
                 minlength: "Introduzca al menos 2 caracteres.",
                 maxlength: "La longitud máxima permtida es de 64 caracteres."
             },
-            inputContraseña: {
+            inputPassword: {
                 required: "Este campo es requerido.",
                 minlength: "Introduzca al menos 2 caracteres.",
                 maxlength: "La longitud máxima permtida es de 64 caracteres."
@@ -365,15 +360,15 @@
             var object = new Object();
 
             $("#div-loader").show();
-            object.Id = $('#editarModal').find('input#input-Id').val();
+            object.UsuarioId = $('#editarModal').find('input#input-Id').val();
             object.Nombre = $("#input-Nombre").val();
             object.Apellido = $("#input-Apellido").val();
-            object.Nombreusuario = $("#input-Usuario").val();
+          //  object.Nombreusuario = $("#input-Usuario").val();
             object.Contraseña = $("#input-Contraseña").val();
-            object.Rol = $("#input-Rol").val();
+            object.RolId = $("#selectRolEdit option:selected").val();
 
             //Antes de editar, verifico que no este duplicando el Rol
-            var isDuplicate = getDuplicates(object.Id, rol.Nombreusuario);
+            var isDuplicate = getDuplicates(object.Id, object.Nombreusuario);
 
             if (isDuplicate)
             {
@@ -436,12 +431,12 @@
             },
             cache: false,
             success: function (result) {
-                $('#editarModal').find('input#input-Id').val(result.Id);
-                $('#editarModal').find('input#input-Usuario').val(result.Nombreusuario);
-                $('#editarModal').find('input#input-Contraseña').val(result.Contraseña);
-                $('#editarModal').find('input#input-Nombre').val(result.Nombre);
-                $('#editarModal').find('input#input-Apellido').val(result.Apellido);
-                $('#editarModal').find('select#input-Rol').val(result.Rol);
+                $('#editarModal').find('input#input-Id-Edit').val(result.UsuarioId);
+                $('#editarModal').find('input#input-Usuario-Edit').val(result.Nombreusuario);
+                $('#editarModal').find('input#input-Contraseña-Edit').val(result.Contraseña);
+                $('#editarModal').find('input#input-Nombre-Edit').val(result.Nombre);
+                $('#editarModal').find('input#input-Apellido-Edit').val(result.Apellido);
+                $('#editarModal').find('#selectRolEdit').val(result.RolId);
             },
             error: function (response) {
                     Lobibox.notify('error', {
@@ -470,7 +465,8 @@
             url: '@Url.Action("GetDuplicates", "Usuarios")',
             data: {
                 id: pid,
-                nombre: pParam
+                usuario: pParam
+
             },
             cache: false,
             success: function (result) {

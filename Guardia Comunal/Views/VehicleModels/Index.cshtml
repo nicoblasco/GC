@@ -1,46 +1,550 @@
 ﻿@model IEnumerable<GuardiaComunal.Models.VehicleModel>
-
 @{
-    ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Descripcion)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FechaAlta)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Enable)
-        </th>
-        <th></th>
-    </tr>
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Modelos de Vehículos</h1>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <button type="button" id="btnNuevo" class="btn btn-primary" data-toggle="modal" data-target="#nuevoModal">
+                        Nuevo
+                    </button>
+                    <button type="button" id="btnEditar" class="btn btn-primary" data-toggle="modal" data-target="#editarModal">
+                        Editar
+                    </button>
+                    <button type="button" id="btnBorrar" class="btn btn-primary" data-toggle="modal" data-target="#borrarModal">
+                        Borrar
+                    </button>
+                </div>
+                <!-- /.panel-heading -->
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Descripcion)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.FechaAlta)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Enable)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
+
+                <div class="panel-body">
+
+                    <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-Index">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Tipo Vehículo</th>
+                                <th>Marca</th>
+                                <th>Modelo</th>
+                            </tr>
+                        </thead>
+                    </table>
+                    <!-- /.table-responsive -->
+                </div>
+                <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /#row -->
+</div>
+<!-- /#page-wrapper -->
+<!-- Progress Loader -->
+<div id="div-loader" style="margin: 0px; padding: 0px; position: fixed; right: 0px; top: 0px; width: 100%; height: 100%; background-color: rgb(102, 102, 102); z-index: 30001; opacity: 0.8; display: none">
+    <p style="position: absolute; color: White; top: 35%; left: 45%;">
+        <img src="~/Images/loading.gif" alt="Loading..." />
+    </p>
+</div>
+
+
+<!-- Modal -->
+
+<div class="modal fade" id="nuevoModal" role="dialog">
+    <div class="modal-dialog">
+        <form id="form-create" method="post" autocomplete="off">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Nueva Marca</h4>
+                </div>
+                <div class="modal-body">
+                    <form role="form" autocomplete="off">
+                        <div class="form-group">
+                            <label>Tipo Vehículo</label>
+                            @Html.DropDownList("selectTiposCreate", new SelectList(ViewBag.listaTipos, "Id", "Descripcion"), "Seleccione un Vehiculo", htmlAttributes:
+                         new
+                         {
+                             @class = "form-control",
+                             @onchange = "refreshDropDownList(true)"
+                         }
+                   )
+                        </div>
+                        <div class="form-group">
+                            <label>Marca</label>
+                            @Html.DropDownList("selectMarcasCreate", new SelectList(ViewBag.listaMarcas, "Id", "Descripcion"), "Seleccione una Marca", new { @class = "form-control" })
+
+                        </div>
+                        <div class="form-group">
+                            <label>Marca</label>
+                            <input id="input-Modelo-Create" name="inputModelo" class="form-control" autocomplete="off">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="modal fade" id="editarModal" role="dialog">
+    <div class="modal-dialog">
+        <form id="form-edit" method="post">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Editar Marca</h4>
+                </div>
+                <div class="modal-body">
+                    <form role="form">
+
+                        <div class="form-group">
+                            <label>Id</label>
+                            <input id="input-Id-Edit" name="inputId" class="form-control" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label>Tipo Vehículo</label>
+                            @Html.DropDownList("selectTiposEdit", new SelectList(ViewBag.listaTipos, "Id", "Descripcion"), "Seleccione un Vehiculo", htmlAttributes:
+                         new
+                         {
+                             @class = "form-control",
+                             @onchange = "refreshDropDownList(false)"
+                         }
+                            )
+                        </div>
+                        <div class="form-group">
+                            <label>Marca</label>
+                            @Html.DropDownList("selectMarcasEdit", new SelectList(ViewBag.listaMarcas, "Id", "Descripcion"), "Seleccione una Marca", new { @class = "form-control" })
+                        </div>
+                        <div class="form-group">
+                            <label>Modelo</label>
+                            <input id="input-Modelo-Edit" name="inputModelo" class="form-control" autocomplete="off">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section scripts {
+
+
+    <script>
+
+    $(document).ready(function () {
+
+
+        habilitaBotones(false);
+
+
+        $('#dataTables-Index').DataTable({
+              "ajax":
+                  {
+                      url: "@Url.Action("GetModelos", "VehicleModels")",
+                      type: "post",
+                      dataSrc: ""
+                  },
+           "columns": [
+               { "data": "Id" },
+               { "data": "VehicleBrand.VehicleType.Descripcion" },
+               { "data": "VehicleBrand.Descripcion" },
+               { "data": "Descripcion" }
+           ],
+           responsive: true
+       });
+
+        $('#dataTables-Index tbody').on('click', 'tr', function () {
+            if ($(this).hasClass('selected')) {
+                $(this).removeClass('selected');
+                habilitaBotones(false);
+            }
+            else {
+                $('#dataTables-Index').DataTable().$('tr.selected').removeClass('selected');
+                $(this).addClass('selected');
+                habilitaBotones(true);
+
+            }
+        });
+
+    });
+
+
+
+
+
+        //Reinicio los modal
+        $('.modal').on('hidden.bs.modal', function (e) {
+            //Borro los input
+            $(".modal-body input").val("");
+
+            //Reinicio los combos
+            $("#selectTiposCreate  option:eq(0)").prop("selected", true);
+            $("#selectMarcasCreate  option:eq(0)").prop("selected", true);
+
+            //Reinicio las validaciones
+            $(this).find('form')[0].reset();
+            $("form").each(function () {
+                $(this).validate().resetForm();
+            });
+
+        });
+
+
+
+        function refreshDropDownList(add) {
+            // get references to the source and target drop downs html controls
+            // These are jquery searches to find the drop down controls
+
+            if ($("#selectTiposCreate").val() == "")
+            {
+                $("#selectMarcasCreate  option:eq(0)").prop("selected", true);
+                return;
+            }
+
+            if (add)
+            { 
+                // find a control with id=Manufacturer
+                src = $("#selectTiposCreate");
+
+                // find a control with id=Model (you need to add this to your view)
+                tgt = $("#selectMarcasCreate");
+            }
+            else
+            {
+                src = $("#selectTiposEdit");
+                tgt = $("#selectMarcasEdit");
+            }
+            // clear drop down
+            tgt.empty();
+
+            // Get new model dataset via ajax 
+            // based on manufacturer
+            // The url parameter points at your web method
+            $.ajax({
+                    url: '@Url.Action("GetMarcas", "VehicleModels")',
+                    type: 'POST',
+                    data: JSON.stringify({
+                        "id": src.val()
+                    }),
+                    contentType: 'application/json; charset=utf-8;',
+                // success is called when dataset returns
+                success: function (p) {
+                    // Populate with each returned member
+                    tgt.append(
+                        '<option value>' +
+                        "Seleccione una Marca" + '</option>'
+                    );                    
+                    $.each(p, function (i, pr) {
+                        tgt.append(
+                            '<option value="' + pr.Id + '">' +
+                            pr.Descripcion + '</option>'
+                        );
+                    })
+                }
+            });
+        }
+
+    $('#btnBorrar').click(function () {
+        Lobibox.confirm({
+            title: 'Atención',
+            msg: "¿Esta seguro que desea eliminar el modelo?",
+            callback: function ($this, type, ev) {
+                if (type === 'yes') {
+                    Delete();
+                };
+            }
+
+        });
+    });
+
+
+    function Delete()
+    {
+        $("#div-loader").show();
+            var id =$('#dataTables-Index').find('tr.selected>td').first().text();
+            $.ajax({
+                    url: '@Url.Action("DeleteModelo", "VehicleModels")',
+                    type: 'POST',
+                    data: JSON.stringify({
+                        "id": id
+                    }),
+                    contentType: 'application/json; charset=utf-8;',
+                    success: function (result) {
+                        $("#dataTables-Index").dataTable().fnReloadAjax();
+                        $("#div-loader").hide();
+                        Lobibox.notify('success', {
+                            title: 'Exito',
+                            msg: 'Los cambios se han grabado correctamente.'
+                        });
+                        habilitaBotones(false);
+                    },
+                    error: function (response) {
+                        $("#div-loader").hide();
+                            Lobibox.notify('error', {
+                                title: 'Error',
+                                msg: 'Ah ocurrido un error, intente nuevamente.'
+                            });
+                    }
+                });
+    }
+
+    $("#form-create").validate({
+        rules: {
+            inputModelo: { required: true, minlength: 2, maxlength: 64 },
+            selectTiposCreate: { required: true },
+            selectMarcasCreate: { required: true }
+        },
+        messages: {
+            inputModelo: {
+                required: "Este campo es requerido.",
+                minlength: "Introduzca al menos 2 caracteres.",
+                maxlength: "La longitud máxima permtida es de 64 caracteres."
+            },
+            selectTiposCreate: {
+                required: "Este campo es requerido."
+            },
+            selectMarcasCreate: {
+                required: "Este campo es requerido."
+            }
+        },
+        submitHandler: function (form) {
+            $("#div-loader").show();
+            var object = new Object();
+            var tipos = $("#selectTiposCreate option:selected").val();
+            object.VehicleBrandId = $("#selectMarcasCreate option:selected").val();
+            object.Descripcion = $("#input-Modelo-Create").val();
+            var data = JSON.stringify(object);
+
+
+            //Antes de editar, verifico que no este duplicando la marca del Tipo de ese vehiculo
+            var isDuplicate = getDuplicates(0, tipos, object.VehicleBrandId, object.Descripcion);
+
+            if (isDuplicate) {
+                $("#div-loader").hide();
+                Lobibox.notify('warning', {
+                    title: 'Cuidado',
+                    msg: 'El modelo para ese tipo y marca de vehiculo ya existe, debe asignar otro nombre.'
+                });
+
+                return;
+            }
+
+
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("CreateModelo")',
+                    data: data,
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    success: function (dataResponse) {
+                        $("#dataTables-Index").dataTable().fnReloadAjax();//Recargo la grilla
+                        $('#nuevoModal').modal('hide');
+                        $("#div-loader").hide();
+                        if (dataResponse.responseCode == 0)
+                            {
+                            $("#div-loader").hide();
+                            Lobibox.notify('success', {
+                                title: 'Exito',
+                                msg: 'Los cambios se han grabado correctamente.'
+                            });
+                        } else {
+                                Lobibox.notify('error', {
+                                    title: 'Error',
+                                    msg: 'Ah ocurrido un error, intente nuevamente.'
+                            });
+                        }
+                    },
+                    error: function (response) {
+                        $("#div-loader").hide();
+                            Lobibox.notify('error', {
+                                title: 'Error',
+                                msg: 'Ah ocurrido un error, intente nuevamente.'
+                            });
+                    }
+                });
+            },
+            errorElement: "p"
+    });
+
+
+    $("#form-edit").validate({
+        rules: {
+            inputModelo: { required: true, minlength: 2, maxlength: 64 },
+            selectTiposEdit: { required: true },
+            selectMarcasEdit: { required: true }
+        },
+        messages: {
+            inputModelo: {
+                required: "Este campo es requerido.",
+                minlength: "Introduzca al menos 2 caracteres.",
+                maxlength: "La longitud máxima permtida es de 64 caracteres."
+            },
+            selectTiposEdit: {
+                required: "Este campo es requerido."
+            },
+            selectMarcasEdit: {
+                required: "Este campo es requerido."
+            }
+        },
+        submitHandler: function (form) {
+            var object = new Object();
+
+            $("#div-loader").show();
+            var tipos = $("#selectTiposEdit option:selected").val();
+            object.Id = $('#editarModal').find('input#input-Id-Edit').val();
+            object.VehicleBrandId = $("#selectMarcasEdit option:selected").val();
+            object.Descripcion = $("#input-Modelo-Edit").val();
+
+            var data = JSON.stringify(object);
+
+            //Antes de editar, verifico que no este duplicado
+            var isDuplicate = getDuplicates(object.Id, tipos, object.VehicleBrandId, object.Descripcion);
+
+            if (isDuplicate)
+            {
+                $("#div-loader").hide();
+                Lobibox.notify('warning', {
+                    title: 'Cuidado',
+                    msg: 'El modelo para ese tipo y marca de vehiculo ya existe, debe asignar otro nombre.'
+                });
+
+                return;
+            }
+
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("EditModelo")',
+                    data: data,
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    success: function (dataResponse) {
+                        $("#dataTables-Index").dataTable().fnReloadAjax();//Recargo la grilla
+                        $('#editarModal').modal('hide');
+                        $("#div-loader").hide();
+                        if (dataResponse.responseCode == 0)
+                            {
+                            $("#div-loader").hide();
+                            Lobibox.notify('success', {
+                                title: 'Exito',
+                                msg: 'Los cambios se han grabado correctamente.'
+                            });
+                        } else {
+                                Lobibox.notify('error', {
+                                    title: 'Error',
+                                    msg: 'Ah ocurrido un error, intente nuevamente.'
+                            });
+                        }
+                        habilitaBotones(false);
+                    },
+                    error: function (response) {
+                        $("#div-loader").hide();
+                            Lobibox.notify('error', {
+                                title: 'Error',
+                                msg: 'Ah ocurrido un error, intente nuevamente.'
+                            });
+                    }
+                });
+            },
+            errorElement: "p"
+    });
+
+
+    //Completo el modal edit con los datos de la grilla
+    $('#editarModal').on('shown.bs.modal', function (e) {
+        var id = $('#dataTables-Index').find('tr.selected>td').first().text();
+
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("GetModelo", "VehicleModels")',
+            data: {
+                id: id
+            },
+            cache: false,
+            success: function (result) {
+                $('#editarModal').find('input#input-Id-Edit').val(result.Id);
+                $('#editarModal').find('#selectTiposEdit').val(result.VehicleBrand.VehicleTypeId);
+                $('#editarModal').find('#selectMarcasEdit').val(result.VehicleBrandId);
+                $('#editarModal').find('input#input-Modelo-Edit').val(result.Descripcion);
+
+            },
+            error: function (response) {
+                    Lobibox.notify('error', {
+                        title: 'Error',
+                        msg: 'Ah ocurrido un error, intente nuevamente.'
+                });
+                    $('#editarModal').modal('hide');
+            }
+        });
+
+
+    });
+
+
+
+
+        function getDuplicates(pid, pParam, pParam2, pParam3)
+    {
+        var isDuplicate = false;
+            $.ajax({
+                type: 'GET',
+                async: false ,
+            url: '@Url.Action("GetDuplicates", "VehicleBrands")',
+            data: {
+                id: pid,
+                tipo: pParam,
+                marca: pParam2,
+                modelo: pParam3
+            },
+            cache: false,
+            success: function (result) {
+                if (result.responseCode > 0)
+                    isDuplicate= true;
+                else
+                    isDuplicate= false;
+            }
+        });
+
+            return isDuplicate;
+    }
+
+    function habilitaBotones(boHabilita) {
+        if (boHabilita) {
+            $('#btnEditar').removeAttr("disabled");
+            $('#btnBorrar').removeAttr("disabled");
+        }
+        else {
+            $('#btnEditar').attr("disabled", true);
+            $('#btnBorrar').attr("disabled", true);
+        }
+
+    }
+
+    </script>
+
+
+
+
 }
-
-</table>

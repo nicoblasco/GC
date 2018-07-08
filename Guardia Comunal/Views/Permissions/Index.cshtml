@@ -1,52 +1,97 @@
 ﻿@model IEnumerable<GuardiaComunal.Models.Permission>
 
 @{
-    ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Permisos</h1>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <form class="form-horizontal">
+                        <div class="form-inline">
+                            <label style="display: initial" class="control-label">Roles</label>
+                            @Html.DropDownList("selectRolCreate", new SelectList(ViewBag.listaRoles, "RolId", "Nombre"), new { @class = "form-control" })
+                        </div>
+                    </form>
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Modulo</th>
+                                <th>Pantalla</th>
+                                <th><input type="checkbox" name="ckconsultaall" value="checked" /> Consulta</th>
+                                <th><input type="checkbox" name="ckconsultaall" value="checked" /> Alta/Modif</th>
+                                <th><input type="checkbox" name="ckconsultaall" value="checked" /> Baja</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @*@foreach (var item in Model)
+                            {
+                                <tr class="odd gradeX">
+                                    <td>@item.Id</td>
+                                    <td>@item.Window.Module.Descripcion</td>
+                                    <td>@item.Window.Descripcion</td>
+                                    <td class="center"><input name="consulta" value="1" type="checkbox"></td>
+                                    <td class="center"><input name="altamodif" value="1" type="checkbox"></td>
+                                    <td class="center"><input name="baja" value="1" type="checkbox"></td>
+                                </tr>
+                            }*@
+                            </tbody>
+                    </table>
+                    <!-- /.table-responsive -->
+                </div>
+                <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+</div>
+<!-- /#page-wrapper -->
+    </div>
+<!-- /#wrapper -->
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Consulta)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AltaModificacion)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Baja)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Fecha)
-        </th>
-        <th></th>
-    </tr>
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            var table = $('#dataTables-example').DataTable({
+                "columnDefs": [
+                    { "visible": false, "targets": 1 }
+                ],
+                "ordering": false,
+                "displayLength": 25,
+                "drawCallback": function (settings) {
+                    var api = this.api();
+                    var rows = api.rows({ page: 'current' }).nodes();
+                    var last = null;
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Consulta)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AltaModificacion)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Baja)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Fecha)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
+                    api.column(1, { page: 'current' }).data().each(function (group, i) {
+                        if (last !== group) {
+                            $(rows).eq(i).before(
+                                '<tr class="group"><td colspan="5" style="color: gray; font-weight: bold;">' + group + '</td></tr>'
+                            );
+
+                            last = group;
+                        }
+                    });
+                }
+            });
+
+        });
+
+    </script>
+
 }
-
-</table>

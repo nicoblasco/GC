@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using GuardiaComunal.Models;
 using Guardia_Comunal.Models;
+using Newtonsoft.Json;
 
 namespace Guardia_Comunal.Controllers
 {
@@ -20,6 +21,138 @@ namespace Guardia_Comunal.Controllers
         {
             return View(db.Inspectors.ToList());
         }
+
+        [HttpPost]
+        public JsonResult GetInspectores()
+        {
+            List<Inspector> list = new List<Inspector>();
+            try
+            {
+                list = db.Inspectors.ToList().Where(x => x.Enable == true).ToList();
+                var json = JsonConvert.SerializeObject(list);
+
+                return Json(list, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        [HttpPost]
+        public JsonResult GetInspector(int id)
+        {
+            Inspector inspector = new Inspector();
+            try
+            {
+                inspector = db.Inspectors.Find(id);
+                var json = JsonConvert.SerializeObject(inspector);
+
+                return Json(inspector, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+
+        public JsonResult EditInspector(Inspector inspector)
+        {
+            if (inspector == null)
+            {
+                return Json(new { responseCode = "-10" });
+            }
+
+            //db.Entry(tipo).State = EntityState.Modified;
+
+            //Solo actualizo el campo descripcion
+            db.Inspectors.Attach(inspector);
+            db.Entry(inspector).Property(x => x.DNI).IsModified = true;
+            db.Entry(inspector).Property(x => x.Apellido).IsModified = true;
+            db.Entry(inspector).Property(x => x.Nombre).IsModified = true;
+
+            db.SaveChanges();
+
+            var responseObject = new
+            {
+                responseCode = 0
+            };
+
+            return Json(responseObject);
+        }
+
+        [HttpGet]
+        public JsonResult GetDuplicates(int id, string dni)
+        {
+
+            try
+            {
+                var result = from c in db.Inspectors
+                             where c.Id != id
+                             && c.DNI.ToUpper() == dni.ToUpper()
+                             select c;
+
+                var responseObject = new
+                {
+                    responseCode = result.Count()
+                };
+
+                return Json(responseObject, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+
+        public JsonResult CreateInspector(Inspector inspector)
+        {
+            if (inspector == null)
+            {
+                return Json(new { responseCode = "-10" });
+            }
+
+            inspector.Enable = true;
+            inspector.FechaAlta = DateTime.Now;
+
+            db.Inspectors.Add(inspector);
+            db.SaveChanges();
+
+            var responseObject = new
+            {
+                responseCode = 0
+            };
+
+            return Json(responseObject);
+        }
+
+
+        public JsonResult DeleteInspector(int id)
+        {
+            if (id == 0)
+            {
+                return Json(new { responseCode = "-10" });
+            }
+
+            Inspector inspector = db.Inspectors.Find(id);
+            db.Inspectors.Remove(inspector);
+            db.SaveChanges();
+
+            var responseObject = new
+            {
+                responseCode = 0
+            };
+
+            return Json(responseObject);
+
+
+        }
+
 
         // GET: Inspectors/Details/5
         public ActionResult Details(int? id)

@@ -118,6 +118,21 @@ namespace Guardia_Comunal.Controllers
             }
 
             db.Rols.Add(rol);
+            
+            //Creo los permisos para el rol
+
+            foreach (var item in db.Windows.ToList())
+            {
+                Permission permission = new Permission();
+                permission.Role = rol;
+                permission.Window = item;
+                permission.Baja = false;
+                permission.Consulta = false;
+                permission.AltaModificacion = false;
+                permission.Fecha = DateTime.Now;
+                db.Permissions.Add(permission);
+            }
+
             db.SaveChanges();
 
             var responseObject = new

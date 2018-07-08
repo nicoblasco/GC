@@ -18,7 +18,12 @@ namespace Guardia_Comunal.Controllers
         // GET: Permissions
         public ActionResult Index()
         {
-            return View(db.Permissions.ToList());
+            List<Permission> list = db.Permissions.ToList();
+            List<Rol> lRoles = new List<Rol>();
+            lRoles = db.Rols.ToList();
+            ViewBag.listaRoles = lRoles;
+            //return View(db.Permissions.ToList());
+            return View(list);
         }
 
         // GET: Permissions/Details/5

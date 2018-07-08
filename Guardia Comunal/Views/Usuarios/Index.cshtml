@@ -360,15 +360,17 @@
             var object = new Object();
 
             $("#div-loader").show();
-            object.UsuarioId = $('#editarModal').find('input#input-Id').val();
-            object.Nombre = $("#input-Nombre").val();
-            object.Apellido = $("#input-Apellido").val();
-          //  object.Nombreusuario = $("#input-Usuario").val();
-            object.Contraseña = $("#input-Contraseña").val();
+            object.UsuarioId = $('#input-Id-Edit').val();
+            object.Nombre = $("#input-Nombre-Edit").val();
+            object.Apellido = $("#input-Apellido-Edit").val();
+            object.Nombreusuario = $("#input-Usuario-Edit").val();
+            object.Contraseña = $("#input-Contraseña-Edit").val();
             object.RolId = $("#selectRolEdit option:selected").val();
 
+            var data = JSON.stringify(object);
+
             //Antes de editar, verifico que no este duplicando el Rol
-            var isDuplicate = getDuplicates(object.Id, object.Nombreusuario);
+            var isDuplicate = getDuplicates(object.UsuarioId, object.Nombreusuario);
 
             if (isDuplicate)
             {

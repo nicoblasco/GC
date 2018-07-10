@@ -12,7 +12,8 @@ namespace GuardiaComunal.Models
         public string Nombre { get; set; }
         public string Apellido { get; set; }
 
-        public PoliceStation PoliceStation { get; set; }
+        public int PoliceStationId { get; set; }
+        public virtual PoliceStation PoliceStation { get; set; }
 
         public DateTime FechaAlta { get; set; }
         public bool Enable { get; set; }

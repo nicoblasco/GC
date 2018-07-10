@@ -23,7 +23,7 @@ namespace GuardiaComunal.Models
         public string Detalle { get; set; }
         public string Latitud { get; set; }
         public string Longitud { get; set; }
-        public decimal Perimetro { get; set; }
+        public string Perimetro { get; set; }
         public string Area { get; set; }
     }
 }

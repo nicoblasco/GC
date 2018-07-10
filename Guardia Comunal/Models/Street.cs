@@ -16,6 +16,8 @@ namespace GuardiaComunal.Models
         public string Barrio { get; set; }
         public string Nombre { get; set; }
 
+        public int NighborhoodId { get; set; }
+
         public string BarrioConId { get; set; }
         public bool Luz { get; set; }
         public bool Agua { get; set; }
@@ -35,7 +37,7 @@ namespace GuardiaComunal.Models
         public string Detalle { get; set; }
         public string Latitud { get; set; }
         public string Longitud { get; set; }
-        public decimal Perimetro { get; set; }
+        public string Perimetro { get; set; }
 
     }
 }

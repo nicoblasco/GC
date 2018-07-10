@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using GuardiaComunal.Models;
 using Guardia_Comunal.Models;
+using Newtonsoft.Json;
 
 namespace Guardia_Comunal.Controllers
 {
@@ -18,7 +19,143 @@ namespace Guardia_Comunal.Controllers
         // GET: Police
         public ActionResult Index()
         {
-            return View(db.Police.ToList());
+            List<Police> list = db.Police.ToList();
+            List<PoliceStation> lComisarias = new List<PoliceStation>();
+            lComisarias = db.PoliceStations.ToList().Where(x => x.Enable == true).ToList();
+            ViewBag.listaComisarias = lComisarias;
+
+            return View(list);
+        }
+
+        [HttpPost]
+        public JsonResult GetPolicias()
+        {
+            List<Police> list = new List<Police>();
+            try
+            {
+                list = db.Police.ToList().Where(x => x.Enable == true).ToList();
+                var json = JsonConvert.SerializeObject(list);
+
+                return Json(list, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        [HttpPost]
+        public JsonResult GetPolicia(int id)
+        {
+            Police police = new Police();
+            try
+            {
+                police = db.Police.Find(id);
+                var json = JsonConvert.SerializeObject(police);
+
+                return Json(police, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+
+        public JsonResult EditPolicia(Police police)
+        {
+            if (police == null)
+            {
+                return Json(new { responseCode = "-10" });
+            }
+
+
+            //Solo actualizo el campo descripcion
+            db.Police.Attach(police);
+            db.Entry(police).Property(x => x.PoliceStationId).IsModified = true;
+            db.Entry(police).Property(x => x.Nombre).IsModified = true;
+            db.Entry(police).Property(x => x.Apellido).IsModified = true;
+            db.Entry(police).Property(x => x.DNI).IsModified = true;
+
+            db.SaveChanges();
+
+            var responseObject = new
+            {
+                responseCode = 0
+            };
+
+            return Json(responseObject);
+        }
+
+        [HttpGet]
+        public JsonResult GetDuplicates(int id, string dni)
+        {
+
+            try
+            {
+                var result = from c in db.Police
+                             where c.Id != id
+                             && c.DNI.ToUpper() == dni.ToUpper()
+                             select c;
+
+                var responseObject = new
+                {
+                    responseCode = result.Count()
+                };
+
+                return Json(responseObject, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+
+        public JsonResult CreatePolicia(Police police)
+        {
+            if (police == null)
+            {
+                return Json(new { responseCode = "-10" });
+            }
+
+            police.Enable = true;
+            police.FechaAlta = DateTime.Now;
+
+            db.Police.Add(police);
+            db.SaveChanges();
+
+            var responseObject = new
+            {
+                responseCode = 0
+            };
+
+            return Json(responseObject);
+        }
+
+
+        public JsonResult DeletePolicia(int id)
+        {
+            if (id == 0)
+            {
+                return Json(new { responseCode = "-10" });
+            }
+
+            Police police = db.Police.Find(id);
+            db.Police.Remove(police);
+            db.SaveChanges();
+
+            var responseObject = new
+            {
+                responseCode = 0
+            };
+
+            return Json(responseObject);
+
+
         }
 
         // GET: Police/Details/5

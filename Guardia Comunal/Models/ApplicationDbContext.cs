@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
 using System.Web;
 
@@ -54,5 +55,13 @@ namespace Guardia_Comunal.Models
         public System.Data.Entity.DbSet<GuardiaComunal.Models.VehicleType> VehicleTypes { get; set; }
 
         public System.Data.Entity.DbSet<GuardiaComunal.Models.Window> Windows { get; set; }
+
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
+        }
+        
+
     }
 }

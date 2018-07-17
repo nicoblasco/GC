@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using GuardiaComunal.Models;
 using Guardia_Comunal.Models;
 using Guardia_Comunal.Tags;
+using Newtonsoft.Json;
 
 namespace Guardia_Comunal.Controllers
 {
@@ -20,7 +21,68 @@ namespace Guardia_Comunal.Controllers
         // GET: Acts
         public ActionResult Index()
         {
+            List<Act> list = db.Acts.ToList();
+            List<Street> lCalles = new List<Street>();
+           // List<Nighborhood> lBarrios = new List<Nighborhood>();
+            List<VehicleType> lTipos = new List<VehicleType>();
+            List<VehicleBrand> lMarcas = new List<VehicleBrand>();
+            List<VehicleModel> lModelos = new List<VehicleModel>();
+            List<Domain> lDominios = new List<Domain>();
+            List<Police> lPolicias = new List<Police>();
+            List<Inspector> lIspectores = new List<Inspector>();
+            List<Contravention> lContravenciones = new List<Contravention>();
+            List<Observation> lObservaciones = new List<Observation>();
+
+            lCalles = db.Streets.ToList();
+          //  lBarrios = db.Nighborhoods.ToList();
+            lTipos = db.VehicleTypes.ToList();
+            lMarcas = db.VehicleBrands.ToList();
+            lModelos = db.VehicleModels.ToList();
+            lDominios = db.Domains.ToList();
+            lPolicias = db.Police.ToList();
+            lIspectores = db.Inspectors.ToList();
+            lContravenciones = db.Contraventions.ToList();
+            lObservaciones = db.Observations.ToList();
+
+            ViewBag.listaCalles = lCalles;
+            ViewBag.listaBarrios = GetBarrios();
+            ViewBag.listaTipos = lTipos;
+            ViewBag.listaMarcas = lMarcas;
+            ViewBag.listaModelos = lModelos;
+            ViewBag.listaDominios = lDominios;
+            ViewBag.listaPolicias = lPolicias;
+            ViewBag.listaInspectores = lIspectores;
+            ViewBag.listaObservaciones = lObservaciones;
+            ViewBag.listaContravenciones = lContravenciones;
+
+
+            return View(list);
+        }
+
+        public ActionResult Search()
+        {
             return View(db.Acts.ToList());
+        }
+
+        [HttpGet]
+        public JsonResult GetBarrios()
+        {
+            List<Nighborhood> list = new List<Nighborhood>();
+            try
+            {
+                //Filtro los habilitados
+                list = db.Nighborhoods.ToList();
+                var json = JsonConvert.SerializeObject(list.Select(item =>
+                                  new { data = item.Codigo.ToString(), value = item.Nombre }));
+
+                return Json(json, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+
+                throw;
+
+            }
         }
 
         // GET: Acts/Details/5

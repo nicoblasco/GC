@@ -1,95 +1,130 @@
 ﻿@model IEnumerable<GuardiaComunal.Models.Act>
-
 @{
 
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+<style>
+    .btn-sm {
+        font-size: 12px;
+        height: 30px;
+        margin-bottom: 3px;
+    }
+
+    .ck-sm {
+        font-size: 12px;
+    }
+
+    label {
+        font-size: 12px;
+    }
+
+    .panel-body {
+        padding: 10px;
+    }
+
+    .panel-heading {
+        padding: 8px;
+    }
+
+    .form-group {
+        margin-bottom: 8px;
+    }
+
+    .panel {
+        margin-bottom:10px;
+    }
+
+    .sol-container {
+        padding:0px;
+    }
+
+
+s
+</style>
+
 <div id="page-wrapper">
     <div class="row">
-        <h1 class="page-header">Actas</h1>
-
+        <h1 class="page-header" style="margin: 10px;">Actas</h1>
 
         <form role="form" class="form-horizontal">
             <div class="col-lg-12">
-
                 <!-- /.Panel de Datos de Alta -->
-
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         Datos de Acta
                     </div>
                     <div class="panel-body">
-
                         <div class="form-group">
-                            <div class="col-sm-3">
-                                <label for="exampleFormControlSelect1">Tipo de Acta</label>
-                                <select class="form-control" id="exampleFormControlSelect1">
+                            <div class="col-sm-2">
+                                <label>Tipo de Acta</label>
+                                <select class="form-control input-sm" name="ddltipoActa" id="ddl-tipoActa">
                                     <option>Oficio</option>
                                     <option>Documentada</option>
                                 </select>
                             </div>
-                            <div class="col-sm-3">
-                                <label>Nro. Acta</label><input class="form-control" placeholder="Nro de Acta" type="text">
+                            <div class="col-sm-2">
+                                <label>Nro. Acta</label>
+                                <input id="input-NroActa" name="inputNroActa" placeholder="Nro. Acta" class="form-control input-sm" autocomplete="off">
                             </div>
                             <div class="col-sm-3">
-                                <label for="example-datetime-local-input">Fecha/Hora de Infracción</label>
-                                <input class="form-control" type="datetime-local" value="2011-08-19T13:45:00" id="example-datetime-local-input">
+                                <label>Fecha/Hora de Infracción</label>
+                                <input class="form-control input-sm" type="datetime-local" name="dtInfraccion" id="dt-Infraccion">
                             </div>
-                            <div class="col-sm-3">
-                                <label>Tanda</label><input class="form-control" placeholder="Tanda" type="text">
+                            <div class="col-sm-2">
+                                <label>Tanda</label>
+                                <input id="input-Tanda" name="inputTanda" placeholder="Tanda" class="form-control input-sm" autocomplete="off">
                             </div>
                         </div>
-
                         <!-- /.Calle y Altura -->
                         <div class="form-group">
                             <div class="col-sm-3">
-                                <label>Calle</label><input class="form-control" placeholder="Calle" type="text">
+                                <label>Barrio</label>
+                                @*@Html.DropDownList("ddlBarrio", new SelectList(ViewBag.listaBarrios, "Codigo", "Nombre"), new { @class = "form-control input-sm" })*@
+                                <input type="text" name="ddlBarrio" id="ddlBarrio" class="form-control input-sm"/>
                             </div>
                             <div class="col-sm-2">
-                                <label>Altura</label><input class="form-control" placeholder="" type="text">
+                                <label>Calle</label>
+                                <input id="input-Calle" name="inputCalle" placeholder="Calle" class="form-control input-sm" autocomplete="off">
                             </div>
-                            <div class="col-sm-4">
-                                <label>Entre Calle</label><input class="form-control" placeholder="Entre Calle" type="text">
+                            <div class="col-sm-2">
+                                <label>Altura</label>
+                                <input id="input-Altura" name="inputAltura" placeholder="Altura" class="form-control input-sm" autocomplete="off">
                             </div>
-                            <div class="col-sm-3">
-                                <label for="exampleFormControlSelect1">Barrio</label>
-                                <select class="form-control" id="exampleFormControlSelect1">
-                                    <option>9 de Julio</option>
-                                    <option>Centro</option>
-                                </select>
+                            <div class="col-sm-2">
+                                <label>Entre Calle</label>
+                                <input id="input-EntreCalle" name="inputEntreCalle" placeholder="Entre Calle" class="form-control input-sm" autocomplete="off">
                             </div>
                         </div>
-
                         <div class="form-group">
                             <div class="col-sm-3">
-                                <label for="example-datetime-local-input">Fecha de Envío al Juzgado</label>
-                                <input class="form-control" type="datetime-local" value="2011-08-19T13:45:00" id="example-datetime-local-input">
+                                <label>Fecha de Envío al Juzgado</label>
+                                <input class="form-control input-sm" type="datetime-local" value="2011-08-19T13:45:00" id="dt-EnvioJuzgado" name="dtEnvioJuzgado">
                             </div>
                             <div class="col-sm-4">
-                                <label for="exampleFormControlSelect1">Acta Adjunta</label>
+                                <label>Acta Adjunta</label>
                                 <div class="input-group input-file" name="Fichier1">
                                     <span class="input-group-btn">
-                                        <button class="btn btn-default btn-choose" type="button">Elegir</button>
+                                        <button class="btn btn-default btn-choose btn-sm" type="button">Elegir</button>
                                     </span>
-                                    <input type="text" class="form-control" placeholder='Selecciona Acta...' />
+                                    <input id="input-ArchivoActa" name="inputArchivoActa" type="text" class="form-control input-sm" placeholder='Selecciona Acta...' />
                                     <span class="input-group-btn">
-                                        <button class="btn btn-default btn-reset" type="button">Borrar</button>
+                                        <button class="btn btn-default btn-reset btn-sm" type="button">Borrar</button>
                                     </span>
                                 </div>
                             </div>
                             <div class="col-sm-3">
-                                <label for="example-datetime-local-input">Fecha/Hora de Carga</label>
-                                <input class="form-control" type="datetime-local" value="2018-05-19T13:45:00" id="example-datetime-local-input" disabled>
+                                <label>Fecha/Hora de Carga</label>
+                                <input class="form-control input-sm" type="datetime-local" value="2018-05-19T13:45:00" id="dt-Carga" name="dtCarga" disabled>
                             </div>
                             <div class="col-sm-2">
-                                <label>Usuario de Carga</label><input class="form-control" value="nblasco" placeholder="Usuario de Carga" type="text" disabled>
+                                <label>Usuario de Carga</label>
+                                <input class="form-control input-sm" id="input-Usuario" name="inputUsuario" placeholder="Usuario de Carga" type="text" disabled>
                             </div>
                         </div>
 
-
                     </div>
                 </div>
-
                 <!-- /. FIN Panel de Datos de Alta -->
                 <!-- /. Panel de Datos del Infractor -->
                 <div class="panel panel-default">
@@ -99,16 +134,20 @@
                     <div class="panel-body">
                         <div class="form-group">
                             <div class="col-sm-3">
-                                <label>Apellido</label><input class="form-control" placeholder="Apellido" type="text">
+                                <label>Apellido</label>
+                                <input id="input-Apellido" name="inputApellido" placeholder="Apellido" class="form-control input-sm" autocomplete="off">
                             </div>
                             <div class="col-sm-3">
-                                <label>Nombre</label><input class="form-control" placeholder="Nombre" type="text">
+                                <label>Nombre</label>
+                                <input id="input-Nombre" name="inputNombre" placeholder="Nombre" class="form-control input-sm" autocomplete="off">
                             </div>
                             <div class="col-sm-3">
-                                <label>DNI</label><input class="form-control" placeholder="DNI" type="text">
+                                <label>DNI</label>
+                                <input id="input-DNI" name="inputDNI" placeholder="DNI" class="form-control input-sm" autocomplete="off">
                             </div>
                             <div class="col-sm-3">
-                                <label>Nro Licencia</label><input class="form-control" placeholder="Nro de Licencia" type="text">
+                                <label>Nro Licencia</label>
+                                <input id="input-Licencia" name="inputLicencia" placeholder="Licencia" class="form-control input-sm" autocomplete="off">
                             </div>
                         </div>
                     </div>
@@ -121,54 +160,45 @@
                     </div>
                     <div class="panel-body">
                         <div class="form-group">
-                            <div class="col-sm-3">
-                                <label for="exampleFormControlSelect1">Tipo de Vehiculo</label>
-                                <select class="form-control" id="exampleFormControlSelect1">
-                                    <option>Auto</option>
-                                    <option>Moto</option>
-                                </select>
+                            <div class="col-sm-2">
+                                <label>Tipo de Vehiculo</label>
+                                @Html.DropDownList("ddlTipoVehiculo", new SelectList(ViewBag.listaTipos, "Id", "Descripcion"), new { @class = "form-control input-sm" })
                             </div>
-                            <div class="col-sm-3">
-                                <label for="exampleFormControlSelect1">Tipo de Dominio</label>
-                                <select class="form-control" id="exampleFormControlSelect1">
-                                    <option>Viejo</option>
-                                    <option>Nuevo</option>
-                                </select>
+                            <div class="col-sm-2">
+                                <label>Tipo de Dominio</label>
+                                @Html.DropDownList("ddlTipoDominio", new SelectList(ViewBag.listaDominios, "Id", "Descripcion"), new { @class = "form-control input-sm" })
                             </div>
-                            <div class="col-sm-3">
-                                <label>Dominio</label><input class="form-control" placeholder="Dominio" type="text">
+                            <div class="col-sm-2">
+                                <label>Dominio</label>
+                                <input id="input-Dominio" name="inputDominio" placeholder="Dominio" class="form-control input-sm" autocomplete="off">
                             </div>
-                            <div class="col-sm-3">
-                                <label for="exampleFormControlSelect1">Marca</label>
-                                <select class="form-control" id="exampleFormControlSelect1">
-                                    <option>Chevrolet</option>
-                                    <option>Ford</option>
-                                </select>
+                            <div class="col-sm-2">
+                                <label>Marca</label>
+                                @Html.DropDownList("ddlMarca", new SelectList(ViewBag.listaMarcas, "Id", "Descripcion"), new { @class = "form-control input-sm" })
                             </div>
-                        </div>
 
-                        <div class="form-group">
                             <div class="col-sm-2">
-                                <label for="exampleFormControlSelect1">Modelo</label>
-                                <select class="form-control" id="exampleFormControlSelect1">
-                                    <option>Agile</option>
-                                    <option>Corsa</option>
-                                </select>
+                                <label>Modelo</label>
+                                @Html.DropDownList("ddlModelo", new SelectList(ViewBag.listaModelos, "Id", "Descripcion"), new { @class = "form-control input-sm" })
                             </div>
                             <div class="col-sm-2">
-                                <label>Color</label><input class="form-control" placeholder="Color" type="text">
-                            </div>
-                            <div class="col-sm-4">
-                                <label>Nro Motor</label><input class="form-control" placeholder="Nro de Motor" type="text">
-                            </div>
-                            <div class="col-sm-4">
-                                <label>Nro Chasis</label><input class="form-control" placeholder="Nro de Chasis" type="text">
+                                <label>Color</label>
+                                <input id="input-Color" name="inputColor" placeholder="Color" class="form-control input-sm" autocomplete="off">
                             </div>
                         </div>
                         <div class="form-group">
+
                             <div class="col-sm-3">
-                                <label for="exampleFormControlSelect1">Estado del vehiculo</label>
-                                <select class="form-control" id="exampleFormControlSelect1" disabled>
+                                <label>Nro Motor</label>
+                                <input id="input-NroMotor" name="inputNroMotor" placeholder="Nro Motor" class="form-control input-sm" autocomplete="off">
+                            </div>
+                            <div class="col-sm-3">
+                                <label>Nro Chasis</label>
+                                <input id="input-NroChasis" name="inputNroChasis" placeholder="Nro Chasis" class="form-control input-sm" autocomplete="off">
+                            </div>
+                            <div class="col-sm-3">
+                                <label>Estado del vehiculo</label>
+                                <select class="form-control input-sm" id="ddlEstadoVehiculo" disabled>
                                     <option>No Retenido</option>
                                     <option>Retenido</option>
                                     <option>Liberado</option>
@@ -176,9 +206,10 @@
                                 </select>
                             </div>
                             <div class="col-sm-3">
-                                <label for="example-datetime-local-input">Fecha de Estado</label>
-                                <input class="form-control" type="datetime-local" value="2018-05-19T13:45:00" id="example-datetime-local-input" disabled>
+                                <label>Fecha de Estado</label>
+                                <input class="form-control input-sm" type="datetime-local" value="2018-05-19T13:45:00" id="dt-EstadoVehiculo" name="dtEstadoVehiculo" disabled>
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -191,123 +222,122 @@
                     <div class="panel-body">
                         <div class="form-group">
                             <div class="col-sm-2">
-                                <label for="exampleFormControlSelect1">Tipo Agente</label>
-                                <select class="form-control" id="exampleFormControlSelect1">
+                                <label>Tipo Agente</label>
+                                <select class="form-control input-sm" id="ddlTipoAgente">
                                     <option>Inspector</option>
                                     <option>Policia</option>
                                 </select>
                             </div>
-                            <div class="col-sm-4">
-                                <label for="exampleFormControlSelect1">Agente</label>
-                                <select class="form-control" id="exampleFormControlSelect1">
-                                    <option>Inspector 1</option>
-                                    <option>Inspector 2</option>
-                                </select>
-
+                            <div class="col-sm-3">
+                                <label>Agente</label>
+                                @Html.DropDownList("ddlAgente", new SelectList(ViewBag.listaPolicias, "Id", "Apellido"), new { @class = "form-control input-sm  " })
                             </div>
-                        </div>
-                        <div class="form-group">
 
-                            <div class="col-sm-12">
+                            <div class="col-sm-7" style="margin-top: 20px;"                                 >
                                 <label class="checkbox-inline">
-                                    <input type="checkbox">Vehiculo Retenido
+                                    <input id="ck-VehiculoRetenido" name="ckVehiculoRetenido" type="checkbox">Vehiculo Retenido
                                 </label>
                                 <label class="checkbox-inline">
-                                    <input type="checkbox">Licencia Retenida
+                                    <input id="ck-LicenciaRetenida" name="ckLicenciaRetenida" type="checkbox">Licencia Retenida
                                 </label>
                                 <label class="checkbox-inline">
-                                    <input type="checkbox">Ticket Alcoholemia
+                                    <input id="ck-TicketAlcoholemia" name="ckTicketAlcoholemia" type="checkbox">Ticket Alcoholemia
                                 </label>
                             </div>
                         </div>
-
                         <div class="form-group">
                             <div class="col-sm-3">
-                                <label>Resultado Alcoholemia</label><input class="form-control" placeholder="Resultado del Ticket de Alcoholemia" type="text">
+                                <label>Resultado Alcoholemia</label>
+                                <input id="input-ResultadoAlcoholemia" name="inputResultadoAlcoholemia" class="form-control input-sm" placeholder="Resultado del Ticket de Alcoholemia" type="text">
                             </div>
                             <div class="col-sm-4">
-                                <label for="exampleFormControlSelect1">Ticket de Alcoholemia Adjunto</label>
+                                <label>Ticket de Alcoholemia Adjunto</label>
                                 <div class="input-group input-file" name="Fichier1">
                                     <span class="input-group-btn">
-                                        <button class="btn btn-default btn-choose" type="button">Elegir</button>
+                                        <button class="btn btn-default btn-choose btn-sm" type="button">Elegir</button>
                                     </span>
-                                    <input type="text" class="form-control" placeholder='Selecciona el Ticket...' />
+                                    <input id="input-TicketAlcoholemia" name="inputTicketAlcoholemia" type="text" class="form-control input-sm" placeholder='Selecciona el Ticket...' />
                                     <span class="input-group-btn">
-                                        <button class="btn btn-default btn-reset" type="button">Borrar</button>
+                                        <button class="btn btn-default btn-reset btn-sm" type="button">Borrar</button>
                                     </span>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-sm-8">
-                                <label>Informe</label><input class="form-control" placeholder="Informe del Inspector" type="text">
+                                <label>Informe</label>
+                                <input class="form-control input-sm" id="input-Informe" name="inputInforme"  placeholder="Informe del Inspector" type="text">
                             </div>
                             <div class="col-sm-4">
                                 <label for="exampleFormControlSelect1">Informe Adjunto</label>
                                 <div class="input-group input-file" name="Fichier1">
                                     <span class="input-group-btn">
-                                        <button class="btn btn-default btn-choose" type="button">Elegir</button>
+                                        <button class="btn btn-default btn-choose btn-sm" type="button">Elegir</button>
                                     </span>
-                                    <input type="text" class="form-control" placeholder='Selecciona informe...' />
+                                    <input id="input-InformeInspector" name="inputInformeInspector" type="text" class="form-control input-sm" placeholder='Selecciona informe...' />
                                     <span class="input-group-btn">
-                                        <button class="btn btn-default btn-reset" type="button">Borrar</button>
+                                        <button class="btn btn-default btn-reset btn-sm" type="button">Borrar</button>
                                     </span>
                                 </div>
                             </div>
                         </div>
-
                         <div class="form-group">
                             <div class="col-sm-8">
-                                <label for="exampleFormControlSelect1">Contravenciones</label>
-                                <select id="my-select" name="character" multiple="multiple">
-                                    <option value="1">Semaforo en rojo</option>
-                                    <option value="2">Sin licencia</option>
-                                    <option value="3">Sin Patente</option>
-                                    <option value="4">Sin Registro</option>
-                                    <option value="5">Maneja Alcoholizado</option>
-                                </select>
+                                <label>Contravenciones</label>
+                                @Html.DropDownList("ddlContravenciones", new SelectList(ViewBag.listaContravenciones, "Id", "Descripcion"), new { multiple = "multiple", @class = "input-sm" })
+                                @*<select id="my-select" name="ddlContravenciones" multiple="multiple">
+                                        <option value="1">Semaforo en rojo</option>
+                                        <option value="2">Sin licencia</option>
+                                        <option value="3">Sin Patente</option>
+                                        <option value="4">Sin Registro</option>
+                                        <option value="5">Maneja Alcoholizado</option>
+                                    </select>*@
                             </div>
                         </div>
 
-
                         <div class="form-group">
                             <div class="col-sm-8">
-                                <label for="exampleFormControlSelect1">Observaciones</label>
-                                <select id="my-select2" name="character" multiple="multiple">
-                                    <option value="1">Licencia Retenida</option>
-                                    <option value="2">Planilla VTV</option>
-                                    <option value="3">Denuncia Policial</option>
-                                    <option value="4">Recibo Seguro</option>
-                                    <option value="5">Con Informe</option>
-                                </select>
+                                <label>Observaciones</label>
+                                @Html.DropDownList("ddlObservaciones", new SelectList(ViewBag.listaObservaciones, "Id", "Descripcion"), new { multiple = "multiple", @class = "input-sm" })
+                                @*<select id="my-select2" name="character" multiple="multiple">
+                                        <option value="1">Licencia Retenida</option>
+                                        <option value="2">Planilla VTV</option>
+                                        <option value="3">Denuncia Policial</option>
+                                        <option value="4">Recibo Seguro</option>
+                                        <option value="5">Con Informe</option>
+                                    </select>*@
                             </div>
                             <div class="col-sm-4">
-                                <label>Detalle</label><input class="form-control" placeholder="Detalle" type="text">
+                                <label>Detalle</label>
+                                <input class="form-control input-sm" id="input-Detalle" name="inputDetalle" placeholder="Detalle" type="text">
                             </div>
                         </div>
-
                     </div>
                 </div>
                 <!-- /. https://pbauerochse.github.io/searchable-option-list/examples.html#basic-usage -->
                 <button type="button" class="btn btn-primary">Guardar</button>
 
-
             </div>
             <!-- /.col-lg-12 -->
-
         </form>
         <!-- /.form -->
-
     </div>
     <!-- /.ro -->
 </div>
 <!-- /#page-wrapper -->
-    </div>
 <!-- /#wrapper -->
 @section scripts {
 
+<script>
 
-    <script>
+    var var1 = @Html.Raw(Json.Encode(ViewBag.listaBarrios));
+
+    var datos = $.parseJSON(var1.Data);
+
+    $('#ddlBarrio').autocomplete({
+        lookup: datos
+    });
+
 
         $(function () {
             $('.dropdown-menu a').click(function () {
@@ -350,9 +380,9 @@
 
         $(function () {
             // initialize sol
-            $('#my-select').searchableOptionList();
-            $('#my-select2').searchableOptionList();
+            $('#ddlContravenciones').searchableOptionList();
+            $('#ddlObservaciones').searchableOptionList();
         });
 
-    </script>
+</script>
 }

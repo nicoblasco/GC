@@ -35,7 +35,8 @@ namespace Guardia_Comunal
                       "~/Scripts/lobibox.js",
                       "~/Scripts/messageboxes.js",
                       "~/Scripts/notifications.js",
-                      "~/Scripts/fnReloadAjax.js"
+                      "~/Scripts/fnReloadAjax.js",
+                      "~/Scripts/jquery.autocomplete.js"
 
                       ));
 

@@ -15,9 +15,14 @@
         font-size: 12px;
     }
 
+    .select2 {
+        font-size: 12px;
+    }
+
     label {
         font-size: 12px;
     }
+
 
     .panel-body {
         padding: 10px;
@@ -69,7 +74,13 @@ s
                             </div>
                             <div class="col-sm-3">
                                 <label>Fecha/Hora de Infracción</label>
-                                <input class="form-control input-sm" type="datetime-local" name="dtInfraccion" id="dt-Infraccion">
+                                @*<div class='input-group date' id='dt-Infraccion' name="dtInfraccion">
+                                    <input type='text' class="form-control input-sm" />
+                                    <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                                </div>*@
+                                <input type='text' class="form-control input-sm" name="dtInfraccion" id='dt-Infraccion' />
                             </div>
                             <div class="col-sm-2">
                                 <label>Tanda</label>
@@ -83,23 +94,24 @@ s
                                 @*@Html.DropDownList("ddlBarrio", new SelectList(ViewBag.listaBarrios, "Codigo", "Nombre"), new { @class = "form-control input-sm" })*@
                                 <input type="text" name="ddlBarrio" id="ddlBarrio" class="form-control input-sm"/>
                             </div>
-                            <div class="col-sm-2">
+                            <div class="col-sm-3">
                                 <label>Calle</label>
-                                <input id="input-Calle" name="inputCalle" placeholder="Calle" class="form-control input-sm" autocomplete="off">
+                                <input id="input-Calle" name="inputCalle" placeholder="Calle" class="form-control input-sm">
                             </div>
                             <div class="col-sm-2">
                                 <label>Altura</label>
                                 <input id="input-Altura" name="inputAltura" placeholder="Altura" class="form-control input-sm" autocomplete="off">
                             </div>
-                            <div class="col-sm-2">
+                            <div class="col-sm-3">
                                 <label>Entre Calle</label>
-                                <input id="input-EntreCalle" name="inputEntreCalle" placeholder="Entre Calle" class="form-control input-sm" autocomplete="off">
+                                <input id="input-EntreCalle" name="inputEntreCalle" placeholder="Entre Calle" class="form-control input-sm">
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-sm-3">
                                 <label>Fecha de Envío al Juzgado</label>
-                                <input class="form-control input-sm" type="datetime-local" value="2011-08-19T13:45:00" id="dt-EnvioJuzgado" name="dtEnvioJuzgado">
+                                @*<input class="form-control input-sm" type="datetime-local" value="2011-08-19T13:45:00" id="dt-EnvioJuzgado" name="dtEnvioJuzgado">*@
+                                <input type='text' class="form-control input-sm"  id="dt-EnvioJuzgado" name="dtEnvioJuzgado" />
                             </div>
                             <div class="col-sm-4">
                                 <label>Acta Adjunta</label>
@@ -115,7 +127,8 @@ s
                             </div>
                             <div class="col-sm-3">
                                 <label>Fecha/Hora de Carga</label>
-                                <input class="form-control input-sm" type="datetime-local" value="2018-05-19T13:45:00" id="dt-Carga" name="dtCarga" disabled>
+                                @*<input class="form-control input-sm" type="datetime-local" value="2018-05-19T13:45:00" id="dt-Carga" name="dtCarga" disabled>*@
+                                <input type='text' class="form-control input-sm" id="dt-Carga" name="dtCarga" disabled/>
                             </div>
                             <div class="col-sm-2">
                                 <label>Usuario de Carga</label>
@@ -162,11 +175,13 @@ s
                         <div class="form-group">
                             <div class="col-sm-2">
                                 <label>Tipo de Vehiculo</label>
-                                @Html.DropDownList("ddlTipoVehiculo", new SelectList(ViewBag.listaTipos, "Id", "Descripcion"), new { @class = "form-control input-sm" })
+                                @*@Html.DropDownList("ddlTipoVehiculo", new SelectList(ViewBag.listaTipos, "Id", "Descripcion"), new { @class = "form-control input-sm" })*@
+                                <select id="ddlTipoVehiculo" class="form-control input-sm"></select>
                             </div>
                             <div class="col-sm-2">
                                 <label>Tipo de Dominio</label>
-                                @Html.DropDownList("ddlTipoDominio", new SelectList(ViewBag.listaDominios, "Id", "Descripcion"), new { @class = "form-control input-sm" })
+                                @*@Html.DropDownList("ddlTipoDominio", new SelectList(ViewBag.listaDominios, "Id", "Descripcion"), new { @class = "form-control input-sm" })*@
+                                <select id="ddlTipoDominio" class="form-control  input-sm"></select>
                             </div>
                             <div class="col-sm-2">
                                 <label>Dominio</label>
@@ -174,12 +189,14 @@ s
                             </div>
                             <div class="col-sm-2">
                                 <label>Marca</label>
-                                @Html.DropDownList("ddlMarca", new SelectList(ViewBag.listaMarcas, "Id", "Descripcion"), new { @class = "form-control input-sm" })
+                                @*@Html.DropDownList("ddlMarca", new SelectList(ViewBag.listaMarcas, "Id", "Descripcion"), new { @class = "form-control input-sm" })*@
+                                <select id="ddlMarca" class="form-control input-sm"></select>
                             </div>
 
                             <div class="col-sm-2">
                                 <label>Modelo</label>
-                                @Html.DropDownList("ddlModelo", new SelectList(ViewBag.listaModelos, "Id", "Descripcion"), new { @class = "form-control input-sm" })
+                                @*@Html.DropDownList("ddlModelo", new SelectList(ViewBag.listaModelos, "Id", "Descripcion"), new { @class = "form-control input-sm" })*@
+                                <select id="ddlModelo" class="form-control input-sm"></select>
                             </div>
                             <div class="col-sm-2">
                                 <label>Color</label>
@@ -207,7 +224,8 @@ s
                             </div>
                             <div class="col-sm-3">
                                 <label>Fecha de Estado</label>
-                                <input class="form-control input-sm" type="datetime-local" value="2018-05-19T13:45:00" id="dt-EstadoVehiculo" name="dtEstadoVehiculo" disabled>
+                                @*<input class="form-control input-sm" type="datetime-local" value="2018-05-19T13:45:00" id="dt-EstadoVehiculo" name="dtEstadoVehiculo" disabled>*@
+                                <input type='text' class="form-control input-sm" id="dt-EstadoVehiculo" name="dtEstadoVehiculo" disabled />
                             </div>
 
                         </div>
@@ -330,13 +348,77 @@ s
 
 <script>
 
-    var var1 = @Html.Raw(Json.Encode(ViewBag.listaBarrios));
+    //Cargo las calles y barrios
+    var varListaBarrios = @Html.Raw(Json.Encode(ViewBag.listaBarrios));
+    var barriosJson = $.parseJSON(varListaBarrios.Data);
 
-    var datos = $.parseJSON(var1.Data);
+    var varListaCalles = @Html.Raw(Json.Encode(ViewBag.listaCalles));
+    var callesJson = $.parseJSON(varListaCalles.Data);
+
+    var varListaTipos = @Html.Raw(Json.Encode(ViewBag.listaTipos));
+    var TiposJson = $.parseJSON(varListaTipos.Data);
+
+    var varListaDominios = @Html.Raw(Json.Encode(ViewBag.listaDominios));
+    var DominiosJson = $.parseJSON(varListaDominios.Data);
 
     $('#ddlBarrio').autocomplete({
-        lookup: datos
+        lookup: barriosJson
     });
+
+    $('#input-Calle').autocomplete({
+        lookup: callesJson
+    });
+
+
+    $('#ddlTipoVehiculo').select2({
+        data: TiposJson
+    });
+
+    $('#ddlTipoDominio').select2({
+        data: DominiosJson
+    });
+
+    $('#ddlTipoVehiculo').on('select2:select', function (e) {
+        var dato = e.params.data;
+                    $.ajax({
+                    url: '@Url.Action("GetMarcas", "Acts")',
+                    type: 'POST',
+                    data: JSON.stringify({
+                        "id": dato.id
+                    }),
+                    contentType: 'application/json; charset=utf-8;',
+                // success is called when dataset returns
+                    success: function (p) {
+                        var marcasJson = $.parseJSON(p);
+                    $('#ddlTipoVehiculo').select2({
+                        data: p
+                    });
+                }
+            });
+    });
+
+
+
+    // Fechas
+            $(function () {
+                $('#dt-Infraccion').datetimepicker({
+                    locale: 'es',
+                    date: new Date(Date.now())
+                });
+                $('#dt-EnvioJuzgado').datetimepicker({
+                    locale: 'es',
+                    date: new Date(Date.now())
+                });
+                $('#dt-Carga').datetimepicker({
+                    locale: 'es',
+                    date: new Date(Date.now())
+                });
+                $('#dt-EstadoVehiculo').datetimepicker({
+                    locale: 'es',
+                    date: new Date(Date.now())
+                });
+            });
+
 
 
         $(function () {

@@ -21,7 +21,10 @@ namespace Guardia_Comunal
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/sol.js",
+                      "~/Scripts/moment.min.js",
+                      "~/Scripts/moment-with-locales.js",
                       "~/Scripts/bootstrap.min.js",
+                      "~/Scripts/bootstrap-datetimepicker.js",
                       "~/Scripts/metisMenu.js",
                       "~/Scripts/jquery.dataTables.js",
                       "~/Scripts/dataTables.bootstrap.min.js",
@@ -36,8 +39,8 @@ namespace Guardia_Comunal
                       "~/Scripts/messageboxes.js",
                       "~/Scripts/notifications.js",
                       "~/Scripts/fnReloadAjax.js",
-                      "~/Scripts/jquery.autocomplete.js"
-
+                      "~/Scripts/jquery.autocomplete.js",
+                      "~/Scripts/select2.js"
                       ));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
@@ -50,7 +53,9 @@ namespace Guardia_Comunal
                       "~/Content/sb-admin-2.css",
                       "~/Content/dataTables.responsive.css",
                       "~/Content/font-awesome.min.css",
-                      "~/Content/lobibox.css"
+                      "~/Content/lobibox.css",
+                      "~/Content/bootstrap-datetimepicker.css",
+                      "~/Content/css/select2.css"
                       ));
         }
     }

@@ -44,5 +44,7 @@ namespace Guardia_Comunal.Helpers
             cookie.Value = FormsAuthentication.Encrypt(newTicket);
             HttpContext.Current.Response.Cookies.Add(cookie);
         }
+
+
     }
 }

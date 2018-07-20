@@ -18,43 +18,41 @@ namespace Guardia_Comunal.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
+
         // GET: Acts
         public ActionResult Index()
         {
             List<Act> list = db.Acts.ToList();
-            //List<Street> lCalles = new List<Street>();
-           // List<Nighborhood> lBarrios = new List<Nighborhood>();
-          //  List<VehicleType> lTipos = new List<VehicleType>();
-           // List<VehicleBrand> lMarcas = new List<VehicleBrand>();
-            //List<VehicleModel> lModelos = new List<VehicleModel>();
-            //List<Domain> lDominios = new List<Domain>();
+            List<VehicleType> lTipos = new List<VehicleType>();
+            List<VehicleBrand> lMarcas = new List<VehicleBrand>();
+            List<VehicleModel> lModelos = new List<VehicleModel>();
+            List<Domain> lDominios = new List<Domain>();
             List<Police> lPolicias = new List<Police>();
             List<Inspector> lIspectores = new List<Inspector>();
             List<Contravention> lContravenciones = new List<Contravention>();
             List<Observation> lObservaciones = new List<Observation>();
 
             //lCalles = db.Streets.ToList();
-          //  lBarrios = db.Nighborhoods.ToList();
-            //lTipos = db.VehicleTypes.ToList();
-            //lMarcas = db.VehicleBrands.ToList();
-            //lModelos = db.VehicleModels.ToList();
-            //lDominios = db.Domains.ToList();
-            lPolicias = db.Police.ToList();
-            lIspectores = db.Inspectors.ToList();
-            lContravenciones = db.Contraventions.ToList();
-            lObservaciones = db.Observations.ToList();
+            //  lBarrios = db.Nighborhoods.ToList();
+            lTipos = db.VehicleTypes.ToList().Where(x => x.Enable == true).ToList();
+            lMarcas = db.VehicleBrands.ToList().Where(x => x.Enable == true).ToList();
+            lModelos = db.VehicleModels.ToList().Where(x => x.Enable == true).ToList();
+            lDominios = db.Domains.ToList();
+            lPolicias = db.Police.ToList().Where(x => x.Enable == true).ToList();
+            lIspectores = db.Inspectors.ToList().Where(x => x.Enable == true).ToList();
+            lContravenciones = db.Contraventions.ToList().Where(x => x.Enable == true).ToList();
+            lObservaciones = db.Observations.ToList().Where(x => x.Enable == true).ToList();
 
             ViewBag.listaCalles = GetCalles();
             ViewBag.listaBarrios = GetBarrios();
-            ViewBag.listaTipos = GetTipoVehiculos();
-            //ViewBag.listaMarcas = lMarcas;
-            //ViewBag.listaModelos = lModelos;
-            ViewBag.listaDominios = GetTipoDominios() ;
+            ViewBag.listaTipos = lTipos;
+            ViewBag.listaMarcas = lMarcas;
+            ViewBag.listaModelos = lModelos;
+            ViewBag.listaDominios = lDominios;
             ViewBag.listaPolicias = lPolicias;
             ViewBag.listaInspectores = lIspectores;
             ViewBag.listaObservaciones = lObservaciones;
             ViewBag.listaContravenciones = lContravenciones;
-
 
             return View(list);
         }
@@ -120,47 +118,6 @@ namespace Guardia_Comunal.Controllers
             }
         }
 
-        [HttpGet]
-        public JsonResult GetTipoVehiculos()
-        {
-            List<VehicleType> list = new List<VehicleType>();
-            try
-            {
-                //Filtro los habilitados
-                list = db.VehicleTypes.ToList();
-                var json = JsonConvert.SerializeObject(list.Select(item =>
-                                  new { id = item.Id, text = item.Descripcion }));
-
-                return Json(json, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception)
-            {
-
-                throw;
-
-            }
-        }
-
-        [HttpGet]
-        public JsonResult GetTipoDominios()
-        {
-            List<Domain> list = new List<Domain>();
-            try
-            {
-                //Filtro los habilitados
-                list = db.Domains.ToList();
-                var json = JsonConvert.SerializeObject(list.Select(item =>
-                                  new { id = item.Id, text = item.Descripcion }));
-
-                return Json(json, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception)
-            {
-
-                throw;
-
-            }
-        }
 
 
         [HttpPost]
@@ -170,24 +127,10 @@ namespace Guardia_Comunal.Controllers
             try
             {
                 //Filtro los habilitados
-                //list = db.VehicleBrands.ToList().Where(x => x.Enable == true && (x.VehicleTypeId == id)).ToList();
-                //var json = JsonConvert.SerializeObject(list);
+                list = db.VehicleBrands.ToList().Where(x => x.Enable == true && (x.VehicleTypeId == id)).ToList();
+                var json = JsonConvert.SerializeObject(list);
 
-                var query = (from t in db.VehicleBrands
-                             where t.Enable == true
-                             where t.VehicleTypeId == id
-                             group t by new { t.Id, t.Descripcion }
-                             into grp
-                             select new
-                             {
-                                 id = grp.Key.Id,
-                                 text = grp.Key.Descripcion
-                             }).ToList();
-
-
-                var json = JsonConvert.SerializeObject(query);
-
-                return Json(json, JsonRequestBehavior.AllowGet);
+                return Json(list, JsonRequestBehavior.AllowGet);
             }
             catch (Exception)
             {
@@ -235,6 +178,37 @@ namespace Guardia_Comunal.Controllers
         // GET: Acts/Create
         public ActionResult Create()
         {
+
+            List<VehicleType> lTipos = new List<VehicleType>();
+            List<VehicleBrand> lMarcas = new List<VehicleBrand>();
+            List<VehicleModel> lModelos = new List<VehicleModel>();
+            List<Domain> lDominios = new List<Domain>();
+            List<Police> lPolicias = new List<Police>();
+            List<Inspector> lIspectores = new List<Inspector>();
+            List<Contravention> lContravenciones = new List<Contravention>();
+            List<Observation> lObservaciones = new List<Observation>();
+
+            //lCalles = db.Streets.ToList();
+            //  lBarrios = db.Nighborhoods.ToList();
+            lTipos = db.VehicleTypes.ToList().Where(x => x.Enable == true).ToList();
+            lMarcas = db.VehicleBrands.ToList().Where(x => x.Enable == true).ToList();
+            lModelos = db.VehicleModels.ToList().Where(x => x.Enable == true).ToList();
+            lDominios = db.Domains.ToList();
+            lPolicias = db.Police.ToList().Where(x => x.Enable == true).ToList();
+            lIspectores = db.Inspectors.ToList().Where(x => x.Enable == true).ToList();
+            lContravenciones = db.Contraventions.ToList().Where(x => x.Enable == true).ToList();
+            lObservaciones = db.Observations.ToList().Where(x => x.Enable == true).ToList();
+
+            ViewBag.listaCalles = GetCalles();
+            ViewBag.listaBarrios = GetBarrios();
+            ViewBag.listaTipos = lTipos;
+            ViewBag.listaMarcas = lMarcas;
+            ViewBag.listaModelos = lModelos;
+            ViewBag.listaDominios = lDominios;
+            ViewBag.listaPolicias = lPolicias;
+            ViewBag.listaInspectores = lIspectores;
+            ViewBag.listaObservaciones = lObservaciones;
+            ViewBag.listaContravenciones = lContravenciones;
             return View();
         }
 
@@ -311,6 +285,8 @@ namespace Guardia_Comunal.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+
+
 
         protected override void Dispose(bool disposing)
         {

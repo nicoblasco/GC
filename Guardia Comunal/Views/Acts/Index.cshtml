@@ -4,12 +4,17 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@{    
+    string currentController = Html.ViewContext.RouteData.GetRequiredString("controller");
+}
+
 <style>
     .btn-sm {
         font-size: 12px;
         height: 30px;
         margin-bottom: 3px;
     }
+
 
     .ck-sm {
         font-size: 12px;
@@ -37,22 +42,21 @@
     }
 
     .panel {
-        margin-bottom:10px;
+        margin-bottom: 10px;
     }
 
     .sol-container {
-        padding:0px;
+        padding: 0px;
     }
-
-
-s
 </style>
-
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
 <div id="page-wrapper">
     <div class="row">
         <h1 class="page-header" style="margin: 10px;">Actas</h1>
 
-        <form role="form" class="form-horizontal">
+        <form id="form-create" role="form" class="form-horizontal">
             <div class="col-lg-12">
                 <!-- /.Panel de Datos de Alta -->
                 <div class="panel panel-default">
@@ -75,16 +79,16 @@ s
                             <div class="col-sm-3">
                                 <label>Fecha/Hora de Infracción</label>
                                 @*<div class='input-group date' id='dt-Infraccion' name="dtInfraccion">
-                                    <input type='text' class="form-control input-sm" />
-                                    <span class="input-group-addon">
-                                        <span class="glyphicon glyphicon-calendar"></span>
-                                    </span>
-                                </div>*@
+                            <input type='text' class="form-control input-sm" />
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>*@
                                 <input type='text' class="form-control input-sm" name="dtInfraccion" id='dt-Infraccion' />
                             </div>
                             <div class="col-sm-2">
                                 <label>Tanda</label>
-                                <input id="input-Tanda" name="inputTanda" placeholder="Tanda" class="form-control input-sm" autocomplete="off">
+                                <input id="input-Tanda" type="number" name="inputTanda" placeholder="Tanda" class="form-control input-sm" autocomplete="off" value="1">
                             </div>
                         </div>
                         <!-- /.Calle y Altura -->
@@ -92,7 +96,7 @@ s
                             <div class="col-sm-3">
                                 <label>Barrio</label>
                                 @*@Html.DropDownList("ddlBarrio", new SelectList(ViewBag.listaBarrios, "Codigo", "Nombre"), new { @class = "form-control input-sm" })*@
-                                <input type="text" name="ddlBarrio" id="ddlBarrio" class="form-control input-sm"/>
+                                <input type="text" name="ddlBarrio" id="ddlBarrio" class="form-control input-sm" />
                             </div>
                             <div class="col-sm-3">
                                 <label>Calle</label>
@@ -111,7 +115,7 @@ s
                             <div class="col-sm-3">
                                 <label>Fecha de Envío al Juzgado</label>
                                 @*<input class="form-control input-sm" type="datetime-local" value="2011-08-19T13:45:00" id="dt-EnvioJuzgado" name="dtEnvioJuzgado">*@
-                                <input type='text' class="form-control input-sm"  id="dt-EnvioJuzgado" name="dtEnvioJuzgado" />
+                                <input type='text' class="form-control input-sm" id="dt-EnvioJuzgado" name="dtEnvioJuzgado" />
                             </div>
                             <div class="col-sm-4">
                                 <label>Acta Adjunta</label>
@@ -128,7 +132,7 @@ s
                             <div class="col-sm-3">
                                 <label>Fecha/Hora de Carga</label>
                                 @*<input class="form-control input-sm" type="datetime-local" value="2018-05-19T13:45:00" id="dt-Carga" name="dtCarga" disabled>*@
-                                <input type='text' class="form-control input-sm" id="dt-Carga" name="dtCarga" disabled/>
+                                <input type='text' class="form-control input-sm" id="dt-Carga" name="dtCarga" disabled />
                             </div>
                             <div class="col-sm-2">
                                 <label>Usuario de Carga</label>
@@ -156,7 +160,7 @@ s
                             </div>
                             <div class="col-sm-3">
                                 <label>DNI</label>
-                                <input id="input-DNI" name="inputDNI" placeholder="DNI" class="form-control input-sm" autocomplete="off">
+                                <input id="input-DNI" type="number" name="inputDNI" placeholder="DNI" class="form-control input-sm" autocomplete="off">
                             </div>
                             <div class="col-sm-3">
                                 <label>Nro Licencia</label>
@@ -175,13 +179,17 @@ s
                         <div class="form-group">
                             <div class="col-sm-2">
                                 <label>Tipo de Vehiculo</label>
-                                @*@Html.DropDownList("ddlTipoVehiculo", new SelectList(ViewBag.listaTipos, "Id", "Descripcion"), new { @class = "form-control input-sm" })*@
-                                <select id="ddlTipoVehiculo" class="form-control input-sm"></select>
+                                @Html.DropDownList("ddlTipoVehiculo", new SelectList(ViewBag.listaTipos, "Id", "Descripcion"), "Seleccione...", htmlAttributes:
+             new
+             {
+                 @class = "form-control input-sm",
+                 @onchange = "refreshdropdown(ddlTipoVehiculo,ddlMarca,'GetMarcas')"
+             }
+             )
                             </div>
                             <div class="col-sm-2">
                                 <label>Tipo de Dominio</label>
-                                @*@Html.DropDownList("ddlTipoDominio", new SelectList(ViewBag.listaDominios, "Id", "Descripcion"), new { @class = "form-control input-sm" })*@
-                                <select id="ddlTipoDominio" class="form-control  input-sm"></select>
+                                @Html.DropDownList("ddlTipoDominio", new SelectList(ViewBag.listaDominios, "Id", "Descripcion"), new { @class = "form-control input-sm" })
                             </div>
                             <div class="col-sm-2">
                                 <label>Dominio</label>
@@ -189,14 +197,18 @@ s
                             </div>
                             <div class="col-sm-2">
                                 <label>Marca</label>
-                                @*@Html.DropDownList("ddlMarca", new SelectList(ViewBag.listaMarcas, "Id", "Descripcion"), new { @class = "form-control input-sm" })*@
-                                <select id="ddlMarca" class="form-control input-sm"></select>
+                                @Html.DropDownList("ddlMarca", new SelectList(ViewBag.listaMarcas, "Id", "Descripcion"), "Seleccione...", htmlAttributes:
+             new
+             {
+                 @class = "form-control input-sm",
+                 @onchange = "refreshdropdown(ddlMarca,ddlModelo,'GetModelos')"
+             }
+             )
                             </div>
 
                             <div class="col-sm-2">
                                 <label>Modelo</label>
-                                @*@Html.DropDownList("ddlModelo", new SelectList(ViewBag.listaModelos, "Id", "Descripcion"), new { @class = "form-control input-sm" })*@
-                                <select id="ddlModelo" class="form-control input-sm"></select>
+                                @Html.DropDownList("ddlModelo", new SelectList(ViewBag.listaModelos, "Id", "Descripcion"), "Seleccione...", new { @class = "form-control input-sm" })
                             </div>
                             <div class="col-sm-2">
                                 <label>Color</label>
@@ -242,16 +254,17 @@ s
                             <div class="col-sm-2">
                                 <label>Tipo Agente</label>
                                 <select class="form-control input-sm" id="ddlTipoAgente">
-                                    <option>Inspector</option>
-                                    <option>Policia</option>
+                                    <option value="1">Inspector</option>
+                                    <option value="2">Policia</option>
                                 </select>
                             </div>
                             <div class="col-sm-3">
                                 <label>Agente</label>
-                                @Html.DropDownList("ddlAgente", new SelectList(ViewBag.listaPolicias, "Id", "Apellido"), new { @class = "form-control input-sm  " })
+                                @Html.DropDownList("ddlAgente", new SelectList(ViewBag.listaInspectores, "Id", "FullName"), new { @class = "form-control input-sm  " })
+
                             </div>
 
-                            <div class="col-sm-7" style="margin-top: 20px;"                                 >
+                            <div class="col-sm-7" style="margin-top: 20px;">
                                 <label class="checkbox-inline">
                                     <input id="ck-VehiculoRetenido" name="ckVehiculoRetenido" type="checkbox">Vehiculo Retenido
                                 </label>
@@ -284,7 +297,7 @@ s
                         <div class="form-group">
                             <div class="col-sm-8">
                                 <label>Informe</label>
-                                <input class="form-control input-sm" id="input-Informe" name="inputInforme"  placeholder="Informe del Inspector" type="text">
+                                <input class="form-control input-sm" id="input-Informe" name="inputInforme" placeholder="Informe del Inspector" type="text">
                             </div>
                             <div class="col-sm-4">
                                 <label for="exampleFormControlSelect1">Informe Adjunto</label>
@@ -302,28 +315,21 @@ s
                         <div class="form-group">
                             <div class="col-sm-8">
                                 <label>Contravenciones</label>
-                                @Html.DropDownList("ddlContravenciones", new SelectList(ViewBag.listaContravenciones, "Id", "Descripcion"), new { multiple = "multiple", @class = "input-sm" })
+                                @Html.DropDownList("ddlContravenciones", new SelectList(ViewBag.listaContravenciones, "Id", "Descripcion"), new { multiple = "multiple" })
                                 @*<select id="my-select" name="ddlContravenciones" multiple="multiple">
-                                        <option value="1">Semaforo en rojo</option>
-                                        <option value="2">Sin licencia</option>
-                                        <option value="3">Sin Patente</option>
-                                        <option value="4">Sin Registro</option>
-                                        <option value="5">Maneja Alcoholizado</option>
-                                    </select>*@
+                            <option value="1">Semaforo en rojo</option>
+                            <option value="2">Sin licencia</option>
+                            <option value="3">Sin Patente</option>
+                            <option value="4">Sin Registro</option>
+                            <option value="5">Maneja Alcoholizado</option>
+                        </select>*@
                             </div>
                         </div>
 
                         <div class="form-group">
                             <div class="col-sm-8">
                                 <label>Observaciones</label>
-                                @Html.DropDownList("ddlObservaciones", new SelectList(ViewBag.listaObservaciones, "Id", "Descripcion"), new { multiple = "multiple", @class = "input-sm" })
-                                @*<select id="my-select2" name="character" multiple="multiple">
-                                        <option value="1">Licencia Retenida</option>
-                                        <option value="2">Planilla VTV</option>
-                                        <option value="3">Denuncia Policial</option>
-                                        <option value="4">Recibo Seguro</option>
-                                        <option value="5">Con Informe</option>
-                                    </select>*@
+                                @Html.DropDownList("ddlObservaciones", new SelectList(ViewBag.listaObservaciones, "Id", "Descripcion"), new { multiple = "multiple" })
                             </div>
                             <div class="col-sm-4">
                                 <label>Detalle</label>
@@ -333,7 +339,7 @@ s
                     </div>
                 </div>
                 <!-- /. https://pbauerochse.github.io/searchable-option-list/examples.html#basic-usage -->
-                <button type="button" class="btn btn-primary">Guardar</button>
+                <button type="submit" class="btn btn-primary">Guardar</button>
 
             </div>
             <!-- /.col-lg-12 -->
@@ -342,11 +348,12 @@ s
     </div>
     <!-- /.ro -->
 </div>
+}
 <!-- /#page-wrapper -->
 <!-- /#wrapper -->
 @section scripts {
 
-<script>
+    <script>
 
     //Cargo las calles y barrios
     var varListaBarrios = @Html.Raw(Json.Encode(ViewBag.listaBarrios));
@@ -354,12 +361,6 @@ s
 
     var varListaCalles = @Html.Raw(Json.Encode(ViewBag.listaCalles));
     var callesJson = $.parseJSON(varListaCalles.Data);
-
-    var varListaTipos = @Html.Raw(Json.Encode(ViewBag.listaTipos));
-    var TiposJson = $.parseJSON(varListaTipos.Data);
-
-    var varListaDominios = @Html.Raw(Json.Encode(ViewBag.listaDominios));
-    var DominiosJson = $.parseJSON(varListaDominios.Data);
 
     $('#ddlBarrio').autocomplete({
         lookup: barriosJson
@@ -369,55 +370,108 @@ s
         lookup: callesJson
     });
 
-
-    $('#ddlTipoVehiculo').select2({
-        data: TiposJson
+    // Fechas
+    $(function () {
+        $('#dt-Infraccion').datetimepicker({
+            locale: 'es',
+            date: new Date(Date.now())
+        });
+        $('#dt-EnvioJuzgado').datetimepicker({
+            locale: 'es',
+            date: new Date(Date.now())
+        });
+        $('#dt-Carga').datetimepicker({
+            locale: 'es',
+            date: new Date(Date.now())
+        });
+        $('#dt-EstadoVehiculo').datetimepicker({
+            locale: 'es',
+            date: new Date(Date.now())
+        });
     });
 
-    $('#ddlTipoDominio').select2({
-        data: DominiosJson
-    });
+        //Lleno el combo del agente
+        $('#ddlTipoAgente').on('change', function () {
+            var varLista;
+            var Json
+            tgt = $('#ddlAgente');
+            if (this.value == 1) {
+                varLista = @Html.Raw(Json.Encode(ViewBag.listaInspectores));
+               // Json = $.parseJSON(varLista.Data);
+                
+            }
+            else
+            {
+               varLista = @Html.Raw(Json.Encode(ViewBag.listaPolicias));
+               //Json = $.parseJSON(varLista.Data);
+            }
+            tgt.empty();
+            tgt.append(
+                '<option value>' +
+                "Seleccione..." + '</option>'
+            );
+            $.each(varLista, function (i, pr) {
+                tgt.append(
+                    '<option value="' + pr.Id + '">' +
+                    pr.FullName + '</option>'
+                );
+            })
 
-    $('#ddlTipoVehiculo').on('select2:select', function (e) {
-        var dato = e.params.data;
-                    $.ajax({
-                    url: '@Url.Action("GetMarcas", "Acts")',
+
+        })
+
+
+    function refreshdropdown(parent,child, action) {
+            // get references to the source and target drop downs html controls
+            // These are jquery searches to find the drop down controls
+
+        //var parent = $('#' + parent);
+        //var child = $('#' + child);
+        var jsUrl = '@Url.Action("action", currentController)'; // ## is the token
+
+        if ($(parent).val() == "")
+            {
+            $(parent+"  option:eq(0)").prop("selected", true);
+                return;
+            }
+                // find a control with id=Manufacturer
+            src = $(parent);
+
+            // find a control with id=Model (you need to add this to your view)
+            tgt = $(child);
+
+            // clear drop down
+            tgt.empty();
+
+            // Get new model dataset via ajax
+            // based on manufacturer
+            // The url parameter points at your web method
+            $.ajax({
+                url: jsUrl.replace('action', action),
                     type: 'POST',
                     data: JSON.stringify({
-                        "id": dato.id
+                        "id": src.val()
                     }),
                     contentType: 'application/json; charset=utf-8;',
                 // success is called when dataset returns
-                    success: function (p) {
-                        var marcasJson = $.parseJSON(p);
-                    $('#ddlTipoVehiculo').select2({
-                        data: p
-                    });
+                success: function (p) {
+                    // Populate with each returned member
+                    tgt.append(
+                        '<option value>' +
+                        "Seleccione..." + '</option>'
+                    );
+                    $.each(p, function (i, pr) {
+                        tgt.append(
+                            '<option value="' + pr.Id + '">' +
+                            pr.Descripcion + '</option>'
+                        );
+                    })
                 }
             });
-    });
+        }
 
 
 
-    // Fechas
-            $(function () {
-                $('#dt-Infraccion').datetimepicker({
-                    locale: 'es',
-                    date: new Date(Date.now())
-                });
-                $('#dt-EnvioJuzgado').datetimepicker({
-                    locale: 'es',
-                    date: new Date(Date.now())
-                });
-                $('#dt-Carga').datetimepicker({
-                    locale: 'es',
-                    date: new Date(Date.now())
-                });
-                $('#dt-EstadoVehiculo').datetimepicker({
-                    locale: 'es',
-                    date: new Date(Date.now())
-                });
-            });
 
 
 
@@ -466,5 +520,133 @@ s
             $('#ddlObservaciones').searchableOptionList();
         });
 
-</script>
+
+        $("#form-create").validate({
+            rules: {
+                ddltipoActa: { required: true },
+                dtInfraccion: { required: true },
+                inputNroActa: { required: true, minlength: 1, maxlength: 64 },
+                inputTanda: { required: true },
+                inputCalle: { required: true, minlength: 1, maxlength: 64 },
+                inputAltura: { required: true, minlength: 1, maxlength: 64 },
+                inputEntreCalle: { required: true, minlength: 1, maxlength: 100 },
+                ddlBarrio: { required: true},
+                dtEnvioJuzgado: { required: true},
+                inputApellido: { required: true, minlength: 2, maxlength: 64 },
+                inputNombre: { required: true, minlength: 2, maxlength: 64 },
+                inputDNI: { required: true, minlength: 7, maxlength: 8 },
+                ddlTipoDominio: { required: true},
+                ddlTipoVehiculo: { required: true},
+                ddlTipoAgente: { required: true },
+                ddlAgente: { required: true}
+            },
+            messages: {
+                ddltipoActa: {
+                    required: "Requerido."
+                },
+                dtInfraccion: {
+                    required: "Requerido."
+                },
+                inputNroActa: {
+                    required: "Requerido.",
+                    minlength: "Introduzca al menos 1 caracter.",
+                    maxlength: "La longitud máxima permtida es de 64 caracteres."
+                },
+                inputTanda: {
+                    required: "Requerido."
+                },
+                inputCalle: {
+                    required: "Requerido.",
+                    minlength: "Introduzca al menos 1 caracter.",
+                    maxlength: "La longitud máxima permtida es de 64 caracteres."
+                },
+                inputAltura:  {
+                    required: "Requerido.",
+                    minlength: "Introduzca al menos 1 caracter.",
+                    maxlength: "La longitud máxima permtida es de 64 caracteres."
+                },
+                inputEntreCalle: {
+                    required: "Requerido.",
+                    minlength: "Introduzca al menos 1 caracter.",
+                    maxlength: "La longitud máxima permtida es de 100 caracteres."
+                },
+                ddlBarrio: {
+                    required: "Requerido."
+                },
+                dtEnvioJuzgado: {
+                    required: "Requerido."
+                },
+                inputApellido: {
+                    required: "Requerido.",
+                    minlength: "Introduzca al menos 2 caracteres.",
+                    maxlength: "La longitud máxima permtida es de 64 caracteres."
+                },
+                inputNombre: {
+                    required: "Requerido.",
+                    minlength: "Introduzca al menos 2 caracteres.",
+                    maxlength: "La longitud máxima permtida es de 64 caracteres."
+                },
+                inputDNI: {
+                    required: "Requerido.",
+                    minlength: "Introduzca al menos 7 caracteres.",
+                    maxlength: "La longitud máxima permtida es de 8 caracteres."
+                },
+                ddlTipoDominio: {
+                    required: "Requerido."
+                },
+                ddlTipoVehiculo: {
+                    required: "Requerido."
+                },
+                ddlTipoAgente: {
+                    required: "Requerido."
+                },
+                ddlAgente: {
+                    required: "Requerido."
+                }
+            },
+            submitHandler: function (form) {
+                $("#div-loader").show();
+                //var object = new Object();
+                //object.TipoDeActa = $("#ddl-tipoActa option:selected").val();
+                //object.NroActa = $("#input-NroActa").val();
+                //object.FechaInfraccion = $("#dt-Infraccion").val();
+                //object.Tanda = $("#input-Tanda").val();
+                //object.Tanda = $("#input-Tanda").val();
+                //object.Tanda = $("#input-Tanda").val();
+                //object.Tanda = $("#input-Tanda").val();
+                //object.Tanda = $("#input-Tanda").val();
+                //object.Tanda = $("#input-Tanda").val();
+                //object.Tanda = $("#input-Tanda").val();
+                //object.Tanda = $("#input-Tanda").val();
+                //object.Tanda = $("#input-Tanda").val();
+                //object.Tanda = $("#input-Tanda").val();
+                //object.Tanda = $("#input-Tanda").val();
+                //object.Tanda = $("#input-Tanda").val();
+                //object.Tanda = $("#input-Tanda").val();
+                //object.Tanda = $("#input-Tanda").val();
+                //object.Tanda = $("#input-Tanda").val();
+                //object.Tanda = $("#input-Tanda").val();
+                //object.Tanda = $("#input-Tanda").val();
+                //object.Tanda = $("#input-Tanda").val();
+                //object.Tanda = $("#input-Tanda").val();
+                //object.Tanda = $("#input-Tanda").val();
+                //object.Tanda = $("#input-Tanda").val();
+                //object.Tanda = $("#input-Tanda").val();
+
+                object.Tanda = $("#input-Tanda").val();
+                object.Tanda = $("#input-Tanda").val();
+                object.Tanda = $("#input-Tanda").val();
+                object.Tanda = $("#input-Tanda").val();
+
+                //var tipos = $("#selectTiposCreate option:selected").val();
+                //object.VehicleBrandId = $("#selectMarcasCreate option:selected").val();
+                //object.Descripcion = $("#input-Modelo-Create").val();
+                //var data = JSON.stringify(object);
+            },
+            errorElement: "p"
+        });
+
+
+
+    </script>
 }

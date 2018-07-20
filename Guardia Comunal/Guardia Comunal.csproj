@@ -177,6 +177,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\BootstrapExtensions.cs" />
     <Compile Include="Helpers\SessionHelper.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Act.cs" />
@@ -438,6 +439,7 @@
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\sb-admin-2.js" />
     <Content Include="Scripts\sb-admin-2.min.js" />
+    <Content Include="Scripts\select2-cascade.js" />
     <Content Include="Scripts\select2.js" />
     <Content Include="Scripts\select2.min.js" />
     <Content Include="Scripts\sol.js" />
@@ -581,6 +583,7 @@
     <Content Include="sounds\sound5.ogg" />
     <Content Include="sounds\sound6.ogg" />
     <Content Include="Views\Acts\Search.cshtml" />
+    <Content Include="Views\Acts\CreateBkp.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

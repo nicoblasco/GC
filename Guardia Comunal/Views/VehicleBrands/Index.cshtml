@@ -400,7 +400,9 @@
 
     //Reinicio los modal
     $('.modal').on('hidden.bs.modal', function (e) {
-        $(".modal-body input").val("")
+        $(".modal-body input").val(""),
+            $(this).removeData('bs.modal');
+        $("form").validate().resetForm();
     });
 
     function getDuplicates(pid, pParam, pParam2)

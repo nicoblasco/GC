@@ -42,3 +42,8 @@
         display: block;
         border-bottom: 1px solid #000;
     }
+
+.error {
+    color: #F00;
+    background-color: #FFF;
+}

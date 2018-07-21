@@ -94,11 +94,11 @@ namespace Guardia_Comunal.Controllers
                // list = db.Streets.ToList();
                 var query = (from t in db.Streets
                              where t.CodCalle>0
-                             group t by new { t.CodCalle, t.Nombre }
+                             group t by new { t.Id, t.Nombre }
                              into grp
                              select new
                              {
-                                 data=grp.Key.CodCalle,
+                                 data=grp.Key.Id,
                                  value=grp.Key.Nombre
                              }).ToList();
 
@@ -186,7 +186,7 @@ namespace Guardia_Comunal.Controllers
             List<Police> lPolicias = new List<Police>();
             List<Inspector> lIspectores = new List<Inspector>();
             List<Contravention> lContravenciones = new List<Contravention>();
-            List<Observation> lObservaciones = new List<Observation>();
+            List<Observation> lObservaciones = new List<Observation>();                            
 
             //lCalles = db.Streets.ToList();
             //  lBarrios = db.Nighborhoods.ToList();
@@ -217,16 +217,38 @@ namespace Guardia_Comunal.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,TipoDeActa,NroActa,FechaInfraccion,Tanda,Calle,Altura,EntreCalle,Barrio,FechaEnvioAlJuzgado,ActaAdjunta,FechaCarga,Color,NroMotor,NroChasis,EstadoVehiculo,FechaEstado,TipoAgente,VehiculoRetenido,LicenciaRetenida,TicketAlcoholemia,ResultadoAlcoholemia,TicketAlcoholemiaAdjunto,Informe,InformeAdjunto,Detalle,Enable")] Act act)
+        public ActionResult Create([Bind(Include = "Id,TipoDeActa,NroActa,FechaInfraccion,Tanda,Calle,StreetId,Altura,EntreCalle,Barrio,NighborhoodId,FechaEnvioAlJuzgado,ActaAdjunta,FechaCarga,UsuarioId,VehicleTypeId,VehicleBrandId,VehicleModelId,Color,NroMotor,NroChasis,EstadoVehiculo,FechaEstado,TipoAgente,InspectorId,PoliceId,VehiculoRetenido,LicenciaRetenida,TicketAlcoholemia,ResultadoAlcoholemia,TicketAlcoholemiaAdjunto,Informe,InformeAdjunto,Detalle,Enable,DNI,Nombre,Apellido,NroLicencia,DomainId,Dominio")] Act act)
         {
             if (ModelState.IsValid)
             {
-                db.Acts.Add(act);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
+                try
+                {
+                    act.Calle = act.Calle?.ToUpper();
+                    act.Barrio = act.Barrio?.ToUpper();
+                    act.Altura = act.Altura?.ToUpper();
+                    act.Color = act.Color?.ToUpper();
+                    act.Dominio = act.Dominio?.ToUpper();
+                    act.Nombre = act.Nombre?.ToUpper();
+                    act.Apellido = act.Apellido?.ToUpper();
+                    act.EntreCalle = act.EntreCalle?.ToUpper();
+                    act.NroActa = act.NroActa?.ToUpper();
+                    act.NroChasis = act.NroChasis?.ToUpper();
+                    act.NroLicencia = act.NroLicencia?.ToUpper();
+                    act.NroMotor = act.NroMotor?.ToUpper();
 
-            return View(act);
+                    db.Acts.Add(act);
+                    db.SaveChanges();
+                    
+                }
+                catch (Exception ex)
+                {
+                    return new HttpStatusCodeResult(404, ex.Message.Replace("\r\n", ""));
+                    //return View(act);
+                }
+                return new HttpStatusCodeResult(200);
+            }
+            return new HttpStatusCodeResult(404);
+            //return View(act);
         }
 
         // GET: Acts/Edit/5

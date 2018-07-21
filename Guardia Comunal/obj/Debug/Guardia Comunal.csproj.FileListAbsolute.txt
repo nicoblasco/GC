@@ -55,3 +55,4 @@ C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Guardia Comunal\Desarrollo\
 C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Guardia Comunal\Desarrollo\GuardiaComunal\Guardia Comunal\obj\Debug\Guardia Comunal.dll
 C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Guardia Comunal\Desarrollo\GuardiaComunal\Guardia Comunal\obj\Debug\Guardia Comunal.pdb
 C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\obj\Debug\Guardia Comunal.csproj.CopyComplete
+C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\obj\Debug\Guardia Comunal.csprojAssemblyReference.cache

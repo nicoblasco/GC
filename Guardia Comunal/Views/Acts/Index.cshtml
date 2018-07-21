@@ -4,350 +4,246 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@{    
-    string currentController = Html.ViewContext.RouteData.GetRequiredString("controller");
-}
-
-<style>
-    .btn-sm {
-        font-size: 12px;
-        height: 30px;
-        margin-bottom: 3px;
-    }
 
 
-    .ck-sm {
-        font-size: 12px;
-    }
-
-    .select2 {
-        font-size: 12px;
-    }
-
-    label {
-        font-size: 12px;
-    }
-
-
-    .panel-body {
-        padding: 10px;
-    }
-
-    .panel-heading {
-        padding: 8px;
-    }
-
-    .form-group {
-        margin-bottom: 8px;
-    }
-
-    .panel {
-        margin-bottom: 10px;
-    }
-
-    .sol-container {
-        padding: 0px;
-    }
-</style>
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
 <div id="page-wrapper">
     <div class="row">
-        <h1 class="page-header" style="margin: 10px;">Actas</h1>
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
 
-        <form id="form-create" role="form" class="form-horizontal">
-            <div class="col-lg-12">
-                <!-- /.Panel de Datos de Alta -->
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        Datos de Acta
-                    </div>
-                    <div class="panel-body">
-                        <div class="form-group">
-                            <div class="col-sm-2">
-                                <label>Tipo de Acta</label>
-                                <select class="form-control input-sm" name="ddltipoActa" id="ddl-tipoActa">
-                                    <option>Oficio</option>
-                                    <option>Documentada</option>
-                                </select>
-                            </div>
-                            <div class="col-sm-2">
-                                <label>Nro. Acta</label>
-                                <input id="input-NroActa" name="inputNroActa" placeholder="Nro. Acta" class="form-control input-sm" autocomplete="off">
-                            </div>
-                            <div class="col-sm-3">
-                                <label>Fecha/Hora de Infracción</label>
-                                @*<div class='input-group date' id='dt-Infraccion' name="dtInfraccion">
-                            <input type='text' class="form-control input-sm" />
-                            <span class="input-group-addon">
-                                <span class="glyphicon glyphicon-calendar"></span>
-                            </span>
-                        </div>*@
-                                <input type='text' class="form-control input-sm" name="dtInfraccion" id='dt-Infraccion' />
-                            </div>
-                            <div class="col-sm-2">
-                                <label>Tanda</label>
-                                <input id="input-Tanda" type="number" name="inputTanda" placeholder="Tanda" class="form-control input-sm" autocomplete="off" value="1">
-                            </div>
-                        </div>
-                        <!-- /.Calle y Altura -->
-                        <div class="form-group">
-                            <div class="col-sm-3">
-                                <label>Barrio</label>
-                                @*@Html.DropDownList("ddlBarrio", new SelectList(ViewBag.listaBarrios, "Codigo", "Nombre"), new { @class = "form-control input-sm" })*@
-                                <input type="text" name="ddlBarrio" id="ddlBarrio" class="form-control input-sm" />
-                            </div>
-                            <div class="col-sm-3">
-                                <label>Calle</label>
-                                <input id="input-Calle" name="inputCalle" placeholder="Calle" class="form-control input-sm">
-                            </div>
-                            <div class="col-sm-2">
-                                <label>Altura</label>
-                                <input id="input-Altura" name="inputAltura" placeholder="Altura" class="form-control input-sm" autocomplete="off">
-                            </div>
-                            <div class="col-sm-3">
-                                <label>Entre Calle</label>
-                                <input id="input-EntreCalle" name="inputEntreCalle" placeholder="Entre Calle" class="form-control input-sm">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-sm-3">
-                                <label>Fecha de Envío al Juzgado</label>
-                                @*<input class="form-control input-sm" type="datetime-local" value="2011-08-19T13:45:00" id="dt-EnvioJuzgado" name="dtEnvioJuzgado">*@
-                                <input type='text' class="form-control input-sm" id="dt-EnvioJuzgado" name="dtEnvioJuzgado" />
-                            </div>
-                            <div class="col-sm-4">
-                                <label>Acta Adjunta</label>
-                                <div class="input-group input-file" name="Fichier1">
-                                    <span class="input-group-btn">
-                                        <button class="btn btn-default btn-choose btn-sm" type="button">Elegir</button>
-                                    </span>
-                                    <input id="input-ArchivoActa" name="inputArchivoActa" type="text" class="form-control input-sm" placeholder='Selecciona Acta...' />
-                                    <span class="input-group-btn">
-                                        <button class="btn btn-default btn-reset btn-sm" type="button">Borrar</button>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="col-sm-3">
-                                <label>Fecha/Hora de Carga</label>
-                                @*<input class="form-control input-sm" type="datetime-local" value="2018-05-19T13:45:00" id="dt-Carga" name="dtCarga" disabled>*@
-                                <input type='text' class="form-control input-sm" id="dt-Carga" name="dtCarga" disabled />
-                            </div>
-                            <div class="col-sm-2">
-                                <label>Usuario de Carga</label>
-                                <input class="form-control input-sm" id="input-Usuario" name="inputUsuario" placeholder="Usuario de Carga" type="text" disabled>
-                            </div>
-                        </div>
-
-                    </div>
                 </div>
-                <!-- /. FIN Panel de Datos de Alta -->
-                <!-- /. Panel de Datos del Infractor -->
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        Datos del Infractor
-                    </div>
-                    <div class="panel-body">
-                        <div class="form-group">
-                            <div class="col-sm-3">
-                                <label>Apellido</label>
-                                <input id="input-Apellido" name="inputApellido" placeholder="Apellido" class="form-control input-sm" autocomplete="off">
-                            </div>
-                            <div class="col-sm-3">
-                                <label>Nombre</label>
-                                <input id="input-Nombre" name="inputNombre" placeholder="Nombre" class="form-control input-sm" autocomplete="off">
-                            </div>
-                            <div class="col-sm-3">
-                                <label>DNI</label>
-                                <input id="input-DNI" type="number" name="inputDNI" placeholder="DNI" class="form-control input-sm" autocomplete="off">
-                            </div>
-                            <div class="col-sm-3">
-                                <label>Nro Licencia</label>
-                                <input id="input-Licencia" name="inputLicencia" placeholder="Licencia" class="form-control input-sm" autocomplete="off">
-                            </div>
-                        </div>
-                    </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+
+                    <table id="example" width="100%" class="display nowrap table table-striped table-bordered table-hover" style="font-size:11px">
+                        <thead>
+                            <tr>
+                                <th>Acción</th>
+                                <th>Nro Acta</th>
+                                <th>Fecha Infracción</th>
+                                <th>DNI</th>
+                                <th>Estado Vehiculo</th>
+                                <th>Tipo Vehiculo</th>
+                                <th>Dominio</th>
+                                <th>Nro Motor</th>
+                                <th>Nro Chasis</th>
+                                <th>Marca</th>
+                                <th>Modelo</th>
+                                <th>Color</th>
+                                <th>Agente</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+
+
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">
+                                            <i class="fa fa-gear"></i> <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li>
+                                                <a href="index.html">Ver/Editar</a>
+                                            </li>
+                                            <li>
+                                                <a href="liberaciones.html">Liberar</a>
+                                            </li>
+                                            <li class="divider"></li>
+                                            <li>
+                                                <a href="#">Eliminar</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                </td>
+                                <td>000001</td>
+                                <td>2018/04/25</td>
+                                <td>27098234</td>
+                                <td>No Retenido</td>
+                                <td>Auto</td>
+                                <td>JDF909</td>
+                                <td>JDFFSD08483294423</td>
+                                <td>543545546465</td>
+                                <td>Chevrolet</td>
+                                <td>Corsa</td>
+                                <td>Gris</td>
+                                <td>Perez Pablo</td>
+                            </tr>
+                            <tr>
+                                <td>
+
+
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">
+                                            <i class="fa fa-gear"></i> <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li>
+                                                <a href="index.html">Ver/Editar</a>
+                                            </li>
+                                            <li>
+                                                <a href="liberaciones.html">Liberar</a>
+                                            </li>
+                                            <li class="divider"></li>
+                                            <li>
+                                                <a href="#">Eliminar</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                </td>
+                                <td>000002</td>
+                                <td>2018/03/15</td>
+                                <td>27123456</td>
+                                <td>No Retenido</td>
+                                <td>Auto</td>
+                                <td>PMA675</td>
+                                <td>FSDFSDFSD3443545</td>
+                                <td>5546645654</td>
+                                <td>Chevrolet</td>
+                                <td>Corsa</td>
+                                <td>Negro</td>
+                                <td>Lucas Gomez</td>
+                            </tr>
+                            <tr class="warning">
+                                <td>
+
+
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">
+                                            <i class="fa fa-gear"></i> <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li>
+                                                <a href="index.html">Ver/Editar</a>
+                                            </li>
+                                            <li>
+                                                <a href="liberaciones.html">Liberar</a>
+                                            </li>
+                                            <li class="divider"></li>
+                                            <li>
+                                                <a href="#">Eliminar</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                </td>
+                                <td>000003</td>
+                                <td>2017/03/22</td>
+                                <td>27098543</td>
+                                <td>Retenido</td>
+                                <td>Moto</td>
+                                <td>FD432</td>
+                                <td>543534354534</td>
+                                <td>123234455</td>
+                                <td>Honda</td>
+                                <td>CVR</td>
+                                <td>Blanca</td>
+                                <td>Patricia Lopez</td>
+                            </tr>
+                            <tr class="success">
+                                <td>
+
+
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">
+                                            <i class="fa fa-gear"></i> <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li>
+                                                <a href="index.html">Ver/Editar</a>
+                                            </li>
+                                            <li>
+                                                <a href="liberaciones.html">Ver Liberación</a>
+                                            </li>
+                                            <li class="divider"></li>
+                                            <li>
+                                                <a href="#">Eliminar</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                </td>
+                                <td>000004</td>
+                                <td>2017/10/14</td>
+                                <td>31098654</td>
+                                <td>Liberado</td>
+                                <td>Auto</td>
+                                <td>FDF009</td>
+                                <td>FPORF643746348443</td>
+                                <td>89053475302</td>
+                                <td>Ford</td>
+                                <td>Fiesta</td>
+                                <td>Rojo</td>
+                                <td>Martin Garcia</td>
+                            </tr>
+                            <tr class="danger">
+                                <td>
+
+
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">
+                                            <i class="fa fa-gear"></i> <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li>
+                                                <a href="index.html">Ver/Editar</a>
+                                            </li>
+                                            <li>
+                                                <a href="liberaciones.html">Liberar</a>
+                                            </li>
+                                            <li class="divider"></li>
+                                            <li>
+                                                <a href="#">Eliminar</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                </td>
+                                <td>000005</td>
+                                <td>2017/10/04</td>
+                                <td>31876444</td>
+                                <td>Compactado</td>
+                                <td>Auto</td>
+                                <td>KOUYHG</td>
+                                <td>PLHFD534534534</td>
+                                <td>9876544555</td>
+                                <td>Toyota</td>
+                                <td>HILUX</td>
+                                <td>Blanco</td>
+                                <td>Daniel Migoli</td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th></th>
+                                <th>Nro Acta</th>
+                                <th>Fecha Infracción</th>
+                                <th>DNI</th>
+                                <th>Estado Vehiculo</th>
+                                <th>Tipo Vehiculo</th>
+                                <th>Dominio</th>
+                                <th>Nro Motor</th>
+                                <th>Nro Chasis</th>
+                                <th>Marca</th>
+                                <th>Modelo</th>
+                                <th>Color</th>
+                                <th>Agente</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+
                 </div>
-                <!-- /. FIN Panel de Datos del Infractor -->
-                <!-- /. Panel de Datos de Detalle del Vehiculo -->
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        Detalle del Vehiculo
-                    </div>
-                    <div class="panel-body">
-                        <div class="form-group">
-                            <div class="col-sm-2">
-                                <label>Tipo de Vehiculo</label>
-                                @Html.DropDownList("ddlTipoVehiculo", new SelectList(ViewBag.listaTipos, "Id", "Descripcion"), "Seleccione...", htmlAttributes:
-             new
-             {
-                 @class = "form-control input-sm",
-                 @onchange = "refreshdropdown(ddlTipoVehiculo,ddlMarca,'GetMarcas')"
-             }
-             )
-                            </div>
-                            <div class="col-sm-2">
-                                <label>Tipo de Dominio</label>
-                                @Html.DropDownList("ddlTipoDominio", new SelectList(ViewBag.listaDominios, "Id", "Descripcion"), new { @class = "form-control input-sm" })
-                            </div>
-                            <div class="col-sm-2">
-                                <label>Dominio</label>
-                                <input id="input-Dominio" name="inputDominio" placeholder="Dominio" class="form-control input-sm" autocomplete="off">
-                            </div>
-                            <div class="col-sm-2">
-                                <label>Marca</label>
-                                @Html.DropDownList("ddlMarca", new SelectList(ViewBag.listaMarcas, "Id", "Descripcion"), "Seleccione...", htmlAttributes:
-             new
-             {
-                 @class = "form-control input-sm",
-                 @onchange = "refreshdropdown(ddlMarca,ddlModelo,'GetModelos')"
-             }
-             )
-                            </div>
-
-                            <div class="col-sm-2">
-                                <label>Modelo</label>
-                                @Html.DropDownList("ddlModelo", new SelectList(ViewBag.listaModelos, "Id", "Descripcion"), "Seleccione...", new { @class = "form-control input-sm" })
-                            </div>
-                            <div class="col-sm-2">
-                                <label>Color</label>
-                                <input id="input-Color" name="inputColor" placeholder="Color" class="form-control input-sm" autocomplete="off">
-                            </div>
-                        </div>
-                        <div class="form-group">
-
-                            <div class="col-sm-3">
-                                <label>Nro Motor</label>
-                                <input id="input-NroMotor" name="inputNroMotor" placeholder="Nro Motor" class="form-control input-sm" autocomplete="off">
-                            </div>
-                            <div class="col-sm-3">
-                                <label>Nro Chasis</label>
-                                <input id="input-NroChasis" name="inputNroChasis" placeholder="Nro Chasis" class="form-control input-sm" autocomplete="off">
-                            </div>
-                            <div class="col-sm-3">
-                                <label>Estado del vehiculo</label>
-                                <select class="form-control input-sm" id="ddlEstadoVehiculo" disabled>
-                                    <option>No Retenido</option>
-                                    <option>Retenido</option>
-                                    <option>Liberado</option>
-                                    <option>Compactado</option>
-                                </select>
-                            </div>
-                            <div class="col-sm-3">
-                                <label>Fecha de Estado</label>
-                                @*<input class="form-control input-sm" type="datetime-local" value="2018-05-19T13:45:00" id="dt-EstadoVehiculo" name="dtEstadoVehiculo" disabled>*@
-                                <input type='text' class="form-control input-sm" id="dt-EstadoVehiculo" name="dtEstadoVehiculo" disabled />
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-                <!-- /. FIN Panel de Detalle del Vehiculo -->
-                <!-- /. Panel de Detalle del Acta -->
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        Detalle del Acta
-                    </div>
-                    <div class="panel-body">
-                        <div class="form-group">
-                            <div class="col-sm-2">
-                                <label>Tipo Agente</label>
-                                <select class="form-control input-sm" id="ddlTipoAgente">
-                                    <option value="1">Inspector</option>
-                                    <option value="2">Policia</option>
-                                </select>
-                            </div>
-                            <div class="col-sm-3">
-                                <label>Agente</label>
-                                @Html.DropDownList("ddlAgente", new SelectList(ViewBag.listaInspectores, "Id", "FullName"), new { @class = "form-control input-sm  " })
-
-                            </div>
-
-                            <div class="col-sm-7" style="margin-top: 20px;">
-                                <label class="checkbox-inline">
-                                    <input id="ck-VehiculoRetenido" name="ckVehiculoRetenido" type="checkbox">Vehiculo Retenido
-                                </label>
-                                <label class="checkbox-inline">
-                                    <input id="ck-LicenciaRetenida" name="ckLicenciaRetenida" type="checkbox">Licencia Retenida
-                                </label>
-                                <label class="checkbox-inline">
-                                    <input id="ck-TicketAlcoholemia" name="ckTicketAlcoholemia" type="checkbox">Ticket Alcoholemia
-                                </label>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-sm-3">
-                                <label>Resultado Alcoholemia</label>
-                                <input id="input-ResultadoAlcoholemia" name="inputResultadoAlcoholemia" class="form-control input-sm" placeholder="Resultado del Ticket de Alcoholemia" type="text">
-                            </div>
-                            <div class="col-sm-4">
-                                <label>Ticket de Alcoholemia Adjunto</label>
-                                <div class="input-group input-file" name="Fichier1">
-                                    <span class="input-group-btn">
-                                        <button class="btn btn-default btn-choose btn-sm" type="button">Elegir</button>
-                                    </span>
-                                    <input id="input-TicketAlcoholemia" name="inputTicketAlcoholemia" type="text" class="form-control input-sm" placeholder='Selecciona el Ticket...' />
-                                    <span class="input-group-btn">
-                                        <button class="btn btn-default btn-reset btn-sm" type="button">Borrar</button>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-sm-8">
-                                <label>Informe</label>
-                                <input class="form-control input-sm" id="input-Informe" name="inputInforme" placeholder="Informe del Inspector" type="text">
-                            </div>
-                            <div class="col-sm-4">
-                                <label for="exampleFormControlSelect1">Informe Adjunto</label>
-                                <div class="input-group input-file" name="Fichier1">
-                                    <span class="input-group-btn">
-                                        <button class="btn btn-default btn-choose btn-sm" type="button">Elegir</button>
-                                    </span>
-                                    <input id="input-InformeInspector" name="inputInformeInspector" type="text" class="form-control input-sm" placeholder='Selecciona informe...' />
-                                    <span class="input-group-btn">
-                                        <button class="btn btn-default btn-reset btn-sm" type="button">Borrar</button>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-sm-8">
-                                <label>Contravenciones</label>
-                                @Html.DropDownList("ddlContravenciones", new SelectList(ViewBag.listaContravenciones, "Id", "Descripcion"), new { multiple = "multiple" })
-                                @*<select id="my-select" name="ddlContravenciones" multiple="multiple">
-                            <option value="1">Semaforo en rojo</option>
-                            <option value="2">Sin licencia</option>
-                            <option value="3">Sin Patente</option>
-                            <option value="4">Sin Registro</option>
-                            <option value="5">Maneja Alcoholizado</option>
-                        </select>*@
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-sm-8">
-                                <label>Observaciones</label>
-                                @Html.DropDownList("ddlObservaciones", new SelectList(ViewBag.listaObservaciones, "Id", "Descripcion"), new { multiple = "multiple" })
-                            </div>
-                            <div class="col-sm-4">
-                                <label>Detalle</label>
-                                <input class="form-control input-sm" id="input-Detalle" name="inputDetalle" placeholder="Detalle" type="text">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- /. https://pbauerochse.github.io/searchable-option-list/examples.html#basic-usage -->
-                <button type="submit" class="btn btn-primary">Guardar</button>
-
             </div>
-            <!-- /.col-lg-12 -->
-        </form>
-        <!-- /.form -->
+        </div>
     </div>
-    <!-- /.ro -->
+
 </div>
+
+
 }
 <!-- /#page-wrapper -->
 <!-- /#wrapper -->
@@ -355,297 +251,35 @@
 
     <script>
 
-    //Cargo las calles y barrios
-    var varListaBarrios = @Html.Raw(Json.Encode(ViewBag.listaBarrios));
-    var barriosJson = $.parseJSON(varListaBarrios.Data);
-
-    var varListaCalles = @Html.Raw(Json.Encode(ViewBag.listaCalles));
-    var callesJson = $.parseJSON(varListaCalles.Data);
-
-    $('#ddlBarrio').autocomplete({
-        lookup: barriosJson
-    });
-
-    $('#input-Calle').autocomplete({
-        lookup: callesJson
-    });
-
-    // Fechas
-    $(function () {
-        $('#dt-Infraccion').datetimepicker({
-            locale: 'es',
-            date: new Date(Date.now())
-        });
-        $('#dt-EnvioJuzgado').datetimepicker({
-            locale: 'es',
-            date: new Date(Date.now())
-        });
-        $('#dt-Carga').datetimepicker({
-            locale: 'es',
-            date: new Date(Date.now())
-        });
-        $('#dt-EstadoVehiculo').datetimepicker({
-            locale: 'es',
-            date: new Date(Date.now())
-        });
-    });
-
-        //Lleno el combo del agente
-        $('#ddlTipoAgente').on('change', function () {
-            var varLista;
-            var Json
-            tgt = $('#ddlAgente');
-            if (this.value == 1) {
-                varLista = @Html.Raw(Json.Encode(ViewBag.listaInspectores));
-               // Json = $.parseJSON(varLista.Data);
-                
-            }
-            else
-            {
-               varLista = @Html.Raw(Json.Encode(ViewBag.listaPolicias));
-               //Json = $.parseJSON(varLista.Data);
-            }
-            tgt.empty();
-            tgt.append(
-                '<option value>' +
-                "Seleccione..." + '</option>'
-            );
-            $.each(varLista, function (i, pr) {
-                tgt.append(
-                    '<option value="' + pr.Id + '">' +
-                    pr.FullName + '</option>'
-                );
-            })
-
-
-        })
-
-
-    function refreshdropdown(parent,child, action) {
-            // get references to the source and target drop downs html controls
-            // These are jquery searches to find the drop down controls
-
-        //var parent = $('#' + parent);
-        //var child = $('#' + child);
-        var jsUrl = '@Url.Action("action", currentController)'; // ## is the token
-
-        if ($(parent).val() == "")
-            {
-            $(parent+"  option:eq(0)").prop("selected", true);
-                return;
-            }
-                // find a control with id=Manufacturer
-            src = $(parent);
-
-            // find a control with id=Model (you need to add this to your view)
-            tgt = $(child);
-
-            // clear drop down
-            tgt.empty();
-
-            // Get new model dataset via ajax
-            // based on manufacturer
-            // The url parameter points at your web method
-            $.ajax({
-                url: jsUrl.replace('action', action),
-                    type: 'POST',
-                    data: JSON.stringify({
-                        "id": src.val()
-                    }),
-                    contentType: 'application/json; charset=utf-8;',
-                // success is called when dataset returns
-                success: function (p) {
-                    // Populate with each returned member
-                    tgt.append(
-                        '<option value>' +
-                        "Seleccione..." + '</option>'
-                    );
-                    $.each(p, function (i, pr) {
-                        tgt.append(
-                            '<option value="' + pr.Id + '">' +
-                            pr.Descripcion + '</option>'
-                        );
-                    })
+        $(document).ready(function () {
+            // Setup - add a text input to each footer cell
+            $('#example tfoot th').each(function () {
+                var title = $(this).text();
+                if (title !== '') {
+                    $(this).html('<input type="text" placeholder=" ' + title + '" />');
                 }
             });
-        }
 
+            // DataTable
+            var table = $('#example').DataTable(
+                {
+                    "ordering": false,
+                    "scrollX": true
+                });
 
+            // Apply the search
+            table.columns().every(function () {
+                var that = this;
 
-
-
-
-        $(function () {
-            $('.dropdown-menu a').click(function () {
-                console.log($(this).attr('data-value'));
-                $(this).closest('.dropdown').find('input.countrycode')
-                    .val('(' + $(this).attr('data-value') + ')');
-            });
-        });
-
-        function bs_input_file() {
-            $(".input-file").before(
-                function () {
-                    if (!$(this).prev().hasClass('input-ghost')) {
-                        var element = $("<input type='file' class='input-ghost' style='visibility:hidden; height:0'>");
-                        element.attr("name", $(this).attr("name"));
-                        element.change(function () {
-                            element.next(element).find('input').val((element.val()).split('\\').pop());
-                        });
-                        $(this).find("button.btn-choose").click(function () {
-                            element.click();
-                        });
-                        $(this).find("button.btn-reset").click(function () {
-                            element.val(null);
-                            $(this).parents(".input-file").find('input').val('');
-                        });
-                        $(this).find('input').css("cursor", "pointer");
-                        $(this).find('input').mousedown(function () {
-                            $(this).parents('.input-file').prev().click();
-                            return false;
-                        });
-                        return element;
+                $('input', this.footer()).on('keyup change', function () {
+                    if (that.search() !== this.value) {
+                        that
+                            .search(this.value)
+                            .draw();
                     }
-                }
-            );
-        }
-        $(function () {
-            bs_input_file();
+                });
+            });
         });
-
-
-        $(function () {
-            // initialize sol
-            $('#ddlContravenciones').searchableOptionList();
-            $('#ddlObservaciones').searchableOptionList();
-        });
-
-
-        $("#form-create").validate({
-            rules: {
-                ddltipoActa: { required: true },
-                dtInfraccion: { required: true },
-                inputNroActa: { required: true, minlength: 1, maxlength: 64 },
-                inputTanda: { required: true },
-                inputCalle: { required: true, minlength: 1, maxlength: 64 },
-                inputAltura: { required: true, minlength: 1, maxlength: 64 },
-                inputEntreCalle: { required: true, minlength: 1, maxlength: 100 },
-                ddlBarrio: { required: true},
-                dtEnvioJuzgado: { required: true},
-                inputApellido: { required: true, minlength: 2, maxlength: 64 },
-                inputNombre: { required: true, minlength: 2, maxlength: 64 },
-                inputDNI: { required: true, minlength: 7, maxlength: 8 },
-                ddlTipoDominio: { required: true},
-                ddlTipoVehiculo: { required: true},
-                ddlTipoAgente: { required: true },
-                ddlAgente: { required: true}
-            },
-            messages: {
-                ddltipoActa: {
-                    required: "Requerido."
-                },
-                dtInfraccion: {
-                    required: "Requerido."
-                },
-                inputNroActa: {
-                    required: "Requerido.",
-                    minlength: "Introduzca al menos 1 caracter.",
-                    maxlength: "La longitud máxima permtida es de 64 caracteres."
-                },
-                inputTanda: {
-                    required: "Requerido."
-                },
-                inputCalle: {
-                    required: "Requerido.",
-                    minlength: "Introduzca al menos 1 caracter.",
-                    maxlength: "La longitud máxima permtida es de 64 caracteres."
-                },
-                inputAltura:  {
-                    required: "Requerido.",
-                    minlength: "Introduzca al menos 1 caracter.",
-                    maxlength: "La longitud máxima permtida es de 64 caracteres."
-                },
-                inputEntreCalle: {
-                    required: "Requerido.",
-                    minlength: "Introduzca al menos 1 caracter.",
-                    maxlength: "La longitud máxima permtida es de 100 caracteres."
-                },
-                ddlBarrio: {
-                    required: "Requerido."
-                },
-                dtEnvioJuzgado: {
-                    required: "Requerido."
-                },
-                inputApellido: {
-                    required: "Requerido.",
-                    minlength: "Introduzca al menos 2 caracteres.",
-                    maxlength: "La longitud máxima permtida es de 64 caracteres."
-                },
-                inputNombre: {
-                    required: "Requerido.",
-                    minlength: "Introduzca al menos 2 caracteres.",
-                    maxlength: "La longitud máxima permtida es de 64 caracteres."
-                },
-                inputDNI: {
-                    required: "Requerido.",
-                    minlength: "Introduzca al menos 7 caracteres.",
-                    maxlength: "La longitud máxima permtida es de 8 caracteres."
-                },
-                ddlTipoDominio: {
-                    required: "Requerido."
-                },
-                ddlTipoVehiculo: {
-                    required: "Requerido."
-                },
-                ddlTipoAgente: {
-                    required: "Requerido."
-                },
-                ddlAgente: {
-                    required: "Requerido."
-                }
-            },
-            submitHandler: function (form) {
-                $("#div-loader").show();
-                //var object = new Object();
-                //object.TipoDeActa = $("#ddl-tipoActa option:selected").val();
-                //object.NroActa = $("#input-NroActa").val();
-                //object.FechaInfraccion = $("#dt-Infraccion").val();
-                //object.Tanda = $("#input-Tanda").val();
-                //object.Tanda = $("#input-Tanda").val();
-                //object.Tanda = $("#input-Tanda").val();
-                //object.Tanda = $("#input-Tanda").val();
-                //object.Tanda = $("#input-Tanda").val();
-                //object.Tanda = $("#input-Tanda").val();
-                //object.Tanda = $("#input-Tanda").val();
-                //object.Tanda = $("#input-Tanda").val();
-                //object.Tanda = $("#input-Tanda").val();
-                //object.Tanda = $("#input-Tanda").val();
-                //object.Tanda = $("#input-Tanda").val();
-                //object.Tanda = $("#input-Tanda").val();
-                //object.Tanda = $("#input-Tanda").val();
-                //object.Tanda = $("#input-Tanda").val();
-                //object.Tanda = $("#input-Tanda").val();
-                //object.Tanda = $("#input-Tanda").val();
-                //object.Tanda = $("#input-Tanda").val();
-                //object.Tanda = $("#input-Tanda").val();
-                //object.Tanda = $("#input-Tanda").val();
-                //object.Tanda = $("#input-Tanda").val();
-                //object.Tanda = $("#input-Tanda").val();
-                //object.Tanda = $("#input-Tanda").val();
-
-                object.Tanda = $("#input-Tanda").val();
-                object.Tanda = $("#input-Tanda").val();
-                object.Tanda = $("#input-Tanda").val();
-                object.Tanda = $("#input-Tanda").val();
-
-                //var tipos = $("#selectTiposCreate option:selected").val();
-                //object.VehicleBrandId = $("#selectMarcasCreate option:selected").val();
-                //object.Descripcion = $("#input-Modelo-Create").val();
-                //var data = JSON.stringify(object);
-            },
-            errorElement: "p"
-        });
-
 
 
     </script>

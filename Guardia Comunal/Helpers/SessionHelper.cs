@@ -29,6 +29,21 @@ namespace Guardia_Comunal.Helpers
             }
             return user_id;
         }
+
+        public static string GetUserName()
+        {
+            string user_name = "";
+            if (HttpContext.Current.User != null && HttpContext.Current.User.Identity is FormsIdentity)
+            {
+                FormsAuthenticationTicket ticket = ((FormsIdentity)HttpContext.Current.User.Identity).Ticket;
+                if (ticket != null)
+                {
+                    user_name = ticket.Name;
+                }
+            }
+            return user_name;
+        }
+
         public static void AddUserToSession(string id)
         {
             bool persist = true;
@@ -43,6 +58,20 @@ namespace Guardia_Comunal.Helpers
 
             cookie.Value = FormsAuthentication.Encrypt(newTicket);
             HttpContext.Current.Response.Cookies.Add(cookie);
+        }
+
+
+        public static void AddUserToSessionTicket(int id, string username, string rolid)
+        {
+            var authTicket = new FormsAuthenticationTicket(id, username, DateTime.Now, DateTime.Now.AddMinutes(60), true, rolid);
+            string cookieContents = FormsAuthentication.Encrypt(authTicket);
+            var cookie = new HttpCookie(FormsAuthentication.FormsCookieName, cookieContents)
+            {
+                Expires = authTicket.Expiration,
+                Path = FormsAuthentication.FormsCookiePath
+            };
+            HttpContext.Current.Response.Cookies.Add(cookie);
+
         }
 
 

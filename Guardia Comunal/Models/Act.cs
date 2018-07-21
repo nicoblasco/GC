@@ -28,10 +28,8 @@ namespace GuardiaComunal.Models
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "Requerido")]
         public string Calle { get; set; }
-        //Este es el codigo de calle
-        public int CalleId { get; set; }
         //Este es el codigo de geolocalizacion
-        public int StreetId { get; set; }
+        public int? StreetId { get; set; }
         public virtual Street Street { get; set; }
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "Requerido")]
@@ -44,7 +42,7 @@ namespace GuardiaComunal.Models
         [Required(AllowEmptyStrings = false, ErrorMessage = "Requerido")]
         public string Barrio { get; set; }
 
-        public int NighborhoodId { get; set; }
+        public int? NighborhoodId { get; set; }
         public virtual Nighborhood Nighborhood { get; set; }
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "Requerido")]
@@ -74,10 +72,12 @@ namespace GuardiaComunal.Models
         public int DomainId { get; set; }
 
         public virtual Domain Domain { get; set; }
-        public int VehicleBrandId { get; set; }
+
+        public string Dominio { get; set; }
+        public int? VehicleBrandId { get; set; }
         public virtual VehicleBrand VehicleBrand { get; set; }
 
-        public int VehicleModelId { get; set; }
+        public int? VehicleModelId { get; set; }
         public virtual VehicleModel VehicleModel { get; set; }
         public string Color { get; set; }
         public string NroMotor { get; set; }
@@ -89,11 +89,9 @@ namespace GuardiaComunal.Models
         // -----------Datos del Acta
         [Required(AllowEmptyStrings = false, ErrorMessage = "Requerido")]
         public string TipoAgente { get; set; }
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Requerido")]
-        public int InspectorId { get; set; }
+        public int? InspectorId { get; set; }
         public virtual Inspector Inspector { get; set; }
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Requerido")]
-        public int PoliceId  { get; set; }
+        public int? PoliceId  { get; set; }
         public virtual Police Police { get; set; }
         public bool VehiculoRetenido { get; set; }
         public bool LicenciaRetenida { get; set; }

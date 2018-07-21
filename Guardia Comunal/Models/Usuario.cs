@@ -33,7 +33,11 @@ namespace GuardiaComunal.Models
                     var usuario = ctx.Usuarios.Where(x => x.Nombreusuario == this.Nombreusuario && x.Contraseña == this.Contraseña).SingleOrDefault();
                     if (usuario != null)
                     {
-                        SessionHelper.AddUserToSession(usuario.UsuarioId.ToString());
+                        //SessionHelper.AddUserToSession(usuario.UsuarioId.ToString());
+                        SessionHelper.AddUserToSessionTicket(usuario.UsuarioId,usuario.Nombreusuario,usuario.RolId.ToString());
+
+
+
                         rm.SetResponse(true);
                     }
                     else

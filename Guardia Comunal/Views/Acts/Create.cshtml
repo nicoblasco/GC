@@ -49,7 +49,13 @@
         padding: 0px;
     }
 </style>
-@using (Html.BeginHorizontalForm())
+@*@using (Html.BeginHorizontalForm())*@
+@using (Ajax.BeginForm("Create", "Acts", new AjaxOptions
+{
+    HttpMethod = "Post",
+    OnFailure = "alert('Mensaje Error')",
+    OnSuccess = "onSuccess"
+}, new { id = "frmActualizarOrden", style = "height:100%", @class = "form-horizontal" }))
 {
     @Html.AntiForgeryToken()
 
@@ -57,7 +63,7 @@
         <div class="row">
             <h1 class="page-header" style="margin: 10px;">Actas</h1>
 
-           <form id="form-create" role="form" class="form-horizontal">
+            <form id="form-create" role="form" class="form-horizontal">
                 <div class="col-lg-12">
                     <!-- /.Panel de Datos de Alta -->
                     <div class="panel panel-default">
@@ -68,19 +74,15 @@
                             <div class="form-group">
                                 <div class="col-sm-2">
                                     <label>Tipo de Acta</label>
-                                    @*<select class="form-control input-sm" name="ddltipoActa" id="ddl-tipoActa">
-            <option>Oficio</option>
-            <option>Documentada</option>
-        </select>*@
 
-                                    @Html.DropDownListFor(model => model.EstadoVehiculo, new SelectList(
-                                      new List<Object>{
-                                           new { value = 1 , text = "Oficio"  },
-                                           new { value = 2 , text = "Documentada" }
-                                        },
-                                      "value",
-                                      "text",
-                                       1), new {  id = "ddl-tipoActa", name = "ddltipoActa", @class = "form-control input-sm"})
+                                    @Html.DropDownListFor(model => model.TipoDeActa, new SelectList(
+       new List<Object>{
+                                           new { value = "Oficio" , text = "Oficio"  },
+                                           new { value = "Documentada" , text = "Documentada" }
+         },
+       "value",
+       "text",
+        1), new { id = "ddl-tipoActa", name = "ddltipoActa", @class = "form-control input-sm" })
                                     @Html.ValidationMessageFor(model => model.EstadoVehiculo, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-sm-3">
@@ -92,7 +94,8 @@
                                 <div class="col-sm-3">
                                     <label>Fecha/Hora de Infracción</label>
                                     @*<input type='text' class="form-control input-sm" name="dtInfraccion" id='dt-Infraccion' />*@
-                                    @Html.EditorFor(model => model.FechaInfraccion, new { htmlAttributes = new { @class = "form-control input-sm", id = "dt-Infraccion", name = "dtInfraccion" } })
+                                    @Html.EditorFor(model => model.FechaInfraccion, new { htmlAttributes = new { @class = "form-control input-sm", id = "dt-Infraccion", name = "dtInfraccion", @type = "datetime" } })
+                                    @*@Html.TextBoxFor(model => model.FechaInfraccion, "{0:dd/MM/yyyy HH:mm}", new { @class = "form-control input-sm", id = "dt-Infraccion", name = "dtInfraccion"})*@
                                     @Html.ValidationMessageFor(model => model.FechaInfraccion, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-sm-3">
@@ -152,13 +155,12 @@
                                 </div>
                                 <div class="col-sm-3">
                                     <label>Fecha/Hora de Carga</label>
-                                    @*<input type='text' class="form-control input-sm" id="dt-Carga" name="dtCarga" disabled />*@
-                                    @Html.EditorFor(model => model.FechaCarga, new { htmlAttributes = new { @class = "form-control input-sm", id = "dt-Carga", name = "dtCarga", disabled = "disabled" } })
+                                    @Html.EditorFor(model => model.FechaCarga, new { htmlAttributes = new { @class = "form-control input-sm", id = "dt-Carga", name = "dtCarga" } })
                                 </div>
                                 <div class="col-sm-2">
                                     <label>Usuario de Carga</label>
-                                    @*<input class="form-control input-sm" id="input-Usuario" name="inputUsuario" placeholder="Usuario de Carga" type="text" disabled>*@
-                                    @Html.EditorFor(model => model.UsuarioId, new { htmlAttributes = new { @class = "form-control input-sm", id = "input-Usuario", name = "inputUsuario", disabled = "disabled" } })
+                                    <input class="form-control input-sm" id="input-Usuario" value="@SessionHelper.GetUserName()" name="inputUsuario" placeholder="Usuario de Carga" type="text" disabled>
+                                    @Html.EditorFor(model => model.UsuarioId, new { htmlAttributes = new { @Value = SessionHelper.GetUser(), @class = "form-control input-sm", id = "input-UsuarioId", name = "inputUsuarioId", style = "display:none" } })
                                 </div>
                             </div>
 
@@ -208,43 +210,44 @@
                             <div class="form-group">
                                 <div class="col-sm-2">
                                     <label>Tipo de Vehiculo</label>
-                                    @Html.DropDownList("ddlTipoVehiculo", new SelectList(ViewBag.listaTipos, "Id", "Descripcion"), "Seleccione...", htmlAttributes:
-                                    new
-                                    {
-                                        @class = "form-control input-sm",
-                                        @onchange = "refreshdropdown(ddlTipoVehiculo,ddlMarca,'GetMarcas')"
-                                    }
-                                    )
-                                    @Html.EditorFor(model => model.VehicleTypeId, new { htmlAttributes = new { @class = "form-control input-sm", id = "input-TipoVehiculo", name = "inputTipoVehiculo", style = "display:none" } })
+                                    @Html.DropDownListFor(model => model.VehicleTypeId, new SelectList(ViewBag.listaTipos, "Id", "Descripcion"), "Seleccione...", htmlAttributes:
+     new
+     {
+         id = "ddlTipoVehiculo",
+         @class = "form-control input-sm",
+         @onchange = "refreshdropdown(ddlTipoVehiculo,ddlMarca,'GetMarcas')"
+     }
+     )
+                                    @*@Html.EditorFor(model => model.VehicleTypeId, new { htmlAttributes = new { @class = "form-control input-sm", id = "input-TipoVehiculo", name = "inputTipoVehiculo", style = "display:none" } })*@
                                     @Html.ValidationMessageFor(model => model.VehicleTypeId, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-sm-2">
                                     <label>Tipo de Dominio</label>
-                                    @Html.DropDownList("ddlTipoDominio", new SelectList(ViewBag.listaDominios, "Id", "Descripcion"), new { @class = "form-control input-sm" })
-                                    @Html.EditorFor(model => model.DomainId, new { htmlAttributes = new { @class = "form-control input-sm", id = "input-TipoDominio", name = "inputTipoDominio", style = "display:none" } })
+                                    @Html.DropDownListFor(model => model.DomainId, new SelectList(ViewBag.listaDominios, "Id", "Descripcion"), new { @class = "form-control input-sm" })
+                                    @*@Html.EditorFor(model => model.DomainId, new { htmlAttributes = new { @class = "form-control input-sm", id = "input-TipoDominio", name = "inputTipoDominio", style = "display:none" } })*@
                                 </div>
                                 <div class="col-sm-2">
                                     <label>Dominio</label>
-                                    @*<input id="input-Dominio" name="inputDominio" placeholder="Dominio" class="form-control input-sm" autocomplete="off">*@
-                                    @Html.EditorFor(model => model.DomainId, new { htmlAttributes = new { @class = "form-control input-sm", id = "input-TipoDominio", name = "inputTipoDominio", placeholder = "Dominio" } })
-                                    @Html.ValidationMessageFor(model => model.DomainId, "", new { @class = "text-danger" })
+                                    @Html.EditorFor(model => model.Dominio, new { htmlAttributes = new { @class = "form-control input-sm", id = "input-TipoDominio", name = "inputTipoDominio", placeholder = "Dominio" } })
+                                    @Html.ValidationMessageFor(model => model.Dominio, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-sm-2">
                                     <label>Marca</label>
-                                    @Html.DropDownList("ddlMarca", new SelectList(ViewBag.listaMarcas, "Id", "Descripcion"), "Seleccione...", htmlAttributes:
-                                     new
-                                     {
-                                         @class = "form-control input-sm",
-                                         @onchange = "refreshdropdown(ddlMarca,ddlModelo,'GetModelos')"
-                                     }
-                                     )
-                                    @Html.EditorFor(model => model.VehicleBrandId, new { htmlAttributes = new { @class = "form-control input-sm", id = "input-Marca", name = "inputMarca", style = "display:none" } })
+                                    @Html.DropDownListFor(model => model.VehicleBrandId, new SelectList(ViewBag.listaMarcas, "Id", "Descripcion"), "Seleccione...", htmlAttributes:
+      new
+      {
+          id = "ddlMarca",
+          @class = "form-control input-sm",
+          @onchange = "refreshdropdown(ddlMarca,ddlModelo,'GetModelos')"
+      }
+      )
+                                    @*@Html.EditorFor(model => model.VehicleBrandId, new { htmlAttributes = new { @class = "form-control input-sm", id = "input-Marca", name = "inputMarca", style = "display:none" } })*@
                                 </div>
 
                                 <div class="col-sm-2">
                                     <label>Modelo</label>
-                                    @Html.DropDownList("ddlModelo", new SelectList(ViewBag.listaModelos, "Id", "Descripcion"), "Seleccione...", new { @class = "form-control input-sm" })
-                                    @Html.EditorFor(model => model.VehicleModelId, new { htmlAttributes = new { @class = "form-control input-sm", id = "input-Modelo", name = "inputModelo", style = "display:none" } })
+                                    @Html.DropDownListFor(model => model.VehicleModelId, new SelectList(ViewBag.listaModelos, "Id", "Descripcion"), "Seleccione...", new { @class = "form-control input-sm", id = "ddlModelo" })
+                                    @*@Html.EditorFor(model => model.VehicleModelId, new { htmlAttributes = new { @class = "form-control input-sm", id = "input-Modelo", name = "inputModelo", style = "display:none" } })*@
                                 </div>
                                 <div class="col-sm-2">
                                     <label>Color</label>
@@ -274,20 +277,20 @@
                                         </select>*@
 
                                     @Html.DropDownListFor(model => model.EstadoVehiculo, new SelectList(
-                                      new List<Object>{
-                                           new { value = 0 , text = "No Retenido"  },
-                                           new { value = 1 , text = "Retenido" },
-                                           new { value = 2 , text = "Liberado"},
-                                           new { value = 3 , text = "Compactado"}
-                                        },
-                                      "value",
-                                      "text",
-                                       0), new {  id = "ddlEstadoVehiculo", @class = "form-control input-sm",  disabled = "disabled" })
+       new List<Object>{
+                                           new { value = "No Retenido"  , text = "No Retenido"  },
+                                           new { value = "Retenido" , text = "Retenido" },
+                                           new { value = "Liberado" , text = "Liberado"},
+                                           new { value = "Compactado" , text = "Compactado"}
+         },
+       "value",
+       "text",
+        0), new { id = "ddlEstadoVehiculo", @class = "form-control input-sm" })
                                 </div>
                                 <div class="col-sm-3">
                                     <label>Fecha de Estado</label>
                                     @*<input type='text' class="form-control input-sm" id="dt-EstadoVehiculo" name="dtEstadoVehiculo" disabled />*@
-                                    @Html.EditorFor(model => model.FechaEstado, new { htmlAttributes = new { @class = "form-control input-sm", id = "dt-EstadoVehiculo", name = "dtEstadoVehiculo", disabled = "disabled" } })
+                                    @Html.EditorFor(model => model.FechaEstado, new { htmlAttributes = new { @class = "form-control input-sm", id = "dt-EstadoVehiculo", name = "dtEstadoVehiculo" } })
                                 </div>
 
                             </div>
@@ -304,27 +307,24 @@
                                 <div class="col-sm-2">
                                     <label>Tipo Agente</label>
                                     @*<select class="form-control input-sm" id="ddlTipoAgente">
-            <option value="1">Inspector</option>
-            <option value="2">Policia</option>
-        </select>*@
+                                            <option value="1">Inspector</option>
+                                            <option value="2">Policia</option>
+                                        </select>*@
 
                                     @Html.DropDownListFor(model => model.TipoAgente, new SelectList(
-                                      new List<Object>{
-                                           new { value = 1 , text = "Inspector"  },
-                                           new { value = 2 , text = "Policia" }
-                                        },
-                                      "value",
-                                      "text",
-                                       1), new {  id = "ddlTipoAgente", @class = "form-control input-sm"})
+       new List<Object>{
+                                           new { value = "Inspector" , text = "Inspector"  },
+                                           new { value = "Policia" , text = "Policia" }
+         },
+       "value",
+       "text",
+        1), new { id = "ddlTipoAgente", @class = "form-control input-sm" })
                                     @Html.ValidationMessageFor(model => model.TipoAgente, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-sm-3">
                                     <label>Agente</label>
-                                    @Html.DropDownList("ddlAgente", new SelectList(ViewBag.listaInspectores, "Id", "FullName"), new { @class = "form-control input-sm" })
-                                    @Html.EditorFor(model => model.InspectorId, new { htmlAttributes = new { @class = "form-control input-sm", id = "input-Inspector", name = "inputInspector", style = "display:none" } })
-                                    @Html.EditorFor(model => model.PoliceId, new { htmlAttributes = new { @class = "form-control input-sm", id = "input-Police", name = "inputPolice", style = "display:none" } })
-                                    @Html.ValidationMessageFor(model => model.InspectorId, "", new { @class = "text-danger" })
-                                    @Html.ValidationMessageFor(model => model.PoliceId, "", new { @class = "text-danger" })
+                                    @Html.DropDownListFor(model => model.InspectorId, new SelectList(ViewBag.listaInspectores, "Id", "FullName"), new { @class = "form-control input-sm", id = "ddlInspector" })
+                                    @Html.DropDownListFor(model => model.Police, new SelectList(ViewBag.listaPolicias, "Id", "FullName"), new { @class = "form-control input-sm", id = "ddlPolicia" })
                                 </div>
 
                             </div>
@@ -418,12 +418,36 @@
         </div>
         <!-- /.ro -->
     </div>
+
 }
 <!-- /#page-wrapper -->
 <!-- /#wrapper -->
 @section scripts {
 
     <script>
+
+    //Desabilito los campos que no voy a usar
+
+        $('#dt-Carga').attr("readonly", "readonly")
+        $('#dt-EstadoVehiculo').attr("readonly", "readonly");
+        $('#input-Usuario').prop("disabled", true);
+        $('#ddlEstadoVehiculo').prop("disabled", true);
+        $('#ddlPolicia').hide();
+
+
+        $('#ddlTipoAgente').on('change', function () {
+            if (this.value === "Inspector") {
+                $('#ddlInspector').show();
+                $('#ddlPolicia').hide();
+
+            }
+            else {
+                $('#ddlInspector').hide();
+                $('#ddlPolicia').show();
+            }
+
+        });
+
 
     //Cargo las calles y barrios
     var varListaBarrios = @Html.Raw(Json.Encode(ViewBag.listaBarrios));
@@ -433,17 +457,23 @@
     var callesJson = $.parseJSON(varListaCalles.Data);
 
     $('#ddlBarrio').autocomplete({
-        lookup: barriosJson
+        lookup: barriosJson,
+        onSelect: function (suggestion) {
+            $("#input-Barrio").val(suggestion.data);
+        }
     });
 
     $('#input-Calle').autocomplete({
-        lookup: callesJson
+        lookup: callesJson,
+        onSelect: function (suggestion) {
+            $("#input-CalleId").val(suggestion.data);
+        }
     });
 
     // Fechas
     $(function () {
         $('#dt-Infraccion').datetimepicker({
-            locale: 'es',
+            locale: 'en-GB',
             date: new Date(Date.now())
         });
         $('#dt-EnvioJuzgado').datetimepicker({
@@ -458,38 +488,7 @@
             locale: 'es',
             date: new Date(Date.now())
         });
-    });
-
-        //Lleno el combo del agente
-        $('#ddlTipoAgente').on('change', function () {
-            var varLista;
-            var Json
-            tgt = $('#ddlAgente');
-            if (this.value == 1) {
-                varLista = @Html.Raw(Json.Encode(ViewBag.listaInspectores));
-               // Json = $.parseJSON(varLista.Data);
-
-            }
-            else
-            {
-               varLista = @Html.Raw(Json.Encode(ViewBag.listaPolicias));
-               //Json = $.parseJSON(varLista.Data);
-            }
-            tgt.empty();
-            tgt.append(
-                '<option value>' +
-                "Seleccione..." + '</option>'
-            );
-            $.each(varLista, function (i, pr) {
-                tgt.append(
-                    '<option value="' + pr.Id + '">' +
-                    pr.FullName + '</option>'
-                );
-            })
-
-
-        })
-
+        });
 
     function refreshdropdown(parent,child, action) {
             // get references to the source and target drop downs html controls
@@ -542,9 +541,6 @@
 
 
 
-
-
-
         $(function () {
             $('.dropdown-menu a').click(function () {
                 console.log($(this).attr('data-value'));
@@ -589,6 +585,13 @@
             $('#ddlContravenciones').searchableOptionList();
             $('#ddlObservaciones').searchableOptionList();
         });
+
+        function onSuccess(result) {
+            //if (result.url) {
+            //    window.location.href = result.url;
+            //}
+            alert("Aca hay que hacer un link");
+        }
 
     </script>
 }

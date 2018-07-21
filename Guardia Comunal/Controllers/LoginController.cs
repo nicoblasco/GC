@@ -45,7 +45,6 @@ namespace Guardia_Comunal.Controllers
 
             return Json(rm);
         }
-
         
     }
 }

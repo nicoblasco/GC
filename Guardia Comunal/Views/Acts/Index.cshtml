@@ -4,7 +4,43 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<style>
+    .td-btn {
+        text-align: center !important;
+        border-bottom: 1px solid #EAEAEA !important;
+        font-size: 13px !important;
+        padding-left: inherit !important;
+        overflow: hidden !important;
+        white-space: normal !important;
+        height: auto !important;
+        width: 400px !important;
+        /* border-right-width: 0px; */
+    }
 
+    .span-btn {
+        color: #666666;
+        cursor: pointer;
+        /* margin: 0px; */
+        font-size: 18px;
+        text-align: center;
+        vertical-align: middle;
+        width: 20px;
+    }
+
+    .span-btn-dtl {
+        color: #9a3f3f;
+        cursor: pointer;
+        /* margin: 0px; */
+        font-size: 18px;
+        text-align: center;
+        vertical-align: middle;
+        width: 20px;
+    }
+
+    .dataTables-Index {
+        table-layout: fixed;
+    }
+</style>
 
 <div id="page-wrapper">
     <div class="row">
@@ -15,8 +51,7 @@
                 </div>
                 <!-- /.panel-heading -->
                 <div class="panel-body">
-
-                    <table id="example" width="100%" class="display nowrap table table-striped table-bordered table-hover" style="font-size:11px">
+                    <table id="dataTables-Index" width="100%" class="display nowrap table table-striped table-bordered table-hover" style="font-size:11px">
                         <thead>
                             <tr>
                                 <th>Acción</th>
@@ -35,188 +70,7 @@
 
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td>
 
-
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">
-                                            <i class="fa fa-gear"></i> <span class="caret"></span>
-                                        </button>
-                                        <ul class="dropdown-menu" role="menu">
-                                            <li>
-                                                <a href="index.html">Ver/Editar</a>
-                                            </li>
-                                            <li>
-                                                <a href="liberaciones.html">Liberar</a>
-                                            </li>
-                                            <li class="divider"></li>
-                                            <li>
-                                                <a href="#">Eliminar</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-
-                                </td>
-                                <td>000001</td>
-                                <td>2018/04/25</td>
-                                <td>27098234</td>
-                                <td>No Retenido</td>
-                                <td>Auto</td>
-                                <td>JDF909</td>
-                                <td>JDFFSD08483294423</td>
-                                <td>543545546465</td>
-                                <td>Chevrolet</td>
-                                <td>Corsa</td>
-                                <td>Gris</td>
-                                <td>Perez Pablo</td>
-                            </tr>
-                            <tr>
-                                <td>
-
-
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">
-                                            <i class="fa fa-gear"></i> <span class="caret"></span>
-                                        </button>
-                                        <ul class="dropdown-menu" role="menu">
-                                            <li>
-                                                <a href="index.html">Ver/Editar</a>
-                                            </li>
-                                            <li>
-                                                <a href="liberaciones.html">Liberar</a>
-                                            </li>
-                                            <li class="divider"></li>
-                                            <li>
-                                                <a href="#">Eliminar</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-
-                                </td>
-                                <td>000002</td>
-                                <td>2018/03/15</td>
-                                <td>27123456</td>
-                                <td>No Retenido</td>
-                                <td>Auto</td>
-                                <td>PMA675</td>
-                                <td>FSDFSDFSD3443545</td>
-                                <td>5546645654</td>
-                                <td>Chevrolet</td>
-                                <td>Corsa</td>
-                                <td>Negro</td>
-                                <td>Lucas Gomez</td>
-                            </tr>
-                            <tr class="warning">
-                                <td>
-
-
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">
-                                            <i class="fa fa-gear"></i> <span class="caret"></span>
-                                        </button>
-                                        <ul class="dropdown-menu" role="menu">
-                                            <li>
-                                                <a href="index.html">Ver/Editar</a>
-                                            </li>
-                                            <li>
-                                                <a href="liberaciones.html">Liberar</a>
-                                            </li>
-                                            <li class="divider"></li>
-                                            <li>
-                                                <a href="#">Eliminar</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-
-                                </td>
-                                <td>000003</td>
-                                <td>2017/03/22</td>
-                                <td>27098543</td>
-                                <td>Retenido</td>
-                                <td>Moto</td>
-                                <td>FD432</td>
-                                <td>543534354534</td>
-                                <td>123234455</td>
-                                <td>Honda</td>
-                                <td>CVR</td>
-                                <td>Blanca</td>
-                                <td>Patricia Lopez</td>
-                            </tr>
-                            <tr class="success">
-                                <td>
-
-
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">
-                                            <i class="fa fa-gear"></i> <span class="caret"></span>
-                                        </button>
-                                        <ul class="dropdown-menu" role="menu">
-                                            <li>
-                                                <a href="index.html">Ver/Editar</a>
-                                            </li>
-                                            <li>
-                                                <a href="liberaciones.html">Ver Liberación</a>
-                                            </li>
-                                            <li class="divider"></li>
-                                            <li>
-                                                <a href="#">Eliminar</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-
-                                </td>
-                                <td>000004</td>
-                                <td>2017/10/14</td>
-                                <td>31098654</td>
-                                <td>Liberado</td>
-                                <td>Auto</td>
-                                <td>FDF009</td>
-                                <td>FPORF643746348443</td>
-                                <td>89053475302</td>
-                                <td>Ford</td>
-                                <td>Fiesta</td>
-                                <td>Rojo</td>
-                                <td>Martin Garcia</td>
-                            </tr>
-                            <tr class="danger">
-                                <td>
-
-
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">
-                                            <i class="fa fa-gear"></i> <span class="caret"></span>
-                                        </button>
-                                        <ul class="dropdown-menu" role="menu">
-                                            <li>
-                                                <a href="index.html">Ver/Editar</a>
-                                            </li>
-                                            <li>
-                                                <a href="liberaciones.html">Liberar</a>
-                                            </li>
-                                            <li class="divider"></li>
-                                            <li>
-                                                <a href="#">Eliminar</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-
-                                </td>
-                                <td>000005</td>
-                                <td>2017/10/04</td>
-                                <td>31876444</td>
-                                <td>Compactado</td>
-                                <td>Auto</td>
-                                <td>KOUYHG</td>
-                                <td>PLHFD534534534</td>
-                                <td>9876544555</td>
-                                <td>Toyota</td>
-                                <td>HILUX</td>
-                                <td>Blanco</td>
-                                <td>Daniel Migoli</td>
-                            </tr>
-                        </tbody>
                         <tfoot>
                             <tr>
                                 <th></th>
@@ -235,52 +89,149 @@
                             </tr>
                         </tfoot>
                     </table>
-
                 </div>
             </div>
         </div>
     </div>
 
 </div>
-
+<!-- Progress Loader -->
+<div id="div-loader" style="margin: 0px; padding: 0px; position: fixed; right: 0px; top: 0px; width: 100%; height: 100%; background-color: rgb(102, 102, 102); z-index: 30001; opacity: 0.8; display: none">
+    <p style="position: absolute; color: White; top: 35%; left: 45%;">
+        <img src="~/Images/loading.gif" alt="Loading..." />
+    </p>
+</div>
 
 }
 <!-- /#page-wrapper -->
 <!-- /#wrapper -->
 @section scripts {
 
-    <script>
+<script>
 
-        $(document).ready(function () {
-            // Setup - add a text input to each footer cell
-            $('#example tfoot th').each(function () {
-                var title = $(this).text();
-                if (title !== '') {
-                    $(this).html('<input type="text" placeholder=" ' + title + '" />');
+
+
+
+    $(document).ready(function () {
+
+
+
+         var table=  $('#dataTables-Index').DataTable({
+              "ajax":
+                  {
+                      url: "@Url.Action("GetActs", "Acts")",
+                      type: "post",
+                      dataSrc: ""
+                  },
+              "columns": [
+                  { "data": "id", defaultContent: '', "width": "100%" },
+               { "data": "NroActa" },
+               {
+                   "data": "FechaInfraccion",
+                   render: function (data, type, row) {
+                       if (type === "sort" || type === "type") {
+                           return data;
+                       }
+                       return moment(data).format("DD-MM-YYYY HH:mm");
+                   }
+               },
+               { "data": "DNI" },
+               { "data": "EstadoVehiculo" },
+               { "data": "VehicleType.Descripcion" },
+               { "data": "Dominio" },
+               { "data": "NroMotor" },
+               { "data": "NroChasis" },
+               { "data": "VehicleBrand.Descripcion" },
+               { "data": "VehicleModel.Descripcion" },
+               { "data": "Color" },
+               { "data": "TipoAgente" }
+              ],
+              rowId: 'Id',
+              responsive: true,
+              ordering: false,
+              scrollX: true,
+              "autoWidth": true,
+              "fnCreatedRow": function (nRow, aData, iDataIndex) {
+                  //Agrego las
+                  // Add a class to the cell in the first column
+                  $(nRow).children(':nth-child(1)').addClass('td-btn');
+                  // Add a class to the row
+                //  $(nRow).addClass('td-btn');
+
+                  //Agrego el boton
+                  //$('td:eq(0)', nRow).append("<div class='btn-group'><button type='button' class='btn btn-primary btn-xs dropdown-toggle' data-toggle='dropdown'><i class='fa fa-gear'></i> <span class='caret'></span></button><ul class='dropdown-menu' role='menu'><li><a href='#' onclick='Edit(this);'>Ver/Editar</a></li><li><a href='liberaciones.html'>Liberar</a></li><li class='divider'></li><li><a href='#' onclick='Delete(this);'>Eliminar</a></li></ul></div>");
+                  $('td:eq(0)', nRow).append("<span class='fa fa-pencil span-btn' type='button' value='E' data-toggle='tooltip' data-placement='top' title='Modificar' id='btn_Editar' />");
+                  $('td:eq(0)', nRow).append("<span class='fa fa-check-square span-btn' type='button' value='C' data-toggle='tooltip' data-placement='top' title='Liberar' id='btn_Liberar'/> ");
+                  $('td:eq(0)', nRow).append("<span data-toggle='modal' data-target='#eliminar-modal'><span class='fa fa-trash span-btn-dtl' type='button' value='D' data-toggle='tooltip' data-placement='top' title='Eliminar'/></span>");
+              }
+
+       });
+        // Setup - add a text input to each footer cell
+         $('#dataTables-Index_wrapper tfoot th').each(function () {
+            var title = $(this).text();
+            if (title !== '') {
+                $(this).html('<input type="text" placeholder=" ' + title + '" />');
+            }
+         });
+
+
+        table.columns().every(function () {
+            var that = this;
+
+            $('input', this.footer()).on('keyup change', function () {
+                if (that.search() !== this.value) {
+                    that
+                        .search(this.value)
+                        .draw();
                 }
             });
+         });
 
-            // DataTable
-            var table = $('#example').DataTable(
-                {
-                    "ordering": false,
-                    "scrollX": true
-                });
+    });
 
-            // Apply the search
-            table.columns().every(function () {
-                var that = this;
+    $(document).on('click', '#btn_Editar', function () {
+        var id = $(this).closest('tr').attr('id')
+        var baseUrl = "@Url.Action("Edit", "Acts", new { id="ID"})";
+        window.location.href = baseUrl.replace("ID",id);
+    });
 
-                $('input', this.footer()).on('keyup change', function () {
-                    if (that.search() !== this.value) {
-                        that
-                            .search(this.value)
-                            .draw();
-                    }
-                });
+        function Delete(a) {
+            var id = $(a).closest('tr').attr('id')
+
+            Lobibox.confirm({
+                title: 'Atención',
+                msg: "¿Esta seguro que desea eliminar el Acta?",
+                callback: function ($this, type, ev) {
+                    if (type === 'yes') {
+                    $.ajax({
+                    url: '@Url.Action("DeleteAct", "Acts")',
+                    type: 'POST',
+                    data: JSON.stringify({
+                        "id": id
+                    }),
+                    contentType: 'application/json; charset=utf-8;',
+                    success: function (result) {
+                        $("#dataTables-Index").dataTable().fnReloadAjax();//Recargo la grilla
+                        $("#div-loader").hide();
+                        Lobibox.notify('success', {
+                            title: 'Exito',
+                            msg: 'Los cambios se han grabado correctamente.'
+                        });
+                    },
+                    error: function (response) {
+                        $("#div-loader").hide();
+                            Lobibox.notify('error', {
+                                title: 'Error',
+                                msg: 'Ah ocurrido un error, intente nuevamente.'});
+                        }
+                     });
+                    };
+}
+
             });
-        });
+        }
 
+        
 
-    </script>
+</script>
 }

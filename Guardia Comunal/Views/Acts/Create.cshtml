@@ -50,11 +50,11 @@
     }
 </style>
 @*@using (Html.BeginHorizontalForm())*@
-@using (Ajax.BeginForm("Create", "Acts", new AjaxOptions
+@using (Ajax.BeginForm("Create", "Acts", null, new AjaxOptions
 {
-    HttpMethod = "Post",
-    OnFailure = "alert('Mensaje Error')",
-    OnSuccess = "onSuccess"
+    HttpMethod = "POST",
+    OnSuccess = "SuccessMessage",
+    OnFailure = "FailMessage"
 }, new { id = "frmActualizarOrden", style = "height:100%", @class = "form-horizontal" }))
 {
     @Html.AntiForgeryToken()
@@ -418,11 +418,30 @@
         </div>
         <!-- /.ro -->
     </div>
-
 }
 <!-- /#page-wrapper -->
 <!-- /#wrapper -->
 @section scripts {
+
+    <script>
+        //\\\\\\\ JS  retrun message SucccessPost or FailPost
+        function SuccessMessage() {
+            Lobibox.notify('success', {
+                title: 'Exito',
+                msg: 'Los cambios se han grabado correctamente.'
+            });
+
+            var baseUrl = "@Url.Action("Index","Acts")";
+            window.location.href = baseUrl;
+
+        }
+        function FailMessage() {
+            Lobibox.notify('error', {
+                title: 'Error',
+                msg: 'Ah ocurrido un error, intente nuevamente.'
+            });
+        }
+    </script>
 
     <script>
 

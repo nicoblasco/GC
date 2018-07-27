@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -13,6 +14,7 @@ namespace GuardiaComunal.Models
         public DateTime FechaAlta { get; set; }
         public bool Enable { get; set; }
 
+        [JsonIgnore]
         public virtual ICollection<Act> Acts { get; set; }
     }
 }

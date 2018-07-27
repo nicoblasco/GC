@@ -63,7 +63,8 @@ namespace Guardia_Comunal.Controllers
             List<Act> list = new List<Act>();
             try
             {
-                list = db.Acts.ToList().ToList();
+                list = db.Acts.ToList();
+
                 var json = JsonConvert.SerializeObject(list);
 
                 return Json(list, JsonRequestBehavior.AllowGet);
@@ -234,7 +235,7 @@ namespace Guardia_Comunal.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,TipoDeActa,NroActa,FechaInfraccion,Tanda,Calle,StreetId,Altura,EntreCalle,Barrio,NighborhoodId,FechaEnvioAlJuzgado,ActaAdjunta,FechaCarga,UsuarioId,VehicleTypeId,VehicleBrandId,VehicleModelId,Color,NroMotor,NroChasis,EstadoVehiculo,FechaEstado,TipoAgente,InspectorId,PoliceId,VehiculoRetenido,LicenciaRetenida,TicketAlcoholemia,ResultadoAlcoholemia,TicketAlcoholemiaAdjunto,Informe,InformeAdjunto,Detalle,Enable,DNI,Nombre,Apellido,NroLicencia,DomainId,Dominio")] Act act)
+        public ActionResult Create([Bind(Include = "Id,TipoDeActa,NroActa,FechaInfraccion,Tanda,Calle,StreetId,Altura,EntreCalle,Barrio,NighborhoodId,FechaEnvioAlJuzgado,ActaAdjunta,FechaCarga,UsuarioId,VehicleTypeId,VehicleBrandId,VehicleModelId,Color,NroMotor,NroChasis,EstadoVehiculo,FechaEstado,TipoAgente,InspectorId,PoliceId,VehiculoRetenido,LicenciaRetenida,TicketAlcoholemia,ResultadoAlcoholemia,TicketAlcoholemiaAdjunto,Informe,InformeAdjunto,Detalle,Enable,DNI,Nombre,Apellido,NroLicencia,DomainId,Dominio,Contraventions,Observations,SelectedContraventions,SelectedObservations")] Act act)
         {
             if (ModelState.IsValid)
             {
@@ -252,6 +253,20 @@ namespace Guardia_Comunal.Controllers
                     act.NroChasis = act.NroChasis?.ToUpper();
                     act.NroLicencia = act.NroLicencia?.ToUpper();
                     act.NroMotor = act.NroMotor?.ToUpper();
+                    act.Contraventions = new List<Contravention>();
+                    act.Observations = new List<Observation>();
+
+
+                    foreach (int contraventionId in act.SelectedContraventions)
+                    {
+                        act.Contraventions.Add(db.Contraventions.Find(contraventionId));  
+                    }
+
+                    foreach (int observationId in act.SelectedObservations)
+                    {
+                        act.Observations.Add(db.Observations.Find(observationId));
+
+                    }
 
                     db.Acts.Add(act);
                     db.SaveChanges();

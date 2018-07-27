@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Web;
 
 namespace GuardiaComunal.Models
@@ -100,8 +102,14 @@ namespace GuardiaComunal.Models
         public string TicketAlcoholemiaAdjunto { get; set; }
         public string Informe { get; set; }
         public string InformeAdjunto { get; set; }
+
+
         public virtual ICollection<Contravention> Contraventions { get; set; }
+
+        public virtual int[] SelectedContraventions { get; set; }
+
         public virtual ICollection<Observation> Observations { get; set; }
+        public virtual int[] SelectedObservations { get; set; }
         public string Detalle { get; set; }
         public bool Enable { get; set; }
 

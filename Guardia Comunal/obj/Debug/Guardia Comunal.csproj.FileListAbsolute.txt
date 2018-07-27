@@ -55,4 +55,9 @@ C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Guardia Comunal\Desarrollo\
 C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Guardia Comunal\Desarrollo\GuardiaComunal\Guardia Comunal\obj\Debug\Guardia Comunal.dll
 C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Guardia Comunal\Desarrollo\GuardiaComunal\Guardia Comunal\obj\Debug\Guardia Comunal.pdb
 C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\obj\Debug\Guardia Comunal.csproj.CopyComplete
-C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\obj\Debug\Guardia Comunal.csprojAssemblyReference.cache
+C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\bin\System.Net.Http.Formatting.dll
+C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\bin\System.Web.Http.dll
+C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\bin\System.Web.Http.WebHost.dll
+C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\bin\System.Net.Http.Formatting.xml
+C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\bin\System.Web.Http.xml
+C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\bin\System.Web.Http.WebHost.xml

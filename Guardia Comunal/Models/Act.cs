@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Web;
+using System.Web.Script.Serialization;
 
 namespace GuardiaComunal.Models
 {
@@ -103,7 +104,7 @@ namespace GuardiaComunal.Models
         public string Informe { get; set; }
         public string InformeAdjunto { get; set; }
 
-
+        [ScriptIgnore]
         public virtual ICollection<Contravention> Contraventions { get; set; }
 
         public virtual int[] SelectedContraventions { get; set; }

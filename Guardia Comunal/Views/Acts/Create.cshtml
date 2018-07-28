@@ -50,12 +50,14 @@
     }
 </style>
 @*@using (Html.BeginHorizontalForm())*@
+@*@using (Html.BeginForm("Create", "Acts", FormMethod.Post, new { enctype = "multipart/form-data" }))*@
 @using (Ajax.BeginForm("Create", "Acts", null, new AjaxOptions
 {
     HttpMethod = "POST",
     OnSuccess = "SuccessMessage",
     OnFailure = "FailMessage"
-}, new { id = "frmActualizarOrden", style = "height:100%", @class = "form-horizontal" }))
+}, new { id = "frmActualizarOrden", style = "height:100%", @class = "form-horizontal", enctype = "multipart/form-data" }))
+
 {
     @Html.AntiForgeryToken()
 
@@ -142,12 +144,12 @@
                                 </div>
                                 <div class="col-sm-4">
                                     <label>Acta Adjunta</label>
-                                    <div class="input-group input-file" name="Fichier1">
+                                    <div class="input-group input-file" name="fileUpload">
                                         <span class="input-group-btn">
                                             <button class="btn btn-default btn-choose btn-sm" type="button">Elegir</button>
                                         </span>
-                                        @*<input id="input-ArchivoActa" name="inputArchivoActa" type="text" class="form-control input-sm" placeholder='Selecciona Acta...' />*@
-                                        @Html.EditorFor(model => model.ActaAdjunta, new { htmlAttributes = new { @class = "form-control input-sm", id = "input-ArchivoActa", name = "inputArchivoActa", placeholder = "Selecciona Acta..." } })
+                                        <input id="input-ArchivoActa" name="inputArchivoActa" type="text" class="form-control input-sm" placeholder='Selecciona Acta...' />
+                                        @*@Html.EditorFor(model => model.ActaAdjunta, new { htmlAttributes = new { @class = "form-control input-sm", id = "input-ArchivoActa", name = "inputArchivoActa", placeholder = "Selecciona Acta..." } })*@
                                         <span class="input-group-btn">
                                             <button class="btn btn-default btn-reset btn-sm" type="button">Borrar</button>
                                         </span>
@@ -388,7 +390,7 @@
                             <div class="form-group">
                                 <div class="col-sm-8">
                                     <label>Contravenciones</label>
-                                    @Html.DropDownListFor(model => model.SelectedContraventions, new SelectList(ViewBag.listaContravenciones, "Id", "Descripcion"), "Seleccione...", new { id = "ddlContravenciones", multiple = "multiple" })
+                                    @Html.DropDownListFor(model => model.SelectedContraventions, new SelectList(ViewBag.listaContravenciones, "Id", "Descripcion"), new { id = "ddlContravenciones", multiple = "multiple" })
                                     @*@Html.DropDownList("ddlContravenciones", new SelectList(ViewBag.listaContravenciones, "Id", "Descripcion"), new { multiple = "multiple" })*@
                                 </div>
                             </div>
@@ -396,7 +398,7 @@
                             <div class="form-group">
                                 <div class="col-sm-8">
                                     <label>Observaciones</label>
-                                    @Html.DropDownListFor(model => model.SelectedObservations, new SelectList(ViewBag.listaObservaciones, "Id", "Descripcion"), "Seleccione...", new { id = "ddlObservaciones", multiple = "multiple" })
+                                    @Html.DropDownListFor(model => model.SelectedObservations, new SelectList(ViewBag.listaObservaciones, "Id", "Descripcion"), new { id = "ddlObservaciones", multiple = "multiple" })
                                     @*@Html.DropDownList("ddlObservaciones", new SelectList(ViewBag.listaObservaciones, "Id", "Descripcion"), new { multiple = "multiple" })*@
                                 </div>
                                 <div class="col-sm-4">
@@ -443,6 +445,9 @@
     </script>
 
     <script>
+
+
+
 
     //Desabilito los campos que no voy a usar
 

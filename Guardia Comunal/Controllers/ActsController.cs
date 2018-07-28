@@ -60,14 +60,11 @@ namespace Guardia_Comunal.Controllers
         [HttpPost]
         public JsonResult GetActs()
         {
-            List<Act> list = new List<Act>();
             try
             {
-                list = db.Acts.ToList();
+                var lista = db.Acts.Select(c => new { c.Id, c.NroActa, c.FechaInfraccion, c.DNI, c.EstadoVehiculo, c.VehicleType, c.Dominio, c.NroMotor,c.NroChasis, c.VehicleBrand,c.VehicleModel,c.Color,c.TipoAgente });
 
-                var json = JsonConvert.SerializeObject(list);
-
-                return Json(list, JsonRequestBehavior.AllowGet);
+                return Json(lista, JsonRequestBehavior.AllowGet);
             }
             catch (Exception)
             {
@@ -75,6 +72,7 @@ namespace Guardia_Comunal.Controllers
                 throw;
             }
         }
+
         public ActionResult Search()
         {
             return View(db.Acts.ToList());
@@ -235,7 +233,7 @@ namespace Guardia_Comunal.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,TipoDeActa,NroActa,FechaInfraccion,Tanda,Calle,StreetId,Altura,EntreCalle,Barrio,NighborhoodId,FechaEnvioAlJuzgado,ActaAdjunta,FechaCarga,UsuarioId,VehicleTypeId,VehicleBrandId,VehicleModelId,Color,NroMotor,NroChasis,EstadoVehiculo,FechaEstado,TipoAgente,InspectorId,PoliceId,VehiculoRetenido,LicenciaRetenida,TicketAlcoholemia,ResultadoAlcoholemia,TicketAlcoholemiaAdjunto,Informe,InformeAdjunto,Detalle,Enable,DNI,Nombre,Apellido,NroLicencia,DomainId,Dominio,Contraventions,Observations,SelectedContraventions,SelectedObservations")] Act act)
+        public ActionResult Create([Bind(Include = "Id,TipoDeActa,NroActa,FechaInfraccion,Tanda,Calle,StreetId,Altura,EntreCalle,Barrio,NighborhoodId,FechaEnvioAlJuzgado,ActaAdjunta,FechaCarga,UsuarioId,VehicleTypeId,VehicleBrandId,VehicleModelId,Color,NroMotor,NroChasis,EstadoVehiculo,FechaEstado,TipoAgente,InspectorId,PoliceId,VehiculoRetenido,LicenciaRetenida,TicketAlcoholemia,ResultadoAlcoholemia,TicketAlcoholemiaAdjunto,Informe,InformeAdjunto,Detalle,Enable,DNI,Nombre,Apellido,NroLicencia,DomainId,Dominio,Contraventions,Observations,SelectedContraventions,SelectedObservations")] Act act, HttpPostedFileBase fileUpload)
         {
             if (ModelState.IsValid)
             {
@@ -256,6 +254,17 @@ namespace Guardia_Comunal.Controllers
                     act.Contraventions = new List<Contravention>();
                     act.Observations = new List<Observation>();
 
+                    ////Images
+                    //if (upload != null && upload.ContentLength > 0)
+                    //{
+                    //    var photo = new FilePath
+                    //    {
+                    //        FileName = System.IO.Path.GetFileName(upload.FileName),
+                    //        FileType = FileType.Photo
+                    //    };
+                    //    instructor.FilePaths = new List<FilePath>();
+                    //    instructor.FilePaths.Add(photo);
+                    //}
 
                     foreach (int contraventionId in act.SelectedContraventions)
                     {
@@ -286,6 +295,7 @@ namespace Guardia_Comunal.Controllers
         // GET: Acts/Edit/5
         public ActionResult Edit(int? id)
         {
+            int i = 0;
             List<VehicleType> lTipos = new List<VehicleType>();
             List<VehicleBrand> lMarcas = new List<VehicleBrand>();
             List<VehicleModel> lModelos = new List<VehicleModel>();
@@ -294,6 +304,7 @@ namespace Guardia_Comunal.Controllers
             List<Inspector> lIspectores = new List<Inspector>();
             List<Contravention> lContravenciones = new List<Contravention>();
             List<Observation> lObservaciones = new List<Observation>();
+
 
             //lCalles = db.Streets.ToList();
             //  lBarrios = db.Nighborhoods.ToList();
@@ -316,11 +327,31 @@ namespace Guardia_Comunal.Controllers
             ViewBag.listaInspectores = lIspectores;
             ViewBag.listaObservaciones = lObservaciones;
             ViewBag.listaContravenciones = lContravenciones;
+
+
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Act act = db.Acts.Find(id);
+           
+            act.SelectedContraventions = new int[act.Contraventions.Count];
+            act.SelectedObservations = new int[act.Observations.Count];
+
+            foreach (var item in act.Contraventions)
+            {
+               act.SelectedContraventions[i] = item.Id;
+                i++;
+            }
+
+            i = 0;
+            foreach (var item in act.Observations)
+            {
+                act.SelectedObservations[i] = item.Id;
+                i++;
+            }
+
             if (act == null)
             {
                 return HttpNotFound();
@@ -333,7 +364,7 @@ namespace Guardia_Comunal.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,TipoDeActa,NroActa,FechaInfraccion,Tanda,Calle,Altura,EntreCalle,Barrio,FechaEnvioAlJuzgado,ActaAdjunta,FechaCarga,Color,NroMotor,NroChasis,EstadoVehiculo,FechaEstado,TipoAgente,VehiculoRetenido,LicenciaRetenida,TicketAlcoholemia,ResultadoAlcoholemia,TicketAlcoholemiaAdjunto,Informe,InformeAdjunto,Detalle,Enable")] Act act)
+        public ActionResult Edit([Bind(Include = "Id,TipoDeActa,NroActa,FechaInfraccion,Tanda,Calle,Altura,EntreCalle,Barrio,FechaEnvioAlJuzgado,ActaAdjunta,FechaCarga,Color,NroMotor,NroChasis,EstadoVehiculo,FechaEstado,TipoAgente,VehiculoRetenido,LicenciaRetenida,TicketAlcoholemia,ResultadoAlcoholemia,TicketAlcoholemiaAdjunto,Informe,InformeAdjunto,Detalle,Enable,DNI,Nombre,Apellido,NroLicencia,DomainId,Dominio,Contraventions,Observations,SelectedContraventions,SelectedObservations")] Act act)
         {
             if (ModelState.IsValid)
             {

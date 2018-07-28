@@ -30,7 +30,8 @@ namespace Guardia_Comunal
                       "~/Scripts/jquery.dataTables.js",
                       "~/Scripts/dataTables.bootstrap.min.js",
                       "~/Scripts/sb-admin-2.js",
-                      "~/Scripts/respond.js"
+                      "~/Scripts/respond.js",
+                      "~/Scripts/multipartInAjaxBegin.js"
                       ));
 
             bundles.Add(new ScriptBundle("~/bundles/js").Include(

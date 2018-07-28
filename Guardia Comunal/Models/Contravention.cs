@@ -2,10 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+using System.Runtime.Serialization;
 
 namespace GuardiaComunal.Models
 {
+    [DataContract(IsReference = true)]
     public class Contravention
     {
         public int Id { get; set; }

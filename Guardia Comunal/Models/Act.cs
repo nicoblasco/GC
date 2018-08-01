@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Web;
@@ -51,6 +52,8 @@ namespace GuardiaComunal.Models
         [Required(AllowEmptyStrings = false, ErrorMessage = "Requerido")]
         public DateTime FechaEnvioAlJuzgado { get; set; }
         public string ActaAdjunta { get; set; }
+        //[NotMapped]
+        //public HttpPostedFileBase File { get; set; }
         public DateTime FechaCarga { get; set; }
 
         public int UsuarioId { get; set; }

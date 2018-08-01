@@ -57,7 +57,7 @@
     HttpMethod = "POST",
     OnSuccess = "SuccessMessage",
     OnFailure = "FailMessage"
-}, new { id = "frmActualizarOrden", style = "height:100%", @class = "form-horizontal" }))
+}, new { id = "frmActualizarOrden", style = "height:100%", @class = "form-horizontal", enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -79,13 +79,13 @@
                                     <label>Tipo de Acta</label>
 
                                     @Html.DropDownListFor(model => model.TipoDeActa, new SelectList(
-       new List<Object>{
-                                           new { value = "Oficio" , text = "Oficio"  },
-                                           new { value = "Documentada" , text = "Documentada" }
-         },
-       "value",
-       "text",
-        1), new { id = "ddl-tipoActa", name = "ddltipoActa", @class = "form-control input-sm" })
+        new List<Object>{
+                                                                           new { value = "Oficio" , text = "Oficio"  },
+                                                                           new { value = "Documentada" , text = "Documentada" }
+                                         },
+        "value",
+        "text",
+         1), new { id = "ddl-tipoActa", name = "ddltipoActa", @class = "form-control input-sm" })
                                     @Html.ValidationMessageFor(model => model.EstadoVehiculo, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-sm-3">
@@ -143,18 +143,20 @@
                                     @Html.EditorFor(model => model.FechaEnvioAlJuzgado, new { htmlAttributes = new { @class = "form-control input-sm", id = "dt-EnvioJuzgado", name = "dtEnvioJuzgado" } })
                                     @Html.ValidationMessageFor(model => model.FechaEnvioAlJuzgado, "", new { @class = "text-danger" })
                                 </div>
-                                <div class="col-sm-4">
+                                <div class="col-sm-4" id="divActaAdjunta">
                                     <label>Acta Adjunta</label>
-                                    <div class="input-group input-file" name="Fichier1">
-                                        <span class="input-group-btn">
-                                            <button class="btn btn-default btn-choose btn-sm" type="button">Elegir</button>
-                                        </span>
-                                        @*<input id="input-ArchivoActa" name="inputArchivoActa" type="text" class="form-control input-sm" placeholder='Selecciona Acta...' />*@
-                                        @Html.EditorFor(model => model.ActaAdjunta, new { htmlAttributes = new { @class = "form-control input-sm", id = "input-ArchivoActa", name = "inputArchivoActa", placeholder = "Selecciona Acta..." } })
-                                        <span class="input-group-btn">
-                                            <button class="btn btn-default btn-reset btn-sm" type="button">Borrar</button>
-                                        </span>
-                                    </div>
+                                    @Html.TextBoxFor(m => m.ActaAdjunta, new { type = "file", name= "fileUploadActa" })
+                                    @*<div class="input-group input-file" name="fileUploadActa">
+            <span class="input-group-btn">
+                <button class="btn btn-default btn-choose btn-sm" type="button">Elegir</button>
+            </span>
+            <input id="input-ArchivoActa" name="inputArchivoActa" value="@Path.GetFileName(Model.ActaAdjunta)" type="text" class="form-control input-sm" placeholder='Selecciona Acta...' />
+            <span class="input-group-btn">
+                <button class="btn btn-default btn-reset btn-sm" type="button">Borrar</button>
+            </span>
+        </div>
+        <p>@Html.ActionLink(Path.GetFileName(Model.ActaAdjunta), "Download", "Acts", new { filePath = Model.ActaAdjunta, id = "linkActaAdjunta" }, null)</p>*@
+
                                 </div>
                                 <div class="col-sm-3">
                                     <label>Fecha/Hora de Carga</label>
@@ -579,6 +581,7 @@
                         element.attr("name", $(this).attr("name"));
                         element.change(function () {
                             element.next(element).find('input').val((element.val()).split('\\').pop());
+                             $(this).parents('#divActaAdjunta').children('p').hide();
                         });
                         $(this).find("button.btn-choose").click(function () {
                             element.click();
@@ -586,6 +589,7 @@
                         $(this).find("button.btn-reset").click(function () {
                             element.val(null);
                             $(this).parents(".input-file").find('input').val('');
+                             $(this).parents('#divActaAdjunta').children('p').hide();
                         });
                         $(this).find('input').css("cursor", "pointer");
                         $(this).find('input').mousedown(function () {

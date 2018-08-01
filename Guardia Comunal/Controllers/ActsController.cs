@@ -10,6 +10,7 @@ using GuardiaComunal.Models;
 using Guardia_Comunal.Models;
 using Guardia_Comunal.Tags;
 using Newtonsoft.Json;
+using System.IO;
 
 namespace Guardia_Comunal.Controllers
 {
@@ -23,36 +24,6 @@ namespace Guardia_Comunal.Controllers
         public ActionResult Index()
         {
             List<Act> list = db.Acts.ToList();
-            //List<VehicleType> lTipos = new List<VehicleType>();
-            //List<VehicleBrand> lMarcas = new List<VehicleBrand>();
-            //List<VehicleModel> lModelos = new List<VehicleModel>();
-            //List<Domain> lDominios = new List<Domain>();
-            //List<Police> lPolicias = new List<Police>();
-            //List<Inspector> lIspectores = new List<Inspector>();
-            //List<Contravention> lContravenciones = new List<Contravention>();
-            //List<Observation> lObservaciones = new List<Observation>();
-
-            ////lCalles = db.Streets.ToList();
-            ////  lBarrios = db.Nighborhoods.ToList();
-            //lTipos = db.VehicleTypes.ToList().Where(x => x.Enable == true).ToList();
-            //lMarcas = db.VehicleBrands.ToList().Where(x => x.Enable == true).ToList();
-            //lModelos = db.VehicleModels.ToList().Where(x => x.Enable == true).ToList();
-            //lDominios = db.Domains.ToList();
-            //lPolicias = db.Police.ToList().Where(x => x.Enable == true).ToList();
-            //lIspectores = db.Inspectors.ToList().Where(x => x.Enable == true).ToList();
-            //lContravenciones = db.Contraventions.ToList().Where(x => x.Enable == true).ToList();
-            //lObservaciones = db.Observations.ToList().Where(x => x.Enable == true).ToList();
-
-            //ViewBag.listaCalles = GetCalles();
-            //ViewBag.listaBarrios = GetBarrios();
-            //ViewBag.listaTipos = lTipos;
-            //ViewBag.listaMarcas = lMarcas;
-            //ViewBag.listaModelos = lModelos;
-            //ViewBag.listaDominios = lDominios;
-            //ViewBag.listaPolicias = lPolicias;
-            //ViewBag.listaInspectores = lIspectores;
-            //ViewBag.listaObservaciones = lObservaciones;
-            //ViewBag.listaContravenciones = lContravenciones;
 
             return View(list);
         }
@@ -233,7 +204,7 @@ namespace Guardia_Comunal.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,TipoDeActa,NroActa,FechaInfraccion,Tanda,Calle,StreetId,Altura,EntreCalle,Barrio,NighborhoodId,FechaEnvioAlJuzgado,ActaAdjunta,FechaCarga,UsuarioId,VehicleTypeId,VehicleBrandId,VehicleModelId,Color,NroMotor,NroChasis,EstadoVehiculo,FechaEstado,TipoAgente,InspectorId,PoliceId,VehiculoRetenido,LicenciaRetenida,TicketAlcoholemia,ResultadoAlcoholemia,TicketAlcoholemiaAdjunto,Informe,InformeAdjunto,Detalle,Enable,DNI,Nombre,Apellido,NroLicencia,DomainId,Dominio,Contraventions,Observations,SelectedContraventions,SelectedObservations")] Act act, HttpPostedFileBase fileUpload)
+        public ActionResult Create([Bind(Include = "Id,TipoDeActa,NroActa,FechaInfraccion,Tanda,Calle,StreetId,Altura,EntreCalle,Barrio,NighborhoodId,FechaEnvioAlJuzgado,ActaAdjunta,FechaCarga,UsuarioId,VehicleTypeId,VehicleBrandId,VehicleModelId,Color,NroMotor,NroChasis,EstadoVehiculo,FechaEstado,TipoAgente,InspectorId,PoliceId,VehiculoRetenido,LicenciaRetenida,TicketAlcoholemia,ResultadoAlcoholemia,TicketAlcoholemiaAdjunto,Informe,InformeAdjunto,Detalle,Enable,DNI,Nombre,Apellido,NroLicencia,DomainId,Dominio,Contraventions,Observations,SelectedContraventions,SelectedObservations")] Act act, HttpPostedFileBase fileUploadActa)
         {
             if (ModelState.IsValid)
             {
@@ -277,9 +248,20 @@ namespace Guardia_Comunal.Controllers
 
                     }
 
-                    db.Acts.Add(act);
-                    db.SaveChanges();
+                    //Guardo los archivos
+                    if (fileUploadActa.ContentLength > 0)
+                    {
+                        var fileName = Path.GetFileName(fileUploadActa.FileName);
+                        var path = Path.Combine(Server.MapPath("~/App_Data/uploads"), fileName);
+                        fileUploadActa.SaveAs(path);
+                        act.ActaAdjunta = path;
+                    }
+
                     
+                    db.Acts.Add(act);    
+
+                    db.SaveChanges();
+
                 }
                 catch (Exception ex)
                 {
@@ -327,15 +309,14 @@ namespace Guardia_Comunal.Controllers
             ViewBag.listaInspectores = lIspectores;
             ViewBag.listaObservaciones = lObservaciones;
             ViewBag.listaContravenciones = lContravenciones;
-
-
+           
 
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Act act = db.Acts.Find(id);
-           
+            Act act = db.Acts.Find(id);            
+//            act.File = new    //File(act.ActaAdjunta, MimeMapping.GetMimeMapping( Path.GetFileName(act.ActaAdjunta)), Path.GetFileName(act.ActaAdjunta));
             act.SelectedContraventions = new int[act.Contraventions.Count];
             act.SelectedObservations = new int[act.Observations.Count];
 
@@ -352,6 +333,9 @@ namespace Guardia_Comunal.Controllers
                 i++;
             }
 
+
+
+
             if (act == null)
             {
                 return HttpNotFound();
@@ -364,7 +348,7 @@ namespace Guardia_Comunal.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,TipoDeActa,NroActa,FechaInfraccion,Tanda,Calle,Altura,EntreCalle,Barrio,FechaEnvioAlJuzgado,ActaAdjunta,FechaCarga,Color,NroMotor,NroChasis,EstadoVehiculo,FechaEstado,TipoAgente,VehiculoRetenido,LicenciaRetenida,TicketAlcoholemia,ResultadoAlcoholemia,TicketAlcoholemiaAdjunto,Informe,InformeAdjunto,Detalle,Enable,DNI,Nombre,Apellido,NroLicencia,DomainId,Dominio,Contraventions,Observations,SelectedContraventions,SelectedObservations")] Act act)
+        public ActionResult Edit([Bind(Include = "Id,TipoDeActa,NroActa,FechaInfraccion,Tanda,Calle,StreetId,Altura,EntreCalle,Barrio,NighborhoodId,FechaEnvioAlJuzgado,ActaAdjunta,FechaCarga,UsuarioId,VehicleTypeId,VehicleBrandId,VehicleModelId,Color,NroMotor,NroChasis,EstadoVehiculo,FechaEstado,TipoAgente,InspectorId,PoliceId,VehiculoRetenido,LicenciaRetenida,TicketAlcoholemia,ResultadoAlcoholemia,TicketAlcoholemiaAdjunto,Informe,InformeAdjunto,Detalle,Enable,DNI,Nombre,Apellido,NroLicencia,DomainId,Dominio,Contraventions,Observations,SelectedContraventions,SelectedObservations")] Act act, HttpPostedFileBase fileUploadActa)
         {
             if (ModelState.IsValid)
             {
@@ -380,6 +364,40 @@ namespace Guardia_Comunal.Controllers
                 act.NroChasis = act.NroChasis?.ToUpper();
                 act.NroLicencia = act.NroLicencia?.ToUpper();
                 act.NroMotor = act.NroMotor?.ToUpper();
+
+                act.Contraventions = new List<Contravention>();
+                act.Observations = new List<Observation>();
+
+                foreach (int contraventionId in act.SelectedContraventions)
+                {
+                    act.Contraventions.Add(db.Contraventions.Find(contraventionId));
+                }
+
+                foreach (int observationId in act.SelectedObservations)
+                {
+                    act.Observations.Add(db.Observations.Find(observationId));
+
+                }
+
+                //Guardo los archivos
+                if (fileUploadActa == null)
+                {
+                    act.ActaAdjunta = null;
+                }
+                else
+                {
+                    if (fileUploadActa.ContentLength > 0)
+                    {
+                        var fileName = Path.GetFileName(fileUploadActa.FileName);
+                        var path = Path.Combine(Server.MapPath("~/App_Data/uploads"), fileName);
+                        fileUploadActa.SaveAs(path);
+                        act.ActaAdjunta = path;
+                    }
+                    else
+                    {
+                        act.ActaAdjunta = null;
+                    }
+                }
                 db.Entry(act).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -432,6 +450,15 @@ namespace Guardia_Comunal.Controllers
             db.Acts.Remove(act);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+
+        public FileResult Download(string filePath)
+        {
+            byte[] fileBytes = System.IO.File.ReadAllBytes(@filePath);
+            string fileName = Path.GetFileName(filePath);
+
+            return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
         }
 
 

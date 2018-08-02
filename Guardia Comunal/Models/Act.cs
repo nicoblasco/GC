@@ -52,8 +52,9 @@ namespace GuardiaComunal.Models
         [Required(AllowEmptyStrings = false, ErrorMessage = "Requerido")]
         public DateTime FechaEnvioAlJuzgado { get; set; }
         public string ActaAdjunta { get; set; }
-        //[NotMapped]
-        //public HttpPostedFileBase File { get; set; }
+
+        [NotMapped]
+        public virtual bool ActaAdjuntaBorrada { get; set; }
         public DateTime FechaCarga { get; set; }
 
         public int UsuarioId { get; set; }

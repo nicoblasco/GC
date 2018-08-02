@@ -145,17 +145,19 @@
                                 </div>
                                 <div class="col-sm-4" id="divActaAdjunta">
                                     <label>Acta Adjunta</label>
-                                    @Html.TextBoxFor(m => m.ActaAdjunta, new { type = "file", name= "fileUploadActa" })
-                                    @*<div class="input-group input-file" name="fileUploadActa">
-            <span class="input-group-btn">
-                <button class="btn btn-default btn-choose btn-sm" type="button">Elegir</button>
-            </span>
-            <input id="input-ArchivoActa" name="inputArchivoActa" value="@Path.GetFileName(Model.ActaAdjunta)" type="text" class="form-control input-sm" placeholder='Selecciona Acta...' />
-            <span class="input-group-btn">
-                <button class="btn btn-default btn-reset btn-sm" type="button">Borrar</button>
-            </span>
-        </div>
-        <p>@Html.ActionLink(Path.GetFileName(Model.ActaAdjunta), "Download", "Acts", new { filePath = Model.ActaAdjunta, id = "linkActaAdjunta" }, null)</p>*@
+                                    @*@Html.TextBoxFor(m => m.ActaAdjunta, new { type = "file", name = "fileUploadActa" })*@
+                                    @Html.HiddenFor(m => m.ActaAdjuntaBorrada)
+                                    @Html.HiddenFor(m => m.ActaAdjunta)
+                                    <div class="input-group input-file" name="fileUploadActa">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default btn-choose btn-sm" type="button">Elegir</button>
+                                        </span>
+                                        <input id="input-ArchivoActa" name="inputArchivoActa" value="@Path.GetFileName(Model.ActaAdjunta)" type="text" class="form-control input-sm" placeholder='Selecciona Acta...' />
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default btn-reset btn-sm" type="button">Borrar</button>
+                                        </span>
+                                    </div>
+                                    <p>@Html.ActionLink(Path.GetFileName(Model.ActaAdjunta), "Download", "Acts", new { filePath = Model.ActaAdjunta, id = "linkActaAdjunta" }, null)</p>
 
                                 </div>
                                 <div class="col-sm-3">
@@ -581,7 +583,8 @@
                         element.attr("name", $(this).attr("name"));
                         element.change(function () {
                             element.next(element).find('input').val((element.val()).split('\\').pop());
-                             $(this).parents('#divActaAdjunta').children('p').hide();
+                            $(this).parents('#divActaAdjunta').children('p').hide();
+                            $('#ActaAdjuntaBorrada').val('True');
                         });
                         $(this).find("button.btn-choose").click(function () {
                             element.click();
@@ -589,7 +592,9 @@
                         $(this).find("button.btn-reset").click(function () {
                             element.val(null);
                             $(this).parents(".input-file").find('input').val('');
-                             $(this).parents('#divActaAdjunta').children('p').hide();
+                            $(this).parents('#divActaAdjunta').children('p').hide();
+                            $('#ActaAdjuntaBorrada').val('True');
+
                         });
                         $(this).find('input').css("cursor", "pointer");
                         $(this).find('input').mousedown(function () {

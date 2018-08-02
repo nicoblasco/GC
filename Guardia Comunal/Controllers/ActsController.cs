@@ -319,6 +319,7 @@ namespace Guardia_Comunal.Controllers
 //            act.File = new    //File(act.ActaAdjunta, MimeMapping.GetMimeMapping( Path.GetFileName(act.ActaAdjunta)), Path.GetFileName(act.ActaAdjunta));
             act.SelectedContraventions = new int[act.Contraventions.Count];
             act.SelectedObservations = new int[act.Observations.Count];
+            act.ActaAdjuntaBorrada = false;
 
             foreach (var item in act.Contraventions)
             {
@@ -348,7 +349,7 @@ namespace Guardia_Comunal.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,TipoDeActa,NroActa,FechaInfraccion,Tanda,Calle,StreetId,Altura,EntreCalle,Barrio,NighborhoodId,FechaEnvioAlJuzgado,ActaAdjunta,FechaCarga,UsuarioId,VehicleTypeId,VehicleBrandId,VehicleModelId,Color,NroMotor,NroChasis,EstadoVehiculo,FechaEstado,TipoAgente,InspectorId,PoliceId,VehiculoRetenido,LicenciaRetenida,TicketAlcoholemia,ResultadoAlcoholemia,TicketAlcoholemiaAdjunto,Informe,InformeAdjunto,Detalle,Enable,DNI,Nombre,Apellido,NroLicencia,DomainId,Dominio,Contraventions,Observations,SelectedContraventions,SelectedObservations")] Act act, HttpPostedFileBase fileUploadActa)
+        public ActionResult Edit([Bind(Include = "Id,TipoDeActa,NroActa,FechaInfraccion,Tanda,Calle,StreetId,Altura,EntreCalle,Barrio,NighborhoodId,FechaEnvioAlJuzgado,ActaAdjunta,FechaCarga,UsuarioId,VehicleTypeId,VehicleBrandId,VehicleModelId,Color,NroMotor,NroChasis,EstadoVehiculo,FechaEstado,TipoAgente,InspectorId,PoliceId,VehiculoRetenido,LicenciaRetenida,TicketAlcoholemia,ResultadoAlcoholemia,TicketAlcoholemiaAdjunto,Informe,InformeAdjunto,Detalle,Enable,DNI,Nombre,Apellido,NroLicencia,DomainId,Dominio,Contraventions,Observations,SelectedContraventions,SelectedObservations,ActaAdjuntaBorrada")] Act act, HttpPostedFileBase fileUploadActa)
         {
             if (ModelState.IsValid)
             {
@@ -382,14 +383,39 @@ namespace Guardia_Comunal.Controllers
                 //Guardo los archivos
                 if (fileUploadActa == null)
                 {
-                    act.ActaAdjunta = null;
+                    //puede venir nulo porque no hizo ningun cambio o porque lo borro
+
+                    //Si la borro
+                    if (act.ActaAdjuntaBorrada)
+                    {
+                        //fisicamente
+                        var file = Path.Combine(act.ActaAdjunta);
+                        if (System.IO.File.Exists(file))
+                            System.IO.File.Delete(file);
+                        //logicamente
+                        act.ActaAdjunta = null;
+
+                    }
+                    //Si no la borro, lo dejo como esta
                 }
                 else
                 {
+                    //Borro la anterior por si la reemplazo
+                    if (!String.IsNullOrEmpty( act.ActaAdjunta))
+                    {
+                        //fisicamente
+                        var file = Path.Combine(act.ActaAdjunta);
+                        if (System.IO.File.Exists(file))
+                            System.IO.File.Delete(file);
+                    }
+
                     if (fileUploadActa.ContentLength > 0)
                     {
                         var fileName = Path.GetFileName(fileUploadActa.FileName);
-                        var path = Path.Combine(Server.MapPath("~/App_Data/uploads"), fileName);
+                       // string fileId = Guid.NewGuid().ToString().Replace("-", "");
+                        var path = Path.Combine(Server.MapPath("~/App_Data/uploads/"+ act.NroActa +"/" ), fileName);
+                        System.IO.FileInfo file = new System.IO.FileInfo(path);
+                        file.Directory.Create(); // If the directory already exists, this method does nothing.
                         fileUploadActa.SaveAs(path);
                         act.ActaAdjunta = path;
                     }

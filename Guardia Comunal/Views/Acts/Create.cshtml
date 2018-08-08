@@ -177,6 +177,12 @@
                         <div class="panel-body">
                             <div class="form-group">
                                 <div class="col-sm-3">
+                                    <label>DNI</label>
+                                    @*<input id="input-DNI" type="number" name="inputDNI" placeholder="DNI" class="form-control input-sm" autocomplete="off">*@
+                                    @Html.EditorFor(model => model.DNI, new { htmlAttributes = new { @type = "number", @class = "form-control input-sm", id = "input-DNI", name = "inputDNI", placeholder = "DNI" } })
+                                    @Html.ValidationMessageFor(model => model.DNI, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-sm-3">
                                     <label>Apellido</label>
                                     @*<input id="input-Apellido" name="inputApellido" placeholder="Apellido" class="form-control input-sm" autocomplete="off">*@
                                     @Html.EditorFor(model => model.Apellido, new { htmlAttributes = new { @class = "form-control input-sm", id = "input-Apellido", name = "inputApellido", placeholder = "Apellido" } })
@@ -187,12 +193,6 @@
                                     @*<input id="input-Nombre" name="inputNombre" placeholder="Nombre" class="form-control input-sm" autocomplete="off">*@
                                     @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control input-sm", id = "input-Nombre", name = "inputNombre", placeholder = "Nombre" } })
                                     @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
-                                </div>
-                                <div class="col-sm-3">
-                                    <label>DNI</label>
-                                    @*<input id="input-DNI" type="number" name="inputDNI" placeholder="DNI" class="form-control input-sm" autocomplete="off">*@
-                                    @Html.EditorFor(model => model.DNI, new { htmlAttributes = new { @type = "number", @class = "form-control input-sm", id = "input-DNI", name = "inputDNI", placeholder = "DNI" } })
-                                    @Html.ValidationMessageFor(model => model.DNI, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-sm-3">
                                     <label>Nro Licencia</label>
@@ -271,12 +271,6 @@
                                 </div>
                                 <div class="col-sm-3">
                                     <label>Estado del vehiculo</label>
-                                    @*<select class="form-control input-sm" id="ddlEstadoVehiculo" disabled>
-                                            <option>No Retenido</option>
-                                            <option>Retenido</option>
-                                            <option>Liberado</option>
-                                            <option>Compactado</option>
-                                        </select>*@
 
                                     @Html.DropDownListFor(model => model.EstadoVehiculo, new SelectList(
        new List<Object>{
@@ -355,12 +349,12 @@
                                 </div>
                                 <div class="col-sm-4">
                                     <label>Ticket de Alcoholemia Adjunto</label>
-                                    <div class="input-group input-file" name="Fichier1">
+                                    <div class="input-group input-file" name="fileUploadTicketAlcoholemiaAdjunto">
                                         <span class="input-group-btn">
                                             <button class="btn btn-default btn-choose btn-sm" type="button">Elegir</button>
                                         </span>
-                                        @*<input id="input-TicketAlcoholemia" name="inputTicketAlcoholemia" type="text" class="form-control input-sm" placeholder='Selecciona el Ticket...' />*@
-                                        @Html.EditorFor(model => model.TicketAlcoholemiaAdjunto, new { htmlAttributes = new { @class = "form-control input-sm", id = "input-TicketAlcoholemia", placeholder = "Selecciona el Ticket..." } })
+                                        <input id="input-TicketAlcoholemia" name="inputTicketAlcoholemia" type="text" class="form-control input-sm" placeholder='Selecciona el Ticket...' />
+                                        @*@Html.EditorFor(model => model.TicketAlcoholemiaAdjunto, new { htmlAttributes = new { @class = "form-control input-sm", id = "input-TicketAlcoholemia", placeholder = "Selecciona el Ticket..." } })*@
                                         <span class="input-group-btn">
                                             <button class="btn btn-default btn-reset btn-sm" type="button">Borrar</button>
                                         </span>
@@ -374,17 +368,20 @@
                                     @Html.EditorFor(model => model.Informe, new { htmlAttributes = new { @class = "form-control input-sm", id = "input-Informe", placeholder = "Informe del Inspector" } })
                                 </div>
                                 <div class="col-sm-4">
-                                    <label for="exampleFormControlSelect1">Informe Adjunto</label>
-                                    <div class="input-group input-file" name="Fichier1">
+                                    <label>Informe Adjunto</label>
+                                    <div class="input-group input-file" name="fileInformeAdjunto">
                                         <span class="input-group-btn">
                                             <button class="btn btn-default btn-choose btn-sm" type="button">Elegir</button>
                                         </span>
-                                        @*<input id="input-InformeInspector" name="inputInformeInspector" type="text" class="form-control input-sm" placeholder='Selecciona informe...' />*@
-                                        @Html.EditorFor(model => model.InformeAdjunto, new { htmlAttributes = new { @class = "form-control input-sm", id = "input-InformeInspector", placeholder = "Selecciona informe..." } })
+                                        <input id="input-InformeInspector" name="inputInformeInspector" type="text" class="form-control input-sm" placeholder='Selecciona informe...' />
+                                        @*@Html.EditorFor(model => model.InformeAdjunto, new { htmlAttributes = new { @class = "form-control input-sm", id = "input-InformeInspector", placeholder = "Selecciona informe..." } })*@
+                                        @*<input id="input-ArchivoActa" name="inputArchivoActa" type="text" class="form-control input-sm" placeholder='Selecciona Acta...' />*@
                                         <span class="input-group-btn">
                                             <button class="btn btn-default btn-reset btn-sm" type="button">Borrar</button>
                                         </span>
                                     </div>
+
+
                                 </div>
                             </div>
                             <div class="form-group">
@@ -454,7 +451,7 @@
         $('#dt-Carga').attr("readonly", "readonly")
         $('#dt-EstadoVehiculo').attr("readonly", "readonly");
         $('#input-Usuario').prop("disabled", true);
-        $('#ddlEstadoVehiculo').prop("disabled", true);
+        $('#ddlEstadoVehiculo').attr("readonly", "readonly");
         $('#ddlPolicia').hide();
 
 
@@ -615,6 +612,78 @@
             //}
             alert("Aca hay que hacer un link");
         }
+
+        $("#input-NroActa").focusout(function () {
+            var nroActa = $('#input-NroActa').val();
+
+            if (nroActa != null) {
+                var isDuplicate = getDuplicates(0, nroActa);
+
+                if (isDuplicate) {
+                    $("#div-loader").hide();
+                    Lobibox.notify('warning', {
+                        title: 'Cuidado',
+                        msg: 'El Numero de Acta ya existe.'
+                    });
+
+                    $('#input-NroActa').val(null);
+                    return;
+                }
+
+            }
+
+
+        });
+
+
+
+
+        function getDuplicates(pid,pParam)
+        {
+            var isDuplicate = false;
+                $.ajax({
+                    type: 'GET',
+                    async: false ,
+                url: '@Url.Action("GetDuplicates", "Acts")',
+                data: {
+                    id: pid,
+                    nroActa: pParam
+
+                },
+                cache: false,
+                success: function (result) {
+                    if (result.responseCode > 0)
+                        isDuplicate= true;
+                    else
+                        isDuplicate= false;
+                }
+            });
+
+                return isDuplicate;
+        }
+
+        $("#input-DNI").focusout(function () {
+            var dniInfractor = $('#input-DNI').val();
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetDatosDelInfractor", "Acts")',
+                data: {
+                    dni: dniInfractor
+                },
+                cache: false,
+                success: function (result) {
+                    $('#input-Nombre').val(result.Nombre);
+                    $('#input-Apellido').val(result.Apellido);
+                    $('#input-Licencia').val(result.NroLicencia);
+                },
+                error: function (response) {
+                    Lobibox.notify('error', {
+                        title: 'Error',
+                        msg: 'Ah ocurrido un error, intente nuevamente.'
+                    });
+                }
+            });
+        });
 
     </script>
 }

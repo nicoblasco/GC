@@ -143,10 +143,10 @@
                                     @Html.EditorFor(model => model.FechaEnvioAlJuzgado, new { htmlAttributes = new { @class = "form-control input-sm", id = "dt-EnvioJuzgado", name = "dtEnvioJuzgado" } })
                                     @Html.ValidationMessageFor(model => model.FechaEnvioAlJuzgado, "", new { @class = "text-danger" })
                                 </div>
-                                <div class="col-sm-4" id="divActaAdjunta">
+                                <div class="col-sm-4" id="divArchivo">
                                     <label>Acta Adjunta</label>
                                     @*@Html.TextBoxFor(m => m.ActaAdjunta, new { type = "file", name = "fileUploadActa" })*@
-                                    @Html.HiddenFor(m => m.ActaAdjuntaBorrada)
+                                    @Html.HiddenFor(m => m.ActaAdjuntaBorrada, new { id = "hiddenArchivoBorrado"})
                                     @Html.HiddenFor(m => m.ActaAdjunta)
                                     <div class="input-group input-file" name="fileUploadActa">
                                         <span class="input-group-btn">
@@ -157,9 +157,11 @@
                                             <button class="btn btn-default btn-reset btn-sm" type="button">Borrar</button>
                                         </span>
                                     </div>
-                                    <p>@Html.ActionLink(Path.GetFileName(Model.ActaAdjunta), "Download", "Acts", new { filePath = Model.ActaAdjunta, id = "linkActaAdjunta" }, null)</p>
-
-                                </div>
+                                    @if (Model.ActaAdjunta != null)
+                                    {
+                                        <p>@Html.ActionLink(Path.GetFileName(Model.ActaAdjunta), "Download", "Acts", new { filePath = Model.ActaAdjunta, id = "linkActaAdjunta" }, null)</p>
+                                    }
+                                    </div>
                                 <div class="col-sm-3">
                                     <label>Fecha/Hora de Carga</label>
                                     @Html.EditorFor(model => model.FechaCarga, new { htmlAttributes = new { @class = "form-control input-sm", id = "dt-Carga", name = "dtCarga" } })
@@ -182,6 +184,12 @@
                         <div class="panel-body">
                             <div class="form-group">
                                 <div class="col-sm-3">
+                                    <label>DNI</label>
+                                    @*<input id="input-DNI" type="number" name="inputDNI" placeholder="DNI" class="form-control input-sm" autocomplete="off">*@
+                                    @Html.EditorFor(model => model.DNI, new { htmlAttributes = new { @type = "number", @class = "form-control input-sm", id = "input-DNI", name = "inputDNI", placeholder = "DNI" } })
+                                    @Html.ValidationMessageFor(model => model.DNI, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-sm-3">
                                     <label>Apellido</label>
                                     @*<input id="input-Apellido" name="inputApellido" placeholder="Apellido" class="form-control input-sm" autocomplete="off">*@
                                     @Html.EditorFor(model => model.Apellido, new { htmlAttributes = new { @class = "form-control input-sm", id = "input-Apellido", name = "inputApellido", placeholder = "Apellido" } })
@@ -192,12 +200,6 @@
                                     @*<input id="input-Nombre" name="inputNombre" placeholder="Nombre" class="form-control input-sm" autocomplete="off">*@
                                     @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control input-sm", id = "input-Nombre", name = "inputNombre", placeholder = "Nombre" } })
                                     @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
-                                </div>
-                                <div class="col-sm-3">
-                                    <label>DNI</label>
-                                    @*<input id="input-DNI" type="number" name="inputDNI" placeholder="DNI" class="form-control input-sm" autocomplete="off">*@
-                                    @Html.EditorFor(model => model.DNI, new { htmlAttributes = new { @type = "number", @class = "form-control input-sm", id = "input-DNI", name = "inputDNI", placeholder = "DNI" } })
-                                    @Html.ValidationMessageFor(model => model.DNI, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-sm-3">
                                     <label>Nro Licencia</label>
@@ -358,18 +360,23 @@
                                     @*<input id="input-ResultadoAlcoholemia" name="inputResultadoAlcoholemia" class="form-control input-sm" placeholder="Resultado del Ticket de Alcoholemia" type="text">*@
                                     @Html.EditorFor(model => model.ResultadoAlcoholemia, new { htmlAttributes = new { @class = "form-control input-sm", id = "input-ResultadoAlcoholemia", placeholder = "Resultado del Ticket de Alcoholemia" } })
                                 </div>
-                                <div class="col-sm-4">
+                                <div class="col-sm-4" id="divArchivo">
                                     <label>Ticket de Alcoholemia Adjunto</label>
-                                    <div class="input-group input-file" name="Fichier1">
+                                    @Html.HiddenFor(m => m.TicketAlcoholemiaAdjuntoBorrado, new { id = "hiddenArchivoBorrado" })
+                                    @Html.HiddenFor(m => m.TicketAlcoholemiaAdjunto)
+                                    <div class="input-group input-file" name="fileUploadTicketAlcoholemiaAdjunto">
                                         <span class="input-group-btn">
                                             <button class="btn btn-default btn-choose btn-sm" type="button">Elegir</button>
                                         </span>
-                                        @*<input id="input-TicketAlcoholemia" name="inputTicketAlcoholemia" type="text" class="form-control input-sm" placeholder='Selecciona el Ticket...' />*@
-                                        @Html.EditorFor(model => model.TicketAlcoholemiaAdjunto, new { htmlAttributes = new { @class = "form-control input-sm", id = "input-TicketAlcoholemia", placeholder = "Selecciona el Ticket..." } })
+                                        <input id="input-ArchivoTicketAlcoholemiaAdjunto" name="inputArchivoTicketAlcoholemiaAdjunto" value="@Path.GetFileName(Model.TicketAlcoholemiaAdjunto)" type="text" class="form-control input-sm" placeholder='Seleccione Ticket...' />
                                         <span class="input-group-btn">
                                             <button class="btn btn-default btn-reset btn-sm" type="button">Borrar</button>
                                         </span>
                                     </div>
+                                    @if (Model.TicketAlcoholemiaAdjunto !=null)
+                                    {
+                                        <p>@Html.ActionLink(Path.GetFileName(Model.TicketAlcoholemiaAdjunto), "Download", "Acts", new { filePath = Model.ActaAdjunta, id = "linkTicketAlcoholemiaAdjunto" }, null)</p>
+                                    }
                                 </div>
                             </div>
                             <div class="form-group">
@@ -378,18 +385,23 @@
                                     @*<input class="form-control input-sm" id="input-Informe" name="inputInforme" placeholder="Informe del Inspector" type="text">*@
                                     @Html.EditorFor(model => model.Informe, new { htmlAttributes = new { @class = "form-control input-sm", id = "input-Informe", placeholder = "Informe del Inspector" } })
                                 </div>
-                                <div class="col-sm-4">
-                                    <label for="exampleFormControlSelect1">Informe Adjunto</label>
-                                    <div class="input-group input-file" name="Fichier1">
+                                <div class="col-sm-4" id="divArchivo">
+                                    <label>Informe Adjunto</label>
+                                    @Html.HiddenFor(m => m.InformeAdjuntoBorrado, new { id = "hiddenArchivoBorrado" })
+                                    @Html.HiddenFor(m => m.InformeAdjunto)
+                                    <div class="input-group input-file" name="fileInformeAdjunto">
                                         <span class="input-group-btn">
                                             <button class="btn btn-default btn-choose btn-sm" type="button">Elegir</button>
                                         </span>
-                                        @*<input id="input-InformeInspector" name="inputInformeInspector" type="text" class="form-control input-sm" placeholder='Selecciona informe...' />*@
-                                        @Html.EditorFor(model => model.InformeAdjunto, new { htmlAttributes = new { @class = "form-control input-sm", id = "input-InformeInspector", placeholder = "Selecciona informe..." } })
+                                        <input id="input-InformeAdjunto" name="inputInformeAdjunto" value="@Path.GetFileName(Model.InformeAdjunto)" type="text" class="form-control input-sm" placeholder='Selecciona Informe...' />
                                         <span class="input-group-btn">
                                             <button class="btn btn-default btn-reset btn-sm" type="button">Borrar</button>
                                         </span>
                                     </div>
+                                    @if (Model.InformeAdjunto != null)
+                                    {
+                                        <p>@Html.ActionLink(Path.GetFileName(Model.InformeAdjunto), "Download", "Acts", new { filePath = Model.InformeAdjunto, id = "linkInformeAdjunto" }, null)</p>
+                                    }
                                 </div>
                             </div>
                             <div class="form-group">
@@ -451,6 +463,18 @@
     </script>
 
     <script>
+
+        window.onload = function () {
+            if ($('#ddlTipoAgente').value === "Inspector") {
+                $('#ddlInspector').show();
+                $('#ddlPolicia').hide();
+
+            }
+            else {
+                $('#ddlInspector').hide();
+                $('#ddlPolicia').show();
+            }
+        };
 
     //Desabilito los campos que no voy a usar
 
@@ -583,8 +607,9 @@
                         element.attr("name", $(this).attr("name"));
                         element.change(function () {
                             element.next(element).find('input').val((element.val()).split('\\').pop());
-                            $(this).parents('#divActaAdjunta').children('p').hide();
-                            $('#ActaAdjuntaBorrada').val('True');
+                            $(this).parents('#divArchivo').children('p').hide();
+                            //$('#ActaAdjuntaBorrada').val('True');
+                            $(this).parents('#divArchivo').children('#hiddenArchivoBorrado').val('True');
                         });
                         $(this).find("button.btn-choose").click(function () {
                             element.click();
@@ -592,8 +617,9 @@
                         $(this).find("button.btn-reset").click(function () {
                             element.val(null);
                             $(this).parents(".input-file").find('input').val('');
-                            $(this).parents('#divActaAdjunta').children('p').hide();
-                            $('#ActaAdjuntaBorrada').val('True');
+                            $(this).parents('#divArchivo').children('p').hide();
+                            //$('#ActaAdjuntaBorrada').val('True');
+                            $(this).parents('#divArchivo').children('#hiddenArchivoBorrado').val('True');
 
                         });
                         $(this).find('input').css("cursor", "pointer");

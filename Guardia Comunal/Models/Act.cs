@@ -105,8 +105,14 @@ namespace GuardiaComunal.Models
         public bool TicketAlcoholemia { get; set; }
         public string ResultadoAlcoholemia { get; set; }
         public string TicketAlcoholemiaAdjunto { get; set; }
+        [NotMapped]
+        public virtual bool TicketAlcoholemiaAdjuntoBorrado { get; set; }
+
         public string Informe { get; set; }
         public string InformeAdjunto { get; set; }
+
+        [NotMapped]
+        public virtual bool InformeAdjuntoBorrado { get; set; }
 
         [ScriptIgnore]
         public virtual ICollection<Contravention> Contraventions { get; set; }

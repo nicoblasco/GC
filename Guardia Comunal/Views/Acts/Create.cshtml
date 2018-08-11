@@ -271,16 +271,17 @@
                                 <div class="col-sm-3">
                                     <label>Estado del vehiculo</label>
 
-                                    @Html.DropDownListFor(model => model.EstadoVehiculo, new SelectList(
-       new List<Object>{
-                                           new { value = "No Retenido"  , text = "No Retenido"  },
-                                           new { value = "Retenido" , text = "Retenido" },
-                                           new { value = "Liberado" , text = "Liberado"},
-                                           new { value = "Compactado" , text = "Compactado"}
-         },
-       "value",
-       "text",
-        0), new { id = "ddlEstadoVehiculo", @class = "form-control input-sm" })
+                                    @*@Html.DropDownListFor(model => model.EstadoVehiculo, new SelectList(
+        new List<Object>{
+                                            new { value = "No Retenido"  , text = "No Retenido"  },
+                                            new { value = "Retenido" , text = "Retenido" },
+                                            new { value = "Liberado" , text = "Liberado"},
+                                            new { value = "Compactado" , text = "Compactado"}
+          },
+        "value",
+        "text",
+         0), new { id = "ddlEstadoVehiculo", @class = "form-control input-sm", disabled = "disabled" })*@
+                                    @Html.EditorFor(model => model.EstadoVehiculo, new { htmlAttributes = new {@Value = "No Retenido", @class = "form-control input-sm", id = "ddlEstadoVehiculo" } })                                    
                                 </div>
                                 <div class="col-sm-3">
                                     <label>Fecha de Estado</label>
@@ -447,6 +448,7 @@
         $('#dt-EstadoVehiculo').attr("readonly", "readonly");
         $('#input-Usuario').prop("disabled", true);
         $('#ddlEstadoVehiculo').attr("readonly", "readonly");
+       // $('#ddlEstadoVehiculo').prop("disabled", true);
         $('#ddlPolicia').hide();
 
 
@@ -462,6 +464,13 @@
             }
 
         });
+
+        ////Habilito los componentes habilitados para que hagan submit
+        //jQuery(function ($) {
+        //    $('form').bind('submit', function () {
+        //        $(this).find(':input').prop('disabled', false);
+        //    });
+        //});        
 
 
     //Cargo las calles y barrios

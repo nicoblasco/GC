@@ -177,6 +177,11 @@ namespace Guardia_Comunal.Controllers
                 liberation.Person.DNI = liberation.Acta.DNI;
                 liberation.Person.Apellido = liberation.Acta.Apellido;
                 liberation.Person.Nombre = liberation.Acta.Nombre;
+                ViewBag.PersonId = null;
+            }
+            else
+            {
+                ViewBag.PersonId = liberation.Person.Id;
             }
 
             ViewBag.listaLiberationPlace = new List<LiberationPlace>(db.LiberationPlaces.ToList().Where(x => x.Enable == true).ToList());
@@ -184,6 +189,7 @@ namespace Guardia_Comunal.Controllers
             ViewBag.listaMarcas = new List<VehicleBrand>(db.VehicleBrands.ToList().Where(x => x.Enable == true).ToList());
             ViewBag.listaModelos = new List<VehicleModel>(db.VehicleModels.ToList().Where(x => x.Enable == true).ToList());
             ViewBag.listaDominios = new List<Domain>(db.Domains.ToList());
+            ViewBag.ActaId = id;
             ViewBag.listaCalles = GetCalles();
             ViewBag.listaBarrios = GetBarrios();
 
@@ -195,15 +201,29 @@ namespace Guardia_Comunal.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,NroLiberacion,FechaDeLiberacion,NroJuzgado,FechaCarga,Convenio,Cuotas,Acarreo,NroRecibo,Importe,MontoEnCuotas,FechaEmisionRecibo,Enable")] Liberation liberation)
+        public ActionResult Create([Bind(Include = "ActaId,LiberationPlaceId,NroLiberacion,FechaDeLiberacion,NroJuzgado,FechaCarga,Convenio,Cuotas,Acarreo,NroRecibo,Importe,MontoEnCuotas,FechaEmisionRecibo,Enable,UsuarioId,Person,PersonId")] Liberation liberation)
         {
             if (ModelState.IsValid)
             {
                 liberation.Enable = true;
 
+                if (liberation.PersonId != 0)
+                {
+                    if (liberation.Person != null)
+                    {
+                        liberation.Person.Id = liberation.PersonId;
+                        db.Entry(liberation.Person).State = EntityState.Modified;
+                    }
+                }
+
+                Act act = db.Acts.Find(liberation.ActaId);
+                
+                act.FechaEstado = DateTime.Now;
+                act.EstadoVehiculo = "Liberado";
                 db.Liberations.Add(liberation);
+                db.Entry(act).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Acts");
             }
 
             return View(liberation);
@@ -216,11 +236,44 @@ namespace Guardia_Comunal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Liberation liberation = db.Liberations.Find(id);
+
+            Act act = db.Acts.Find(id);
+
+            Liberation liberation = db.Liberations.Where(x => x.ActaId == act.Id).FirstOrDefault();
             if (liberation == null)
             {
                 return HttpNotFound();
             }
+
+            //liberation.Acta = new Act();
+            //liberation.Acta = db.Acts.Find(id);
+
+
+            //liberation.Person = db.People.Where(x => x.DNI == liberation.Acta.DNI).FirstOrDefault();
+
+            //if (liberation.Person == null)
+            //{
+            //    liberation.Person = new Person();
+            //    liberation.Person.DNI = liberation.Acta.DNI;
+            //    liberation.Person.Apellido = liberation.Acta.Apellido;
+            //    liberation.Person.Nombre = liberation.Acta.Nombre;
+            //    ViewBag.PersonId = null;
+            //}
+            //else
+            //{
+            //    ViewBag.PersonId = liberation.Person.Id;
+            //}
+
+            ViewBag.listaLiberationPlace = new List<LiberationPlace>(db.LiberationPlaces.ToList().Where(x => x.Enable == true).ToList());
+            ViewBag.listaTipos = new List<VehicleType>(db.VehicleTypes.ToList().Where(x => x.Enable == true).ToList());
+            ViewBag.listaMarcas = new List<VehicleBrand>(db.VehicleBrands.ToList().Where(x => x.Enable == true).ToList());
+            ViewBag.listaModelos = new List<VehicleModel>(db.VehicleModels.ToList().Where(x => x.Enable == true).ToList());
+            ViewBag.listaDominios = new List<Domain>(db.Domains.ToList());
+            ViewBag.ActaId = liberation.ActaId;
+            ViewBag.PersonId = liberation.PersonId;
+            ViewBag.listaCalles = GetCalles();
+            ViewBag.listaBarrios = GetBarrios();
+
             return View(liberation);
         }
 
@@ -229,7 +282,7 @@ namespace Guardia_Comunal.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,NroLiberacion,FechaDeLiberacion,NroJuzgado,FechaCarga,Convenio,Cuotas,Acarreo,NroRecibo,Importe,MontoEnCuotas,FechaEmisionRecibo,Enable")] Liberation liberation)
+        public ActionResult Edit([Bind(Include = "Id,ActaId,LiberationPlaceId,NroLiberacion,FechaDeLiberacion,NroJuzgado,FechaCarga,Convenio,Cuotas,Acarreo,NroRecibo,Importe,MontoEnCuotas,FechaEmisionRecibo,Enable,UsuarioId,Person,PersonId")] Liberation liberation)
         {
             if (ModelState.IsValid)
             {
@@ -237,7 +290,7 @@ namespace Guardia_Comunal.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(liberation);
+            return RedirectToAction("Index", "Acts");
         }
 
         // GET: Liberations/Delete/5

@@ -474,6 +474,10 @@
                 $('#ddlInspector').hide();
                 $('#ddlPolicia').show();
             }
+
+            if ($('#ddlEstadoVehiculo').val() === "Liberado") {
+                $("#frmActualizarOrden :input").prop("disabled", true);
+            }
         };
 
     //Desabilito los campos que no voy a usar
@@ -497,6 +501,9 @@
             }
 
         });
+
+
+        
 
 
     //Cargo las calles y barrios

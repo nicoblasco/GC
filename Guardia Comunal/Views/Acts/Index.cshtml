@@ -160,7 +160,13 @@
                   //Agrego el boton
                   //$('td:eq(0)', nRow).append("<div class='btn-group'><button type='button' class='btn btn-primary btn-xs dropdown-toggle' data-toggle='dropdown'><i class='fa fa-gear'></i> <span class='caret'></span></button><ul class='dropdown-menu' role='menu'><li><a href='#' onclick='Edit(this);'>Ver/Editar</a></li><li><a href='liberaciones.html'>Liberar</a></li><li class='divider'></li><li><a href='#' onclick='Delete(this);'>Eliminar</a></li></ul></div>");
                   $('td:eq(0)', nRow).append("<span class='fa fa-pencil span-btn' type='button' value='E' data-toggle='tooltip' data-placement='top' title='Modificar' id='btn_Editar' />");
-                  $('td:eq(0)', nRow).append("<span class='fa fa-check-square span-btn' type='button' value='C' data-toggle='tooltip' data-placement='top' title='Liberar' id='btn_Liberar'/> ");
+                  if (aData.EstadoVehiculo == "Liberado") {
+                      $('td:eq(0)', nRow).append("<span class='fa fa-check-square span-btn' type='button' value='C' data-toggle='tooltip' data-placement='top' title='Liberar' id='btn_Liberar_Edit'/> ");
+                  }
+                  else
+                  {
+                      $('td:eq(0)', nRow).append("<span class='fa fa-check-square span-btn' type='button' value='C' data-toggle='tooltip' data-placement='top' title='Liberar' id='btn_Liberar'/> ");
+                  }
                   $('td:eq(0)', nRow).append("<span data-toggle='modal' data-target='#eliminar-modal'><span class='fa fa-trash span-btn-dtl' type='button' value='D' data-toggle='tooltip' data-placement='top' title='Eliminar'/></span>");
               },
               "fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
@@ -208,6 +214,12 @@
     $(document).on('click', '#btn_Liberar', function () {
         var id = $(this).closest('tr').attr('id')
         var baseUrl = "@Url.Action("Create", "Liberations", new { id="ID"})";
+        window.location.href = baseUrl.replace("ID",id);
+    });
+
+    $(document).on('click', '#btn_Liberar_Edit', function () {
+        var id = $(this).closest('tr').attr('id')
+        var baseUrl = "@Url.Action("Edit", "Liberations", new { id="ID"})";
         window.location.href = baseUrl.replace("ID",id);
     });
 

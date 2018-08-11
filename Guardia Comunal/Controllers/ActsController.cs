@@ -315,7 +315,7 @@ namespace Guardia_Comunal.Controllers
                 }
                 return new HttpStatusCodeResult(200);
             }
-            return View(act);
+            return RedirectToAction("Index", "Acts");
             //return View(act);
         }
 
@@ -561,7 +561,7 @@ namespace Guardia_Comunal.Controllers
 
                 db.Entry(act).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Acts");
             }
             return View(act);
         }

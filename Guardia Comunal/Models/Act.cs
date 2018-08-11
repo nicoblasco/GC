@@ -1,11 +1,11 @@
-﻿using Newtonsoft.Json;
+﻿
+using ExpressiveAnnotations.Attributes;
+using Guardia_Comunal.Validations;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Web;
 using System.Web.Script.Serialization;
 
 namespace GuardiaComunal.Models
@@ -50,6 +50,7 @@ namespace GuardiaComunal.Models
         public virtual Nighborhood Nighborhood { get; set; }
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "Requerido")]
+      //  [DateGreaterThan("FechaInfraccion", "Estimated end date must be greater than the start date of the project")]
         public DateTime FechaEnvioAlJuzgado { get; set; }
         public string ActaAdjunta { get; set; }
 
@@ -61,13 +62,15 @@ namespace GuardiaComunal.Models
         public virtual Usuario Usuario { get; set; }
 
         // -----------Datos del Vehiculo
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Requerido")]
+
+        [RequiredIf("TipoDeActa == 'Documentada'", ErrorMessage = "Requerido")]
         public string DNI { get; set; }
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Requerido")]
+        [RequiredIf("TipoDeActa == 'Documentada'", ErrorMessage = "Requerido")]
         public string Nombre { get; set; }
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Requerido")]
+        [RequiredIf("TipoDeActa == 'Documentada'", ErrorMessage = "Requerido")]
         public string Apellido { get; set; }
 
+        [RequiredIf("LicenciaRetenida == true", ErrorMessage = "Requerido")]
         public string NroLicencia { get; set; }
 
         // -----------Datos del Vehiculo
@@ -103,11 +106,14 @@ namespace GuardiaComunal.Models
         public bool VehiculoRetenido { get; set; }
         public bool LicenciaRetenida { get; set; }
         public bool TicketAlcoholemia { get; set; }
+
+        [RequiredIf("TicketAlcoholemia == true", ErrorMessage = "Requerido")]
         public string ResultadoAlcoholemia { get; set; }
+       
         public string TicketAlcoholemiaAdjunto { get; set; }
         [NotMapped]
         public virtual bool TicketAlcoholemiaAdjuntoBorrado { get; set; }
-
+        
         public string Informe { get; set; }
         public string InformeAdjunto { get; set; }
 
@@ -123,7 +129,6 @@ namespace GuardiaComunal.Models
         public virtual int[] SelectedObservations { get; set; }
         public string Detalle { get; set; }
         public bool Enable { get; set; }
-
 
 
     }

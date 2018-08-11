@@ -140,8 +140,8 @@
                { "data": "Dominio" },
                { "data": "NroMotor" },
                { "data": "NroChasis" },
-               { "data": "VehicleBrand.Descripcion" },
-               { "data": "VehicleModel.Descripcion" },
+               { "data": "VehicleBrand.Descripcion", defaultContent: '' },
+               { "data": "VehicleModel.Descripcion", defaultContent: '' },
                { "data": "Color" },
                { "data": "TipoAgente" }
               ],
@@ -162,6 +162,17 @@
                   $('td:eq(0)', nRow).append("<span class='fa fa-pencil span-btn' type='button' value='E' data-toggle='tooltip' data-placement='top' title='Modificar' id='btn_Editar' />");
                   $('td:eq(0)', nRow).append("<span class='fa fa-check-square span-btn' type='button' value='C' data-toggle='tooltip' data-placement='top' title='Liberar' id='btn_Liberar'/> ");
                   $('td:eq(0)', nRow).append("<span data-toggle='modal' data-target='#eliminar-modal'><span class='fa fa-trash span-btn-dtl' type='button' value='D' data-toggle='tooltip' data-placement='top' title='Eliminar'/></span>");
+              },
+              "fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+                  if (aData.EstadoVehiculo == "Retenido") {
+                      $('td', nRow).addClass('warning');
+                  }
+                  else if (aData.EstadoVehiculo == "Liberado") {
+                      $('td', nRow).addClass('success');
+                  }
+                  else if (aData.EstadoVehiculo == "Compactado") {
+                      $('td', nRow).addClass('danger');
+                  }
               }
 
        });
@@ -191,6 +202,12 @@
     $(document).on('click', '#btn_Editar', function () {
         var id = $(this).closest('tr').attr('id')
         var baseUrl = "@Url.Action("Edit", "Acts", new { id="ID"})";
+        window.location.href = baseUrl.replace("ID",id);
+    });
+
+    $(document).on('click', '#btn_Liberar', function () {
+        var id = $(this).closest('tr').attr('id')
+        var baseUrl = "@Url.Action("Create", "Liberations", new { id="ID"})";
         window.location.href = baseUrl.replace("ID",id);
     });
 

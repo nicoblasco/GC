@@ -278,23 +278,28 @@ namespace Guardia_Comunal.Controllers
                     act.Contraventions = new List<Contravention>();
                     act.Observations = new List<Observation>();
 
-                    foreach (int contraventionId in act.SelectedContraventions)
+                    if (act.SelectedContraventions != null)
                     {
-                        act.Contraventions.Add(db.Contraventions.Find(contraventionId));
+                        foreach (int contraventionId in act.SelectedContraventions)
+                        {
+                            act.Contraventions.Add(db.Contraventions.Find(contraventionId));
+                        }
                     }
 
-                    foreach (int observationId in act.SelectedObservations)
+                    if (act.SelectedObservations != null)
                     {
-                        act.Observations.Add(db.Observations.Find(observationId));
+                        foreach (int observationId in act.SelectedObservations)
+                        {
+                            act.Observations.Add(db.Observations.Find(observationId));
 
+                        }
                     }
-
                     //Guardo los archivos
-                    if (fileUploadActa.ContentLength > 0)
+                    if (fileUploadActa != null)
                         act.ActaAdjunta= SaveFile(fileUploadActa, act, "Acta");
-                    if (fileUploadTicketAlcoholemiaAdjunto.ContentLength > 0)
+                    if (fileUploadTicketAlcoholemiaAdjunto != null)
                         act.TicketAlcoholemiaAdjunto = SaveFile(fileUploadTicketAlcoholemiaAdjunto, act, "Ticket");
-                    if (fileUploadTicketAlcoholemiaAdjunto.ContentLength > 0)
+                    if (fileUploadTicketAlcoholemiaAdjunto != null)
                         act.InformeAdjunto= SaveFile(fileInformeAdjunto, act, "Informe");
 
 
@@ -310,7 +315,7 @@ namespace Guardia_Comunal.Controllers
                 }
                 return new HttpStatusCodeResult(200);
             }
-            return new HttpStatusCodeResult(404);
+            return View(act);
             //return View(act);
         }
 

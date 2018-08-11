@@ -1,4 +1,6 @@
 ﻿
+using ExpressiveAnnotations.Attributes;
+using ExpressiveAnnotations.MvcUnobtrusive.Validators;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
@@ -14,6 +16,8 @@ namespace Guardia_Comunal
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
+            DataAnnotationsModelValidatorProvider.RegisterAdapter(typeof (RequiredIfAttribute), typeof (RequiredIfValidator));
+            DataAnnotationsModelValidatorProvider.RegisterAdapter(typeof (AssertThatAttribute), typeof (AssertThatValidator));
 
         }
     }

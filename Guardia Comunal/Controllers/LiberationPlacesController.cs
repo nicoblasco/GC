@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using GuardiaComunal.Models;
 using Guardia_Comunal.Models;
+using Newtonsoft.Json;
 
 namespace Guardia_Comunal.Controllers
 {
@@ -20,6 +21,136 @@ namespace Guardia_Comunal.Controllers
         {
             return View(db.LiberationPlaces.ToList());
         }
+
+        [HttpPost]
+        public JsonResult GetLiberationPlaces()
+        {
+            List<LiberationPlace> list = new List<LiberationPlace>();
+            try
+            {
+                list = db.LiberationPlaces.ToList().Where(x => x.Enable == true).ToList();
+                var json = JsonConvert.SerializeObject(list);
+
+                return Json(list, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        [HttpPost]
+        public JsonResult GetLiberationPlace(int id)
+        {
+            LiberationPlace liberationPlace = new LiberationPlace();
+            try
+            {
+                liberationPlace = db.LiberationPlaces.Find(id);
+                var json = JsonConvert.SerializeObject(liberationPlace);
+
+                return Json(liberationPlace, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+
+        public JsonResult EditLiberationPlace(LiberationPlace liberationPlace )
+        {
+            if (liberationPlace == null)
+            {
+                return Json(new { responseCode = "-10" });
+            }
+
+            //db.Entry(tipo).State = EntityState.Modified;
+
+            //Solo actualizo el campo descripcion
+            db.LiberationPlaces.Attach(liberationPlace);
+            db.Entry(liberationPlace).Property(x => x.Descripcion).IsModified = true;
+
+            db.SaveChanges();
+
+            var responseObject = new
+            {
+                responseCode = 0
+            };
+
+            return Json(responseObject);
+        }
+
+        [HttpGet]
+        public JsonResult GetDuplicates(int id, string descripcion)
+        {
+
+            try
+            {
+                var result = from c in db.LiberationPlaces
+                             where c.Id != id
+                             && c.Descripcion.ToUpper() == descripcion.ToUpper()
+                             select c;
+
+                var responseObject = new
+                {
+                    responseCode = result.Count()
+                };
+
+                return Json(responseObject, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+
+        public JsonResult CreateLiberationPlace(LiberationPlace liberationPlace)
+        {
+            if (liberationPlace == null)
+            {
+                return Json(new { responseCode = "-10" });
+            }
+
+            liberationPlace.Enable = true;
+            liberationPlace.FechaAlta = DateTime.Now;
+
+            db.LiberationPlaces.Add(liberationPlace);
+            db.SaveChanges();
+
+            var responseObject = new
+            {
+                responseCode = 0
+            };
+
+            return Json(responseObject);
+        }
+
+
+        public JsonResult DeleteliberationPlace(int id)
+        {
+            if (id == 0)
+            {
+                return Json(new { responseCode = "-10" });
+            }
+
+            LiberationPlace liberationPlace= db.LiberationPlaces.Find(id);
+            db.LiberationPlaces.Remove(liberationPlace);
+            db.SaveChanges();
+
+            var responseObject = new
+            {
+                responseCode = 0
+            };
+
+            return Json(responseObject);
+
+
+        }
+
 
         // GET: LiberationPlaces/Details/5
         public ActionResult Details(int? id)

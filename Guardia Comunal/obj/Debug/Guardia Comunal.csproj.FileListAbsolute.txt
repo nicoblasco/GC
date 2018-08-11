@@ -62,3 +62,8 @@ C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaCom
 C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\bin\System.Web.Http.xml
 C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\bin\System.Web.Http.WebHost.xml
 C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\obj\Debug\Guardia Comunal.csprojAssemblyReference.cache
+C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\bin\ExpressiveAnnotations.dll
+C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\bin\ExpressiveAnnotations.MvcUnobtrusive.dll
+C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\bin\ExpressiveAnnotations.pdb
+C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\bin\ExpressiveAnnotations.xml
+C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\bin\ExpressiveAnnotations.MvcUnobtrusive.xml

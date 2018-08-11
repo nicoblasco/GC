@@ -2,6 +2,8 @@
 @using Guardia_Comunal.Helpers
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
+    //HtmlHelper.ClientValidationEnabled = false;
+    //HtmlHelper.UnobtrusiveJavaScriptEnabled = false;
 }
 
 @{
@@ -49,14 +51,10 @@
         padding: 0px;
     }
 </style>
-@*@using (Html.BeginHorizontalForm())*@
-@*@using (Html.BeginForm("Create", "Acts", FormMethod.Post, new { enctype = "multipart/form-data" }))*@
-@using (Ajax.BeginForm("Create", "Acts", null, new AjaxOptions
-{
-    HttpMethod = "POST",
-    OnSuccess = "SuccessMessage",
-    OnFailure = "FailMessage"
-}, new { id = "frmActualizarOrden", style = "height:100%", @class = "form-horizontal", enctype = "multipart/form-data" }))
+
+
+@using (Html.BeginForm("Create", "Acts", FormMethod.Post, new { id = "formCreateAct", style = "height:100%", @class = "form-horizontal", enctype = "multipart/form-data" }))
+
 
 {
     @Html.AntiForgeryToken()
@@ -198,6 +196,7 @@
                                     <label>Nro Licencia</label>
                                     @*<input id="input-Licencia" name="inputLicencia" placeholder="Licencia" class="form-control input-sm" autocomplete="off">*@
                                     @Html.EditorFor(model => model.NroLicencia, new { htmlAttributes = new { @class = "form-control input-sm", id = "input-Licencia", name = "inputLicencia", placeholder = "Nro Licencia" } })
+                                    @Html.ValidationMessageFor(model => model.NroLicencia, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                         </div>
@@ -253,8 +252,8 @@
                                 </div>
                                 <div class="col-sm-2">
                                     <label>Color</label>
-                                    @*<input id="input-Color" name="inputColor" placeholder="Color" class="form-control input-sm" autocomplete="off">*@
-                                    @Html.EditorFor(model => model.Color, new { htmlAttributes = new { @class = "form-control input-sm", id = "input-Color", name = "inputColor", placeholder = "Color" } })
+                                    @Html.EditorFor(model => model.Color, new { htmlAttributes = new { @class = "form-control input-sm", id = "inputColor", name = "inputColor", placeholder = "Color" } })
+                                    @Html.ValidationMessageFor(model => model.Color, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                             <div class="form-group">
@@ -337,15 +336,16 @@
                                     </label>
                                     <label class="checkbox-inline">
                                         @*<input id="ck-TicketAlcoholemia" name="ckTicketAlcoholemia" type="checkbox">Ticket Alcoholemia*@
-                                        @Html.CheckBoxFor(model => model.TicketAlcoholemia, new { htmlAttributes = new { @class = "form-control input-sm", id = "ck-TicketAlcoholemia" } })Ticket Alcoholemia
+                                        @Html.CheckBoxFor(model => model.TicketAlcoholemia, new { htmlAttributes = new { @class = "form-control input-sm", id = "ck-TicketAlcoholemia" } })Ticket Alcoholemia                                        
                                     </label>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-sm-8">
                                     <label>Resultado Alcoholemia</label>
-                                    @*<input id="input-ResultadoAlcoholemia" name="inputResultadoAlcoholemia" class="form-control input-sm" placeholder="Resultado del Ticket de Alcoholemia" type="text">*@
+
                                     @Html.EditorFor(model => model.ResultadoAlcoholemia, new { htmlAttributes = new { @class = "form-control input-sm", id = "input-ResultadoAlcoholemia", placeholder = "Resultado del Ticket de Alcoholemia" } })
+                                    @Html.ValidationMessageFor(model => model.ResultadoAlcoholemia, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-sm-4">
                                     <label>Ticket de Alcoholemia Adjunto</label>
@@ -353,8 +353,7 @@
                                         <span class="input-group-btn">
                                             <button class="btn btn-default btn-choose btn-sm" type="button">Elegir</button>
                                         </span>
-                                        <input id="input-TicketAlcoholemia" name="inputTicketAlcoholemia" type="text" class="form-control input-sm" placeholder='Selecciona el Ticket...' />
-                                        @*@Html.EditorFor(model => model.TicketAlcoholemiaAdjunto, new { htmlAttributes = new { @class = "form-control input-sm", id = "input-TicketAlcoholemia", placeholder = "Selecciona el Ticket..." } })*@
+                                        <input id="input-TicketAlcoholemia" name="inputTicketAlcoholemia" type="text" class="form-control input-sm" placeholder='Selecciona el Ticket...'  />
                                         <span class="input-group-btn">
                                             <button class="btn btn-default btn-reset btn-sm" type="button">Borrar</button>
                                         </span>
@@ -374,8 +373,6 @@
                                             <button class="btn btn-default btn-choose btn-sm" type="button">Elegir</button>
                                         </span>
                                         <input id="input-InformeInspector" name="inputInformeInspector" type="text" class="form-control input-sm" placeholder='Selecciona informe...' />
-                                        @*@Html.EditorFor(model => model.InformeAdjunto, new { htmlAttributes = new { @class = "form-control input-sm", id = "input-InformeInspector", placeholder = "Selecciona informe..." } })*@
-                                        @*<input id="input-ArchivoActa" name="inputArchivoActa" type="text" class="form-control input-sm" placeholder='Selecciona Acta...' />*@
                                         <span class="input-group-btn">
                                             <button class="btn btn-default btn-reset btn-sm" type="button">Borrar</button>
                                         </span>
@@ -442,8 +439,6 @@
     </script>
 
     <script>
-
-
 
 
     //Desabilito los campos que no voy a usar
@@ -613,6 +608,7 @@
             alert("Aca hay que hacer un link");
         }
 
+
         $("#input-NroActa").focusout(function () {
             var nroActa = $('#input-NroActa').val();
 
@@ -684,6 +680,19 @@
                 }
             });
         });
+
+        $("#VehiculoRetenido").click(function () {
+            if ($(this).is(':checked'))
+            {
+                $("#ddlEstadoVehiculo").val('Retenido').change();
+            }
+            else
+            {
+                $("#ddlEstadoVehiculo").val('No Retenido').change();
+            }
+        });
+
+
 
     </script>
 }

@@ -8,6 +8,8 @@ using System.Web;
 using System.Web.Mvc;
 using GuardiaComunal.Models;
 using Guardia_Comunal.Models;
+using Newtonsoft.Json;
+using Guardia_Comunal.ViewModel;
 
 namespace Guardia_Comunal.Controllers
 {
@@ -19,6 +21,129 @@ namespace Guardia_Comunal.Controllers
         public ActionResult Index()
         {
             return View(db.Liberations.ToList());
+        }
+
+        [HttpPost]
+        public JsonResult GetDatosDelInfractor(string dni)
+        {
+            Act act = new Act();
+            InfractorViewModel infractor = new InfractorViewModel();
+            try
+            {
+                act = db.Acts.Where(x => x.DNI == dni).FirstOrDefault();
+
+                if (act != null)
+                {
+                    infractor.Apellido = act.Apellido;
+                    infractor.Nombre = act.Nombre;
+                    infractor.NroLicencia = act.NroLicencia;
+                }
+
+                return Json(infractor, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+
+                throw;
+            }
+        }
+
+
+        [HttpGet]
+        public JsonResult GetBarrios()
+        {
+            List<Nighborhood> list = new List<Nighborhood>();
+            try
+            {
+                //Filtro los habilitados
+                list = db.Nighborhoods.ToList();
+                var json = JsonConvert.SerializeObject(list.Select(item =>
+                                  new { data = item.Codigo.ToString(), value = item.Nombre }));
+
+                return Json(json, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+
+                throw;
+
+            }
+        }
+
+
+        [HttpGet]
+        public JsonResult GetCalles()
+        {
+            List<Street> list = new List<Street>();
+            try
+            {
+                //Filtro los habilitados
+                // list = db.Streets.ToList();
+                var query = (from t in db.Streets
+                             where t.CodCalle > 0
+                             group t by new { t.Id, t.Nombre }
+                             into grp
+                             select new
+                             {
+                                 data = grp.Key.Id,
+                                 value = grp.Key.Nombre
+                             }).ToList();
+
+
+                var json = JsonConvert.SerializeObject(query);
+                //var json = JsonConvert.SerializeObject(list.GroupBy(x => new { x.CodCalle, x.Nombre }).Select(item =>
+                //  new { data = item.CodCalle.ToString(), value = item.Nombre }));
+
+
+                return Json(json, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+
+                throw;
+
+            }
+        }
+
+
+
+        [HttpPost]
+        public JsonResult GetMarcas(int id)
+        {
+            List<VehicleBrand> list = new List<VehicleBrand>();
+            try
+            {
+                //Filtro los habilitados
+                list = db.VehicleBrands.ToList().Where(x => x.Enable == true && (x.VehicleTypeId == id)).ToList();
+                var json = JsonConvert.SerializeObject(list);
+
+                return Json(list, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+
+                throw;
+
+            }
+        }
+
+        [HttpPost]
+        public JsonResult GetModelos(int id)
+        {
+            List<VehicleModel> list = new List<VehicleModel>();
+            try
+            {
+                //Filtro los habilitados
+                list = db.VehicleModels.ToList().Where(x => x.Enable == true && (x.VehicleBrandId == id)).ToList();
+
+                return Json(list, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+
+                throw;
+
+            }
         }
 
         // GET: Liberations/Details/5
@@ -37,9 +162,32 @@ namespace Guardia_Comunal.Controllers
         }
 
         // GET: Liberations/Create
-        public ActionResult Create()
+        public ActionResult Create(int? id)
         {
-            return View();
+            Liberation liberation = new Liberation();
+            liberation.Acta = new Act();
+            liberation.Acta = db.Acts.Find(id);
+
+
+            liberation.Person = db.People.Where(x => x.DNI == liberation.Acta.DNI).FirstOrDefault();
+
+            if (liberation.Person == null)
+            {
+                liberation.Person = new Person();
+                liberation.Person.DNI = liberation.Acta.DNI;
+                liberation.Person.Apellido = liberation.Acta.Apellido;
+                liberation.Person.Nombre = liberation.Acta.Nombre;
+            }
+
+            ViewBag.listaLiberationPlace = new List<LiberationPlace>(db.LiberationPlaces.ToList().Where(x => x.Enable == true).ToList());
+            ViewBag.listaTipos = new List<VehicleType>(db.VehicleTypes.ToList().Where(x => x.Enable == true).ToList());
+            ViewBag.listaMarcas = new List<VehicleBrand>(db.VehicleBrands.ToList().Where(x => x.Enable == true).ToList());
+            ViewBag.listaModelos = new List<VehicleModel>(db.VehicleModels.ToList().Where(x => x.Enable == true).ToList());
+            ViewBag.listaDominios = new List<Domain>(db.Domains.ToList());
+            ViewBag.listaCalles = GetCalles();
+            ViewBag.listaBarrios = GetBarrios();
+
+            return View(liberation);
         }
 
         // POST: Liberations/Create
@@ -51,6 +199,8 @@ namespace Guardia_Comunal.Controllers
         {
             if (ModelState.IsValid)
             {
+                liberation.Enable = true;
+
                 db.Liberations.Add(liberation);
                 db.SaveChanges();
                 return RedirectToAction("Index");

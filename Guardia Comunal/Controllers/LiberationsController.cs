@@ -26,21 +26,30 @@ namespace Guardia_Comunal.Controllers
         [HttpPost]
         public JsonResult GetDatosDelInfractor(string dni)
         {
-            Act act = new Act();
-            InfractorViewModel infractor = new InfractorViewModel();
+            //Act act = new Act();
+            //InfractorViewModel infractor = new InfractorViewModel();
+            //try
+            //{
+            //    act = db.Acts.Where(x => x.DNI == dni).FirstOrDefault();
+
+            //    if (act != null)
+            //    {
+            //        infractor.Apellido = act.Apellido;
+            //        infractor.Nombre = act.Nombre;
+            //        infractor.NroLicencia = act.NroLicencia;
+            //    }
+
+            //    return Json(infractor, JsonRequestBehavior.AllowGet);
+
+            Person person = new Person();
             try
             {
-                act = db.Acts.Where(x => x.DNI == dni).FirstOrDefault();
+                person = db.People.Where(x => x.DNI == dni).FirstOrDefault();
 
-                if (act != null)
-                {
-                    infractor.Apellido = act.Apellido;
-                    infractor.Nombre = act.Nombre;
-                    infractor.NroLicencia = act.NroLicencia;
-                }
 
-                return Json(infractor, JsonRequestBehavior.AllowGet);
+                return Json(person, JsonRequestBehavior.AllowGet);
             }
+
             catch (Exception e)
             {
 
@@ -203,6 +212,8 @@ namespace Guardia_Comunal.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ActaId,LiberationPlaceId,NroLiberacion,FechaDeLiberacion,NroJuzgado,FechaCarga,Convenio,Cuotas,Acarreo,NroRecibo,Importe,MontoEnCuotas,FechaEmisionRecibo,Enable,UsuarioId,Person,PersonId")] Liberation liberation)
         {
+            ModelState.Remove("PersonId");
+
             if (ModelState.IsValid)
             {
                 liberation.Enable = true;
@@ -217,7 +228,16 @@ namespace Guardia_Comunal.Controllers
                 }
 
                 Act act = db.Acts.Find(liberation.ActaId);
-                
+
+                liberation.Person.Nombre=liberation.Person.Nombre.ToUpper();
+                liberation.Person.Altura = liberation.Person.Altura.ToUpper();
+                liberation.Person.Apellido = liberation.Person.Apellido.ToUpper();
+                liberation.Person.EntreCalle = liberation.Person.EntreCalle.ToUpper();
+                liberation.Person.Partido = liberation.Person.Partido.ToUpper();
+                liberation.Person.Barrio = liberation.Person.Barrio.ToUpper();
+                liberation.Person.Calle = liberation.Person.Calle.ToUpper();
+
+
                 act.FechaEstado = DateTime.Now;
                 act.EstadoVehiculo = "Liberado";
                 db.Liberations.Add(liberation);
@@ -226,7 +246,7 @@ namespace Guardia_Comunal.Controllers
                 return RedirectToAction("Index", "Acts");
             }
 
-            return View(liberation);
+            return RedirectToAction("Index", "Acts");
         }
 
         // GET: Liberations/Edit/5
@@ -245,24 +265,6 @@ namespace Guardia_Comunal.Controllers
                 return HttpNotFound();
             }
 
-            //liberation.Acta = new Act();
-            //liberation.Acta = db.Acts.Find(id);
-
-
-            //liberation.Person = db.People.Where(x => x.DNI == liberation.Acta.DNI).FirstOrDefault();
-
-            //if (liberation.Person == null)
-            //{
-            //    liberation.Person = new Person();
-            //    liberation.Person.DNI = liberation.Acta.DNI;
-            //    liberation.Person.Apellido = liberation.Acta.Apellido;
-            //    liberation.Person.Nombre = liberation.Acta.Nombre;
-            //    ViewBag.PersonId = null;
-            //}
-            //else
-            //{
-            //    ViewBag.PersonId = liberation.Person.Id;
-            //}
 
             ViewBag.listaLiberationPlace = new List<LiberationPlace>(db.LiberationPlaces.ToList().Where(x => x.Enable == true).ToList());
             ViewBag.listaTipos = new List<VehicleType>(db.VehicleTypes.ToList().Where(x => x.Enable == true).ToList());
@@ -271,6 +273,7 @@ namespace Guardia_Comunal.Controllers
             ViewBag.listaDominios = new List<Domain>(db.Domains.ToList());
             ViewBag.ActaId = liberation.ActaId;
             ViewBag.PersonId = liberation.PersonId;
+            ViewBag.Id = liberation.Id;
             ViewBag.listaCalles = GetCalles();
             ViewBag.listaBarrios = GetBarrios();
 
@@ -286,9 +289,23 @@ namespace Guardia_Comunal.Controllers
         {
             if (ModelState.IsValid)
             {
+
+                liberation.Person.Nombre = liberation.Person.Nombre.ToUpper();
+                liberation.Person.Altura = liberation.Person.Altura.ToUpper();
+                liberation.Person.Apellido = liberation.Person.Apellido.ToUpper();
+                liberation.Person.EntreCalle = liberation.Person.EntreCalle.ToUpper();
+                liberation.Person.Partido = liberation.Person.Partido.ToUpper();
+                liberation.Person.Barrio = liberation.Person.Barrio.ToUpper();
+                liberation.Person.Calle = liberation.Person.Calle.ToUpper();
+
+                liberation.Person.Id = liberation.PersonId;
+                liberation.Acta = db.Acts.Find(liberation.ActaId);
                 db.Entry(liberation).State = EntityState.Modified;
+                db.Entry(liberation.Acta).State = EntityState.Modified;
+                db.Entry(liberation.Person).State = EntityState.Modified;               
+
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Acts");
             }
             return RedirectToAction("Index", "Acts");
         }

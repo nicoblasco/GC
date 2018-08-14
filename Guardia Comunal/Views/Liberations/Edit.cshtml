@@ -42,7 +42,9 @@
 {
     @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.ActaId, new { @Value = ViewBag.ActaId })
-    @Html.HiddenFor(model => model.PersonId, new { @Value = ViewBag.PersonId })
+    @Html.HiddenFor(model => model.PersonId)
+    @Html.HiddenFor(model => model.Enable)
+    @Html.HiddenFor(model => model.Id, new { @Value = ViewBag.Id })
     <div id="page-wrapper">
         <div class="row">
             <h1 class="page-header" style="margin: 10px;">Actas</h1>
@@ -295,7 +297,22 @@
 <!-- /#page-wrapper -->
 <!-- /#wrapper -->
 @section scripts {
+    <script>
 
+        $.validator.methods.range = function (value, element, param) {
+            var globalizedValue = value.replace(",", ".");
+            return this.optional(element) || (globalizedValue >= param[0] && globalizedValue <= param[1]);
+        }
+
+        $.validator.methods.number = function (value, element) {
+            return this.optional(element) || /-?(?:\d+|\d{1,3}(?:[\s\.,]\d{3})+)(?:[\.,]\d+)?$/.test(value);
+        }
+        //Date dd/MM/yyyy
+        $.validator.methods.date = function (value, element) {
+            var date = value.split("/");
+            return this.optional(element) || !/Invalid|NaN/.test(new Date(date[2], date[1], date[0]).toString());
+        }
+    </script>
     <script>
         //\\\\\\\ JS  retrun message SucccessPost or FailPost
         function SuccessMessage() {
@@ -365,20 +382,20 @@
     // Fechas
     $(function () {
         $('#dt-Infraccion').datetimepicker({
-            locale: 'en-GB',
-            date: new Date(Date.now())
+            locale: 'en-GB'
+            //date: new Date(Date.now())
         });
         $('#dt-FechaEmisionRecibo').datetimepicker({
-            locale: 'es',
-            date: new Date(Date.now())
+            locale: 'es'
+            //date: new Date(Date.now())
         });
         $('#dt-Carga').datetimepicker({
-            locale: 'es',
-            date: new Date(Date.now())
+            locale: 'es'
+            //date: new Date(Date.now())
         });
         $('#dt-FechaDeLiberacion').datetimepicker({
-            locale: 'es',
-            date: new Date(Date.now())
+            locale: 'es'
+           // date: new Date(Date.now())
         });
         });
 
@@ -539,7 +556,7 @@
             var dniInfractor = $('#input-DNI').val();
             $.ajax({
                 type: 'POST',
-                url: '@Url.Action("GetDatosDelInfractor", "Acts")',
+                url: '@Url.Action("GetDatosDelInfractor", "Liberations")',
                 data: {
                     dni: dniInfractor
                 },
@@ -547,7 +564,14 @@
                 success: function (result) {
                     $('#input-Nombre').val(result.Nombre);
                     $('#input-Apellido').val(result.Apellido);
-                    $('#input-Licencia').val(result.NroLicencia);
+                    $('#input-Calle').val(result.Calle);
+                    $('#input-CalleId').val(result.StreetId);
+                    $('#inputAltura').val(result.Altura);
+                    $('#ddlBarrio').val(result.Barrio);
+                    $('#input-Barrio').val(result.NighborhoodId);
+                    $('#input-EntreCalle').val(result.EntreCalle);
+                    $('#input-Partido').val(result.Partido);
+
                 },
                 error: function (response) {
                     Lobibox.notify('error', {
@@ -557,7 +581,6 @@
                 }
             });
         });
-
         $("#VehiculoRetenido").click(function () {
             if ($(this).is(':checked'))
             {

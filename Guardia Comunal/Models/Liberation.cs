@@ -28,12 +28,15 @@ namespace GuardiaComunal.Models
         public virtual Person Person { get; set; }
         public string Convenio { get; set; }
         public Int32 Cuotas { get; set; }
+        [DataType(DataType.Currency)]
         [Required(AllowEmptyStrings = false, ErrorMessage = "Requerido")]
         public decimal Acarreo { get; set; }
         [Required(AllowEmptyStrings = false, ErrorMessage = "Requerido")]
         public string NroRecibo { get; set; }
+        [DataType(DataType.Currency)]
         [Required(AllowEmptyStrings = false, ErrorMessage = "Requerido")]
         public decimal Importe { get; set; }
+        [DataType(DataType.Currency)]
         [Required(AllowEmptyStrings = false, ErrorMessage = "Requerido")]
         public decimal MontoEnCuotas { get; set; }
         [Required(AllowEmptyStrings = false, ErrorMessage = "Requerido")]

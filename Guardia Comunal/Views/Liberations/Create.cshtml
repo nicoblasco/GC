@@ -538,7 +538,7 @@
             var dniInfractor = $('#input-DNI').val();
             $.ajax({
                 type: 'POST',
-                url: '@Url.Action("GetDatosDelInfractor", "Acts")',
+                url: '@Url.Action("GetDatosDelInfractor", "Liberations")',
                 data: {
                     dni: dniInfractor
                 },
@@ -546,7 +546,14 @@
                 success: function (result) {
                     $('#input-Nombre').val(result.Nombre);
                     $('#input-Apellido').val(result.Apellido);
-                    $('#input-Licencia').val(result.NroLicencia);
+                    $('#input-Calle').val(result.Calle);
+                    $('#input-CalleId').val(result.StreetId);
+                    $('#inputAltura').val(result.Altura);
+                    $('#ddlBarrio').val(result.Barrio);
+                    $('#input-Barrio').val(result.NighborhoodId);
+                    $('#input-EntreCalle').val(result.EntreCalle);
+                    $('#input-Partido').val(result.Partido);
+
                 },
                 error: function (response) {
                     Lobibox.notify('error', {

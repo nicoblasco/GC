@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using GuardiaComunal.Models;
 using Guardia_Comunal.Models;
+using Newtonsoft.Json;
 
 namespace Guardia_Comunal.Controllers
 {
@@ -20,11 +21,34 @@ namespace Guardia_Comunal.Controllers
         {
             List<Permission> list = db.Permissions.ToList();
             List<Rol> lRoles = new List<Rol>();
-            lRoles = db.Rols.ToList();
+            lRoles = db.Rols.Where(x => x.Nombre != "Administrador").ToList();
             ViewBag.listaRoles = lRoles;
             //return View(db.Permissions.ToList());
             return View(list);
         }
+
+        [HttpPost]
+        public JsonResult GetPermisos(int Rolid )
+        {
+            List<Permission> list = new List<Permission>();
+            try
+            {
+                list = db.Permissions.ToList().Where(x => x.RolId == Rolid).ToList();
+
+                //foreach (var item in list)
+                //{
+                //    item.Window.Module = db.Modules.Find(item.Window.M);
+                //}
+
+                return Json(list, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
 
         // GET: Permissions/Details/5
         public ActionResult Details(int? id)

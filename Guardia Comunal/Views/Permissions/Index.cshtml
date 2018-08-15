@@ -67,12 +67,40 @@
 @section scripts {
     <script>
         $(document).ready(function () {
+
+
             var table = $('#dataTables-example').DataTable({
+                 "ajax":
+                  {
+                      url: "@Url.Action("GetPermisos", "Permissions", new { Rolid = "5" })",
+                      type: "post",
+                      dataSrc: ""
+                },
+                 "columns": [
+                     { "data": "Id" },
+                     { "data": "Window.Module.Descripcion" },
+                     { "data": "Window.Descripcion" },
+                     { "data": null, defaultContent: '' },
+                     { "data": "AltaModificacion" },
+                     { "data": "Baja" }
+
+                 ],
                 "columnDefs": [
                     { "visible": false, "targets": 1 }
                 ],
                 "ordering": false,
                 "displayLength": 25,
+                "fnCreatedRow": function (nRow, aData, iDataIndex) {
+                    if (aData.Consulta)
+                    {
+                        $('td:eq(2)', nRow).append("<input name='consulta' type='checkbox' checked>");
+                    }
+                    else
+                    {
+                        $('td:eq(2)', nRow).append("<input name='consulta' type='checkbox'>");
+                    }
+                    
+                },
                 "drawCallback": function (settings) {
                     var api = this.api();
                     var rows = api.rows({ page: 'current' }).nodes();

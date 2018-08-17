@@ -9,12 +9,15 @@ using System.Web.Mvc;
 using GuardiaComunal.Models;
 using Guardia_Comunal.Models;
 using Newtonsoft.Json;
+using Guardia_Comunal.Helpers;
 
 namespace Guardia_Comunal.Controllers
 {
     public class UsuariosController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        public string ModuleDescription = "Configuración";
+        public string WindowDescription = "Usuarios";
 
         // GET: Usuarios
         public ActionResult Index()
@@ -148,6 +151,9 @@ namespace Guardia_Comunal.Controllers
             db.Usuarios.Add(usuario);
             db.SaveChanges();
 
+            //Audito
+            AuditHelper.Auditar("Alta", usuario.UsuarioId.ToString(), "Usuario", ModuleDescription, WindowDescription);
+
             var responseObject = new
             {
                 responseCode = 0
@@ -165,6 +171,9 @@ namespace Guardia_Comunal.Controllers
 
             db.Entry(usuario).State = EntityState.Modified;
             db.SaveChanges();
+
+            //Audito
+            AuditHelper.Auditar("Modificacion", usuario.UsuarioId.ToString(), "Usuario", ModuleDescription, WindowDescription);
 
             var responseObject = new
             {
@@ -216,6 +225,9 @@ namespace Guardia_Comunal.Controllers
             Usuario usuario = db.Usuarios.Find(id);
             db.Usuarios.Remove(usuario);
             db.SaveChanges();
+
+            //Audito
+            AuditHelper.Auditar("Baja", id.ToString(), "Usuario", ModuleDescription, WindowDescription);
 
             var responseObject = new
             {

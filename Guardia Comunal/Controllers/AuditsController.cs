@@ -21,6 +21,27 @@ namespace Guardia_Comunal.Controllers
             return View(db.Audits.ToList());
         }
 
+
+        [HttpPost]
+        public JsonResult GetAudits()
+        {
+            //List<Contravention> list = new List<Contravention>();
+            try
+            {
+                //list = db.Contraventions.ToList().Where(x => x.Enable == true).ToList();
+                //var json = JsonConvert.SerializeObject(list);
+                //var list = db.Audits.OrderByDescending(c => c.Fecha).Select(c => new { c.Id, c.Fecha, c.User.Nombreusuario,c.Window.Module.Descripcion, c.Window.Descripcion, c.Accion });
+                var list = db.Audits.OrderByDescending(x=> x.Fecha).ToList();
+                return Json(list, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+
         // GET: Audits/Details/5
         public ActionResult Details(int? id)
         {

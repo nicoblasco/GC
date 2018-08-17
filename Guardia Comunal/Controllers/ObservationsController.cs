@@ -9,12 +9,15 @@ using System.Web.Mvc;
 using GuardiaComunal.Models;
 using Guardia_Comunal.Models;
 using Newtonsoft.Json;
+using Guardia_Comunal.Helpers;
 
 namespace Guardia_Comunal.Controllers
 {
     public class ObservationsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        public string ModuleDescription = "AMB Maestros";
+        public string WindowDescription = "Observaciones";
 
         // GET: Observations
         public ActionResult Index()
@@ -77,6 +80,9 @@ namespace Guardia_Comunal.Controllers
 
             db.SaveChanges();
 
+            //Audito
+            AuditHelper.Auditar("Modificacion", observation.Id.ToString(), "Observation", ModuleDescription, WindowDescription);
+
             var responseObject = new
             {
                 responseCode = 0
@@ -124,6 +130,8 @@ namespace Guardia_Comunal.Controllers
             db.Observations.Add(observation);
             db.SaveChanges();
 
+            AuditHelper.Auditar("Alta", observation.Id.ToString(), "Observation", ModuleDescription, WindowDescription);
+
             var responseObject = new
             {
                 responseCode = 0
@@ -143,7 +151,7 @@ namespace Guardia_Comunal.Controllers
             Observation observation = db.Observations.Find(id);
             db.Observations.Remove(observation);
             db.SaveChanges();
-
+            AuditHelper.Auditar("Baja", observation.Id.ToString(), "Observation", ModuleDescription, WindowDescription);
             var responseObject = new
             {
                 responseCode = 0

@@ -12,6 +12,7 @@ using Guardia_Comunal.Tags;
 using Newtonsoft.Json;
 using System.IO;
 using Guardia_Comunal.ViewModel;
+using Guardia_Comunal.Helpers;
 
 namespace Guardia_Comunal.Controllers
 {
@@ -19,7 +20,8 @@ namespace Guardia_Comunal.Controllers
     public class ActsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-
+        public string ModuleDescription = "Actas";
+        public string WindowDescription = "Altas";
 
         // GET: Acts
         public ActionResult Index()
@@ -307,6 +309,9 @@ namespace Guardia_Comunal.Controllers
 
                     db.SaveChanges();
 
+                    //Audito
+                    AuditHelper.Auditar("Alta", act.Id.ToString(), "Acts", ModuleDescription, WindowDescription);
+
                 }
                 catch (Exception ex)
                 {
@@ -561,6 +566,9 @@ namespace Guardia_Comunal.Controllers
 
                 db.Entry(act).State = EntityState.Modified;
                 db.SaveChanges();
+
+                AuditHelper.Auditar("Modificacion", act.Id.ToString(), "Acts", ModuleDescription, WindowDescription);
+
                 return RedirectToAction("Index", "Acts");
             }
             return View(act);
@@ -592,6 +600,8 @@ namespace Guardia_Comunal.Controllers
             db.Acts.Remove(act);
             db.SaveChanges();
 
+            AuditHelper.Auditar("Baja", act.Id.ToString(), "Acts", ModuleDescription, WindowDescription);
+
             var responseObject = new
             {
                 responseCode = 0
@@ -610,6 +620,9 @@ namespace Guardia_Comunal.Controllers
             Act act = db.Acts.Find(id);
             db.Acts.Remove(act);
             db.SaveChanges();
+
+            AuditHelper.Auditar("Baja", act.Id.ToString(), "Acts", ModuleDescription, WindowDescription);
+
             return RedirectToAction("Index");
         }
 

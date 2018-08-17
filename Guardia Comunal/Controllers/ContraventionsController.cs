@@ -9,12 +9,15 @@ using System.Web.Mvc;
 using GuardiaComunal.Models;
 using Guardia_Comunal.Models;
 using Newtonsoft.Json;
+using Guardia_Comunal.Helpers;
 
 namespace Guardia_Comunal.Controllers
 {
     public class ContraventionsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        public string ModuleDescription = "AMB Maestros";
+        public string WindowDescription = "Contravenciones";
 
         // GET: Contraventions
         public ActionResult Index()
@@ -32,7 +35,7 @@ namespace Guardia_Comunal.Controllers
             {
                 //list = db.Contraventions.ToList().Where(x => x.Enable == true).ToList();
                 //var json = JsonConvert.SerializeObject(list);
-                var list = db.Contraventions.Select(c => new { c.Id, c.Descripcion });
+                var list = db.Contraventions.Where(c => c.Enable==true).Select(c => new { c.Id, c.NroArticulo, c.Descripcion });
 
                 return Json(list, JsonRequestBehavior.AllowGet);
             }
@@ -77,6 +80,10 @@ namespace Guardia_Comunal.Controllers
             db.Entry(contravention).Property(x => x.Descripcion).IsModified = true;
 
             db.SaveChanges();
+
+            //Audito
+            AuditHelper.Auditar("Modificacion", contravention.Id.ToString(), "Contravention", ModuleDescription, WindowDescription);
+
 
             var responseObject = new
             {
@@ -123,7 +130,13 @@ namespace Guardia_Comunal.Controllers
             contravention.FechaAlta = DateTime.Now;
 
             db.Contraventions.Add(contravention);
+
             db.SaveChanges();
+
+
+            //Audito
+            AuditHelper.Auditar("Alta", contravention.Id.ToString(), "Contravention", ModuleDescription, WindowDescription);
+
 
             var responseObject = new
             {
@@ -144,6 +157,9 @@ namespace Guardia_Comunal.Controllers
             Contravention contravention = db.Contraventions.Find(id);
             db.Contraventions.Remove(contravention);
             db.SaveChanges();
+
+            //Audito
+            AuditHelper.Auditar("Baja", id.ToString(), "Contravention", ModuleDescription, WindowDescription);
 
             var responseObject = new
             {

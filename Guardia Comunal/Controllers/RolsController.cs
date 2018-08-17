@@ -9,12 +9,15 @@ using System.Web.Mvc;
 using GuardiaComunal.Models;
 using Guardia_Comunal.Models;
 using Newtonsoft.Json;
+using Guardia_Comunal.Helpers;
 
 namespace Guardia_Comunal.Controllers
 {
     public class RolsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        public string ModuleDescription = "Configuración";
+        public string WindowDescription = "Roles";
 
         // GET: Rols
         public ActionResult Index()
@@ -135,6 +138,9 @@ namespace Guardia_Comunal.Controllers
 
             db.SaveChanges();
 
+            //Audito
+            AuditHelper.Auditar("Alta", rol.RolId.ToString(), "Rol", ModuleDescription, WindowDescription);
+
             var responseObject = new
             {
                 responseCode = 0
@@ -153,6 +159,9 @@ namespace Guardia_Comunal.Controllers
 
             db.Entry(rol).State = EntityState.Modified;
             db.SaveChanges();
+
+            //Audito
+            AuditHelper.Auditar("Modificacion", rol.RolId.ToString(), "Rol", ModuleDescription, WindowDescription);
 
             var responseObject = new
             {
@@ -235,6 +244,9 @@ namespace Guardia_Comunal.Controllers
             Rol rol = db.Rols.Find(id);
             db.Rols.Remove(rol);
             db.SaveChanges();
+
+            //Audito
+            AuditHelper.Auditar("Alta", id.ToString(), "Rol", ModuleDescription, WindowDescription);
 
             var responseObject = new
             {

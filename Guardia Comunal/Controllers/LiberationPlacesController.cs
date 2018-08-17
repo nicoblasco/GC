@@ -9,12 +9,16 @@ using System.Web.Mvc;
 using GuardiaComunal.Models;
 using Guardia_Comunal.Models;
 using Newtonsoft.Json;
+using Guardia_Comunal.Helpers;
 
 namespace Guardia_Comunal.Controllers
 {
     public class LiberationPlacesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        public string ModuleDescription = "AMB Maestros";
+        public string WindowDescription = "Lugar de Liberacion";
+
 
         // GET: LiberationPlaces
         public ActionResult Index()
@@ -74,6 +78,9 @@ namespace Guardia_Comunal.Controllers
 
             db.SaveChanges();
 
+            //Audito
+            AuditHelper.Auditar("Modificacion", liberationPlace.Id.ToString(), "LiberationPlace", ModuleDescription, WindowDescription);
+
             var responseObject = new
             {
                 responseCode = 0
@@ -121,6 +128,9 @@ namespace Guardia_Comunal.Controllers
             db.LiberationPlaces.Add(liberationPlace);
             db.SaveChanges();
 
+            //Audito
+            AuditHelper.Auditar("Alta", liberationPlace.Id.ToString(), "LiberationPlace", ModuleDescription, WindowDescription);
+
             var responseObject = new
             {
                 responseCode = 0
@@ -140,6 +150,9 @@ namespace Guardia_Comunal.Controllers
             LiberationPlace liberationPlace= db.LiberationPlaces.Find(id);
             db.LiberationPlaces.Remove(liberationPlace);
             db.SaveChanges();
+
+            //Audito
+            AuditHelper.Auditar("Baja", liberationPlace.Id.ToString(), "LiberationPlace", ModuleDescription, WindowDescription);
 
             var responseObject = new
             {

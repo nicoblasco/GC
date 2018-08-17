@@ -9,12 +9,15 @@ using System.Web.Mvc;
 using GuardiaComunal.Models;
 using Guardia_Comunal.Models;
 using Newtonsoft.Json;
+using Guardia_Comunal.Helpers;
 
 namespace Guardia_Comunal.Controllers
 {
     public class PermissionsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        public string ModuleDescription = "Configuración";
+        public string WindowDescription = "Permisos";
 
         // GET: Permissions
         public ActionResult Index()
@@ -78,6 +81,9 @@ namespace Guardia_Comunal.Controllers
             db.Entry(permission).State = EntityState.Modified;
             db.SaveChanges();
 
+            //Audito
+            AuditHelper.Auditar("Modificacion", permission.Id.ToString(), "Permission", ModuleDescription, WindowDescription);
+
             var responseObject = new
             {
                 responseCode = 0
@@ -119,6 +125,7 @@ namespace Guardia_Comunal.Controllers
                 }
                 
                 db.SaveChanges();
+
             }
             var responseObject = new
             {

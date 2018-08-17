@@ -9,12 +9,15 @@ using System.Web.Mvc;
 using GuardiaComunal.Models;
 using Guardia_Comunal.Models;
 using Newtonsoft.Json;
+using Guardia_Comunal.Helpers;
 
 namespace Guardia_Comunal.Controllers
 {
     public class VehicleModelsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        public string ModuleDescription = "Vehiculos";
+        public string WindowDescription = "Modelos";
 
         // GET: VehicleModels
         public ActionResult Index()
@@ -132,6 +135,9 @@ namespace Guardia_Comunal.Controllers
 
             db.SaveChanges();
 
+            //Audito
+            AuditHelper.Auditar("Alta", modelo.Id.ToString(), "VehicleModel", ModuleDescription, WindowDescription);
+
             var responseObject = new
             {
                 responseCode = 0
@@ -152,7 +158,9 @@ namespace Guardia_Comunal.Controllers
             db.Entry(modelo).Property(x => x.Descripcion).IsModified = true;
             db.Entry(modelo).Property(x => x.VehicleBrandId).IsModified = true;
             db.SaveChanges();
-            db.SaveChanges();
+
+            //Audito
+            AuditHelper.Auditar("Modificacion", modelo.Id.ToString(), "VehicleModel", ModuleDescription, WindowDescription);
 
             var responseObject = new
             {
@@ -173,6 +181,9 @@ namespace Guardia_Comunal.Controllers
             VehicleModel modelo = db.VehicleModels.Find(id);
             db.VehicleModels.Remove(modelo);
             db.SaveChanges();
+
+            //Audito
+            AuditHelper.Auditar("Baja", modelo.Id.ToString(), "VehicleModel", ModuleDescription, WindowDescription);
 
             var responseObject = new
             {

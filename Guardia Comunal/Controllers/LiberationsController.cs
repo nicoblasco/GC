@@ -10,12 +10,15 @@ using GuardiaComunal.Models;
 using Guardia_Comunal.Models;
 using Newtonsoft.Json;
 using Guardia_Comunal.ViewModel;
+using Guardia_Comunal.Helpers;
 
 namespace Guardia_Comunal.Controllers
 {
     public class LiberationsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        public string ModuleDescription = "Actas";
+        public string WindowDescription = "Liberacion";
 
         // GET: Liberations
         public ActionResult Index()
@@ -243,6 +246,11 @@ namespace Guardia_Comunal.Controllers
                 db.Liberations.Add(liberation);
                 db.Entry(act).State = EntityState.Modified;
                 db.SaveChanges();
+
+
+                //Audito
+                AuditHelper.Auditar("Alta", liberation.Id.ToString(), "Liberations", ModuleDescription, WindowDescription);
+
                 return RedirectToAction("Index", "Acts");
             }
 
@@ -305,6 +313,10 @@ namespace Guardia_Comunal.Controllers
                 db.Entry(liberation.Person).State = EntityState.Modified;               
 
                 db.SaveChanges();
+
+                //Audito
+                AuditHelper.Auditar("Modificacion", liberation.Id.ToString(), "Liberations", ModuleDescription, WindowDescription);
+
                 return RedirectToAction("Index", "Acts");
             }
             return RedirectToAction("Index", "Acts");
@@ -333,6 +345,10 @@ namespace Guardia_Comunal.Controllers
             Liberation liberation = db.Liberations.Find(id);
             db.Liberations.Remove(liberation);
             db.SaveChanges();
+
+            //Audito
+            AuditHelper.Auditar("Baja", liberation.Id.ToString(), "Liberations", ModuleDescription, WindowDescription);
+
             return RedirectToAction("Index");
         }
 

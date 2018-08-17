@@ -27,11 +27,12 @@ namespace Guardia_Comunal.Controllers
         [HttpPost]
         public JsonResult GetContravenciones()
         {
-            List<Contravention> list = new List<Contravention>();
+            //List<Contravention> list = new List<Contravention>();
             try
             {
-                list = db.Contraventions.ToList().Where(x => x.Enable == true).ToList();
-                var json = JsonConvert.SerializeObject(list);
+                //list = db.Contraventions.ToList().Where(x => x.Enable == true).ToList();
+                //var json = JsonConvert.SerializeObject(list);
+                var list = db.Contraventions.Select(c => new { c.Id, c.Descripcion });
 
                 return Json(list, JsonRequestBehavior.AllowGet);
             }

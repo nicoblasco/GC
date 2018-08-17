@@ -26,11 +26,12 @@ namespace Guardia_Comunal.Controllers
         [HttpPost]
         public JsonResult GetObservaciones()
         {
-            List<Observation> list = new List<Observation>();
+            //List<Observation> list = new List<Observation>();
             try
             {
-                list = db.Observations.ToList().Where(x => x.Enable == true).ToList();
-                var json = JsonConvert.SerializeObject(list);
+                var list = db.Observations.Select(c => new { c.Id, c.Descripcion });
+              //  list = db.Observations.ToList().Where(x => x.Enable == true).ToList();
+                                
 
                 return Json(list, JsonRequestBehavior.AllowGet);
             }
@@ -47,6 +48,7 @@ namespace Guardia_Comunal.Controllers
             Observation observation = new Observation();
             try
             {
+
                 observation = db.Observations.Find(id);
                 var json = JsonConvert.SerializeObject(observation);
 

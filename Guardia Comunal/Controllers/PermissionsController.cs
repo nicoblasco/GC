@@ -49,6 +49,84 @@ namespace Guardia_Comunal.Controllers
             }
         }
 
+        [HttpPost]
+        public JsonResult EditPermiso(int id, string tipo, bool permiso )
+        {
+            if (tipo == null || id == 0)
+            {
+                return Json(new { responseCode = "-10" });
+            }
+
+            Permission permission = db.Permissions.Find(id);
+
+            switch (tipo)
+            {
+                case "Consulta":
+                    permission.Consulta = permiso;
+                    break;
+                case "AltaModificacion":
+                    permission.AltaModificacion = permiso;
+                    break;
+                case "Baja":
+                    permission.Baja = permiso;
+                    break;
+                default:
+                    break;
+            }
+
+
+            db.Entry(permission).State = EntityState.Modified;
+            db.SaveChanges();
+
+            var responseObject = new
+            {
+                responseCode = 0
+            };
+
+            return Json(responseObject);
+        }
+
+        [HttpPost]
+        public JsonResult UpdatePermisos(int idRol, string tipo, bool permiso)
+        {
+            if (tipo == null || idRol == 0)
+            {
+                return Json(new { responseCode = "-10" });
+            }
+
+            List<Permission> lista = db.Permissions.Where(x => x.RolId == idRol).ToList();
+
+            if (lista != null)
+            {
+                foreach (var item in lista)
+                {
+                    switch (tipo)
+                    {
+                        case "Consulta":
+                            item.Consulta = permiso;
+                            break;
+                        case "AltaModificacion":
+                            item.AltaModificacion = permiso;
+                            break;
+                        case "Baja":
+                            item.Baja = permiso;
+                            break;
+                        default:
+                            break;
+                    }
+
+                    db.Entry(item).State = EntityState.Modified;
+                }
+                
+                db.SaveChanges();
+            }
+            var responseObject = new
+            {
+                responseCode = 0
+            };
+
+            return Json(responseObject);
+        }
 
         // GET: Permissions/Details/5
         public ActionResult Details(int? id)

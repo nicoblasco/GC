@@ -19,7 +19,15 @@
                     <form class="form-horizontal">
                         <div class="form-inline">
                             <label style="display: initial" class="control-label">Roles</label>
-                            @Html.DropDownList("selectRolCreate", new SelectList(ViewBag.listaRoles, "RolId", "Nombre"), new { @class = "form-control" })
+                            @Html.DropDownList("selectRolCreate", new SelectList(ViewBag.listaRoles, "RolId", "Nombre"), htmlAttributes:
+                            new
+                            {
+                                id = "selectRolCreate",
+                                @class = "form-control",
+                                @onchange = "refreshdropdown()"
+                            }
+                            )
+
                         </div>
                     </form>
                 </div>
@@ -31,9 +39,9 @@
                                 <th>ID</th>
                                 <th>Modulo</th>
                                 <th>Pantalla</th>
-                                <th><input type="checkbox" name="ckconsultaall" value="checked" /> Consulta</th>
-                                <th><input type="checkbox" name="ckconsultaall" value="checked" /> Alta/Modif</th>
-                                <th><input type="checkbox" name="ckconsultaall" value="checked" /> Baja</th>
+                                <th><input type="checkbox" name="ckConsultaAll" id="ckConsultaAll" value="checked" /> Consulta</th>
+                                <th><input type="checkbox" name="ckAltaModificacionAll" id="ckAltaModificacionAll" value="checked" /> Alta/Modif</th>
+                                <th><input type="checkbox" name="ckBajaAll" id="ckBajaAll" value="checked" /> Baja</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -66,13 +74,146 @@
 
 @section scripts {
     <script>
+
+
+        function refreshdropdown() {             
+            //var RolId = $('#selectRolCreate').val();
+            //$("#dataTables-example").dataTable().fnReloadAjax();
+            var newurl = "@Url.Action("GetPermisos", "Permissions", new { Rolid = "ParamRolId" })".replace("ParamRolId", $('#selectRolCreate').val());
+            $("#dataTables-example").dataTable().fnReloadAjax(newurl);
+                @*$.ajax({
+                        url: '@Url.Action("GetPermisos", "Permissions")',
+                        type: 'POST',
+                        data: JSON.stringify({
+                            "Rolid": RolId
+                        }),
+                        contentType: 'application/json; charset=utf-8;',
+                        success: function (result) {
+                            $("#dataTables-example").dataTable().fnReloadAjax();
+                        },
+                        error: function (response) {
+                                Lobibox.notify('error', {
+                                    title: 'Error',
+                                    msg: 'Ah ocurrido un error, intente nuevamente.'
+                                });
+                        }
+                    });*@
+
+        
+
+            };
+
+
+
         $(document).ready(function () {
 
+            $('#ckConsultaAll').change(function () {
+                var RolId = $('#selectRolCreate').val();
+                var Permiso_check = this.checked;
+
+                if (this.checked) {
+                    $('#dataTables-example .ConsultaCheckbox').prop('checked', true);                    
+                }
+                else {
+                    $('#dataTables-example .ConsultaCheckbox').prop('checked', false);
+                }
+                UpdatePermisos(RolId, 'Consulta', Permiso_check);
+            });
+
+
+
+
+            $(document).on('click', '.ConsultaCheckbox', function () {
+                var Permiso_id = $(this).parents('tr').attr('Id');
+                var Permiso_check = this.checked;
+                EditPermiso(Permiso_id, "Consulta", Permiso_check);
+            });
+
+            $(document).on('click', '.AltaModificacionCheckbox', function () {
+                var Permiso_id = $(this).parents('tr').attr('Id');
+                var Permiso_check = this.checked;
+                EditPermiso(Permiso_id, "AltaModificacion", Permiso_check);
+            });
+
+            $(document).on('click', '.BajaCheckbox', function () {
+                var Permiso_id = $(this).parents('tr').attr('Id');
+                var Permiso_check = this.checked;
+                EditPermiso(Permiso_id, "Baja", Permiso_check);
+            });
+
+            function EditPermiso(Permiso_id, tipo, Permiso_check) {
+                                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("EditPermiso")',
+                    data: JSON.stringify({
+                        id: Permiso_id,
+                        tipo: tipo,
+                        permiso: Permiso_check
+                    }),
+                        contentType: 'application/json; charset=utf-8',
+                        dataType: 'json',
+                        success: function (dataResponse) {
+                            if (dataResponse.responseCode == 0)
+                                {
+                                Lobibox.notify('success', {
+                                    title: 'Exito',
+                                    msg: 'Los cambios se han grabado correctamente.'
+                                });
+                            } else {
+                                    Lobibox.notify('error', {
+                                        title: 'Error',
+                                        msg: 'Ah ocurrido un error, intente nuevamente.'
+                                });
+                            }
+                        },
+                        error: function (response) {
+                                Lobibox.notify('error', {
+                                    title: 'Error',
+                                    msg: 'Ah ocurrido un error, intente nuevamente.'
+                                });
+                        }
+                    });
+            }
+
+
+            function UpdatePermisos(Rol, tipo, Permiso_check) {
+                                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("UpdatePermisos")',
+                    data: JSON.stringify({
+                        idRol: Rol,
+                        tipo: tipo,
+                        permiso: Permiso_check
+                    }),
+                        contentType: 'application/json; charset=utf-8',
+                        dataType: 'json',
+                        success: function (dataResponse) {
+                            if (dataResponse.responseCode == 0)
+                                {
+                                Lobibox.notify('success', {
+                                    title: 'Exito',
+                                    msg: 'Los cambios se han grabado correctamente.'
+                                });
+                            } else {
+                                    Lobibox.notify('error', {
+                                        title: 'Error',
+                                        msg: 'Ah ocurrido un error, intente nuevamente.'
+                                });
+                            }
+                        },
+                        error: function (response) {
+                                Lobibox.notify('error', {
+                                    title: 'Error',
+                                    msg: 'Ah ocurrido un error, intente nuevamente.'
+                                });
+                        }
+                    });
+            }
 
             var table = $('#dataTables-example').DataTable({
                  "ajax":
                   {
-                      url: "@Url.Action("GetPermisos", "Permissions", new { Rolid = "5" })",
+                     url: "@Url.Action("GetPermisos", "Permissions", new { Rolid = "ParamRolId" })".replace("ParamRolId", $('#selectRolCreate').val()),
                       type: "post",
                       dataSrc: ""
                 },
@@ -81,23 +222,37 @@
                      { "data": "Window.Module.Descripcion" },
                      { "data": "Window.Descripcion" },
                      { "data": null, defaultContent: '' },
-                     { "data": "AltaModificacion" },
-                     { "data": "Baja" }
+                     { "data": null, defaultContent: ''},
+                     { "data": null, defaultContent: '' }
 
                  ],
                 "columnDefs": [
                     { "visible": false, "targets": 1 }
                 ],
                 "ordering": false,
+                rowId: 'Id',
                 "displayLength": 25,
                 "fnCreatedRow": function (nRow, aData, iDataIndex) {
                     if (aData.Consulta)
                     {
-                        $('td:eq(2)', nRow).append("<input name='consulta' type='checkbox' checked>");
+                        $('td:eq(2)', nRow).append("<input class='ConsultaCheckbox' name='consulta' type='checkbox' checked>");
                     }
                     else
                     {
-                        $('td:eq(2)', nRow).append("<input name='consulta' type='checkbox'>");
+                        $('td:eq(2)', nRow).append("<input class='ConsultaCheckbox' name='consulta' type='checkbox'>");
+                    }
+
+                    if (aData.AltaModificacion) {
+                        $('td:eq(3)', nRow).append("<input class='AltaModificacionCheckbox' name='AltaModificacion' type='checkbox' checked>");
+                    }
+                    else {
+                        $('td:eq(3)', nRow).append("<input class='AltaModificacionCheckbox' name='AltaModificacion' type='checkbox'>");
+                    }
+                    if (aData.Baja) {
+                        $('td:eq(4)', nRow).append("<input class='AltaModificacionCheckbox' name='Baja' type='checkbox' checked>");
+                    }
+                    else {
+                        $('td:eq(4)', nRow).append("<input class='BajaCheckbox'  name='Baja' type='checkbox'>");
                     }
                     
                 },
@@ -119,6 +274,9 @@
             });
 
         });
+
+
+
 
     </script>
 

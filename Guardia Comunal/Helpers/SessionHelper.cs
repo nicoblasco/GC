@@ -74,6 +74,12 @@ namespace Guardia_Comunal.Helpers
 
         }
 
+        public static void LogoutSession()
+        {
+            FormsAuthentication.SignOut();
+           // Session.Abandon();
+        }
+
 
     }
 }

@@ -10,9 +10,12 @@ using GuardiaComunal.Models;
 using Guardia_Comunal.Models;
 using Newtonsoft.Json;
 using Guardia_Comunal.Helpers;
+using Guardia_Comunal.Tags;
 
 namespace Guardia_Comunal.Controllers
 {
+
+    [AutenticadoAttribute]
     public class UsuariosController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -34,6 +37,13 @@ namespace Guardia_Comunal.Controllers
         {
 
             return View();
+        }
+
+        public ActionResult Logout()
+        {
+            SessionHelper.LogoutSession();
+
+            return RedirectToAction("Index", "Login");
         }
 
         [HttpPost]

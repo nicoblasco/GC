@@ -1,4 +1,5 @@
-﻿using Guardia_Comunal.Models;
+﻿using Guardia_Comunal.Helpers;
+using Guardia_Comunal.Models;
 using Guardia_Comunal.ViewModel;
 using GuardiaComunal.Models;
 using System;
@@ -19,6 +20,8 @@ namespace Guardia_Comunal.Controllers
         {
             return View();
         }
+
+
 
         public JsonResult Autenticar(LoginViewModel model)
         {
@@ -45,6 +48,8 @@ namespace Guardia_Comunal.Controllers
 
             return Json(rm);
         }
+
+
         
     }
 }

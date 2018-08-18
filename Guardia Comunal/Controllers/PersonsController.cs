@@ -1,4 +1,5 @@
 ﻿using Guardia_Comunal.Models;
+using Guardia_Comunal.Tags;
 using GuardiaComunal.Models;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ using System.Web.Mvc;
 
 namespace Guardia_Comunal.Controllers
 {
+    [AutenticadoAttribute]
     public class PersonsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

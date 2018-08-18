@@ -41,15 +41,15 @@
                         <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
-                        <li>
-                            <a href="perfil.html"><i class="fa fa-user fa-fw"></i> Perfil de Usuario</a>
-                        </li>
-                        <li>
-                            <a href="configuracion.html"><i class="fa fa-gear fa-fw"></i> Configuracion</a>
-                        </li>
+                        @*<li>
+            <a href="perfil.html"><i class="fa fa-user fa-fw"></i> Perfil de Usuario</a>
+        </li>
+        <li>
+            <a href="configuracion.html"><i class="fa fa-gear fa-fw"></i> Configuracion</a>
+        </li>*@
                         <li class="divider"></li>
                         <li>
-                            <a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Cerrar Sesión</a>
+                            <a href="@Url.Action("Logout", "Usuarios")"><i class="fa fa-sign-out fa-fw"></i> Cerrar Sesión</a>
                         </li>
                     </ul>
                     <!-- /.dropdown-user -->
@@ -119,7 +119,7 @@
                                 </li>
                             </ul>
                         </li>
-                        <li>
+                        @*<li>
                             <a style="color: whitesmoke" href="#"><i class="fa fa-file-text-o fa-fw"></i> Reportes<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
@@ -135,8 +135,7 @@
                                     <a style="color: whitesmoke" href="#">Reporte 4</a>
                                 </li>
                             </ul>
-                            <!-- /.nav-second-level -->
-                        </li>
+                        </li>*@
                         <li>
                             <a style="color: whitesmoke" href="#"><i class="fa fa-wrench fa-fw"></i> Configuracion<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Guardia_Comunal.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -18,5 +19,17 @@ namespace GuardiaComunal.Models
         public bool AltaModificacion { get; set; }
         public bool Baja { get; set; }
         public DateTime Fecha { get; set; }
+
+        public List<Permission> Obtener(int Rolid)
+        {
+
+            using (var ctx = new ApplicationDbContext())
+            {
+                List<Permission> permiso = ctx.Permissions.Where(x => x.RolId == Rolid).ToList();
+
+                return permiso;
+
+            }
+        }
     }
 }

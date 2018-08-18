@@ -209,6 +209,7 @@
     <Compile Include="Models\Nighborhood.cs" />
     <Compile Include="Models\Observation.cs" />
     <Compile Include="Models\Permission.cs" />
+    <Compile Include="Models\PermissionTypes.cs" />
     <Compile Include="Models\Person.cs" />
     <Compile Include="Models\Police.cs" />
     <Compile Include="Models\PoliceStation.cs" />
@@ -226,6 +227,7 @@
     <Compile Include="Validations\DateGreaterThanAttribute.cs" />
     <Compile Include="ViewModel\InfractorViewModel.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
+    <Compile Include="ViewModel\PermissionViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-datetimepicker.css" />

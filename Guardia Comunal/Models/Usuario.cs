@@ -53,5 +53,17 @@ namespace GuardiaComunal.Models
             return rm;
         }
 
+        public Usuario Obtener(int Usuarioid)
+        {
+
+            using (var ctx = new ApplicationDbContext())
+            {
+                Usuario usuario = ctx.Usuarios.Find(Usuarioid);
+
+                return usuario;
+
+            }
+        }
+
     }
 }

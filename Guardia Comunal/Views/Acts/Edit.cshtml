@@ -1,5 +1,6 @@
 ﻿@model GuardiaComunal.Models.Act
 @using Guardia_Comunal.Helpers
+@using Guardia_Comunal.ViewModel
 
 @{
     ViewBag.Title = "Edit";
@@ -146,7 +147,7 @@
                                 <div class="col-sm-4" id="divArchivo">
                                     <label>Acta Adjunta</label>
                                     @*@Html.TextBoxFor(m => m.ActaAdjunta, new { type = "file", name = "fileUploadActa" })*@
-                                    @Html.HiddenFor(m => m.ActaAdjuntaBorrada, new { id = "hiddenArchivoBorrado"})
+                                    @Html.HiddenFor(m => m.ActaAdjuntaBorrada, new { id = "hiddenArchivoBorrado" })
                                     @Html.HiddenFor(m => m.ActaAdjunta)
                                     <div class="input-group input-file" name="fileUploadActa">
                                         <span class="input-group-btn">
@@ -161,7 +162,7 @@
                                     {
                                         <p>@Html.ActionLink(Path.GetFileName(Model.ActaAdjunta), "Download", "Acts", new { filePath = Model.ActaAdjunta, id = "linkActaAdjunta" }, null)</p>
                                     }
-                                    </div>
+                                </div>
                                 <div class="col-sm-3">
                                     <label>Fecha/Hora de Carga</label>
                                     @Html.EditorFor(model => model.FechaCarga, new { htmlAttributes = new { @class = "form-control input-sm", id = "dt-Carga", name = "dtCarga" } })
@@ -373,7 +374,7 @@
                                             <button class="btn btn-default btn-reset btn-sm" type="button">Borrar</button>
                                         </span>
                                     </div>
-                                    @if (Model.TicketAlcoholemiaAdjunto !=null)
+                                    @if (Model.TicketAlcoholemiaAdjunto != null)
                                     {
                                         <p>@Html.ActionLink(Path.GetFileName(Model.TicketAlcoholemiaAdjunto), "Download", "Acts", new { filePath = Model.ActaAdjunta, id = "linkTicketAlcoholemiaAdjunto" }, null)</p>
                                     }
@@ -428,8 +429,10 @@
                         </div>
                     </div>
                     <!-- /. https://pbauerochse.github.io/searchable-option-list/examples.html#basic-usage -->
-                    <button type="submit" class="btn btn-primary">Guardar</button>
-
+                    @if (PermissionViewModel.TienePermisoAlta(WindowHelper.GetWindowId("Actas", "Altas")))
+                    {
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    }
                 </div>
                 <!-- /.col-lg-12 -->
             </form>
@@ -503,7 +506,7 @@
         });
 
 
-        
+
 
 
     //Cargo las calles y barrios

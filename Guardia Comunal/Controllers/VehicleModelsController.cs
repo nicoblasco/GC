@@ -11,6 +11,7 @@ using Guardia_Comunal.Models;
 using Newtonsoft.Json;
 using Guardia_Comunal.Helpers;
 using Guardia_Comunal.Tags;
+using Guardia_Comunal.ViewModel;
 
 namespace Guardia_Comunal.Controllers
 {
@@ -31,6 +32,8 @@ namespace Guardia_Comunal.Controllers
             lMarcas = db.VehicleBrands.ToList().Where(x => x.Enable == true).ToList();
             ViewBag.listaTipos = lTipos;
             ViewBag.listaMarcas = lMarcas;
+            ViewBag.AltaModificacion = PermissionViewModel.TienePermisoAlta(WindowHelper.GetWindowId(ModuleDescription, WindowDescription));
+            ViewBag.Baja = PermissionViewModel.TienePermisoBaja(WindowHelper.GetWindowId(ModuleDescription, WindowDescription));
 
             return View(list);
         }

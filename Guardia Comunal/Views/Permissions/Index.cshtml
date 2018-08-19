@@ -81,24 +81,6 @@
             //$("#dataTables-example").dataTable().fnReloadAjax();
             var newurl = "@Url.Action("GetPermisos", "Permissions", new { Rolid = "ParamRolId" })".replace("ParamRolId", $('#selectRolCreate').val());
             $("#dataTables-example").dataTable().fnReloadAjax(newurl);
-                @*$.ajax({
-                        url: '@Url.Action("GetPermisos", "Permissions")',
-                        type: 'POST',
-                        data: JSON.stringify({
-                            "Rolid": RolId
-                        }),
-                        contentType: 'application/json; charset=utf-8;',
-                        success: function (result) {
-                            $("#dataTables-example").dataTable().fnReloadAjax();
-                        },
-                        error: function (response) {
-                                Lobibox.notify('error', {
-                                    title: 'Error',
-                                    msg: 'Ah ocurrido un error, intente nuevamente.'
-                                });
-                        }
-                    });*@
-
         
 
             };
@@ -106,6 +88,18 @@
 
 
         $(document).ready(function () {
+            var AltaModificacion = '@ViewBag.AltaModificacion';
+
+            if (AltaModificacion == 'False') {
+                $('#ckConsultaAll').prop("disabled", true);
+                $('#ckAltaModificacionAll').prop("disabled", true);
+                $('#ckBajaAll').prop("disabled", true);
+                //$('#dataTables-example .ConsultaCheckbox').prop("disabled", true);
+                //$('#dataTables-example .AltaModificacionCheckbox').prop("disabled", true);
+                //$('#dataTables-example .BajaCheckbox').prop("disabled", true);
+            }
+
+
 
             $('#ckConsultaAll').change(function () {
                 var RolId = $('#selectRolCreate').val();
@@ -120,25 +114,58 @@
                 UpdatePermisos(RolId, 'Consulta', Permiso_check);
             });
 
+            $('#ckAltaModificacionAll').change(function () {
+                var RolId = $('#selectRolCreate').val();
+                var Permiso_check = this.checked;
+
+                if (this.checked) {
+                    $('#dataTables-example .AltaModificacionCheckbox').prop('checked', true);
+                }
+                else {
+                    $('#dataTables-example .AltaModificacionCheckbox').prop('checked', false);
+                }
+                UpdatePermisos(RolId, 'AltaModificacion', Permiso_check);
+            });
+
+
+            $('#ckBajaAll').change(function () {
+                var RolId = $('#selectRolCreate').val();
+                var Permiso_check = this.checked;
+
+                if (this.checked) {
+                    $('#dataTables-example .BajaCheckbox').prop('checked', true);
+                }
+                else {
+                    $('#dataTables-example .BajaCheckbox').prop('checked', false);
+                }
+                UpdatePermisos(RolId, 'Baja', Permiso_check);
+            });
+
 
 
 
             $(document).on('click', '.ConsultaCheckbox', function () {
-                var Permiso_id = $(this).parents('tr').attr('Id');
-                var Permiso_check = this.checked;
-                EditPermiso(Permiso_id, "Consulta", Permiso_check);
+                if (AltaModificacion == 'True') {
+                    var Permiso_id = $(this).parents('tr').attr('Id');
+                    var Permiso_check = this.checked;
+                    EditPermiso(Permiso_id, "Consulta", Permiso_check);
+                }
             });
 
             $(document).on('click', '.AltaModificacionCheckbox', function () {
-                var Permiso_id = $(this).parents('tr').attr('Id');
-                var Permiso_check = this.checked;
-                EditPermiso(Permiso_id, "AltaModificacion", Permiso_check);
+                if (AltaModificacion == 'True') {
+                    var Permiso_id = $(this).parents('tr').attr('Id');
+                    var Permiso_check = this.checked;
+                    EditPermiso(Permiso_id, "AltaModificacion", Permiso_check);
+                }
             });
 
             $(document).on('click', '.BajaCheckbox', function () {
-                var Permiso_id = $(this).parents('tr').attr('Id');
-                var Permiso_check = this.checked;
-                EditPermiso(Permiso_id, "Baja", Permiso_check);
+                if (AltaModificacion == 'True') {
+                    var Permiso_id = $(this).parents('tr').attr('Id');
+                    var Permiso_check = this.checked;
+                    EditPermiso(Permiso_id, "Baja", Permiso_check);
+                }
             });
 
             function EditPermiso(Permiso_id, tipo, Permiso_check) {

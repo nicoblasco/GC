@@ -63,7 +63,7 @@ namespace Guardia_Comunal.Helpers
 
         public static void AddUserToSessionTicket(int id, string username, string rolid)
         {
-            var authTicket = new FormsAuthenticationTicket(id, username, DateTime.Now, DateTime.Now.AddMinutes(60), true, rolid);
+            var authTicket = new FormsAuthenticationTicket(id, username, DateTime.Now, DateTime.Now.AddMinutes(60), true, id.ToString());
             string cookieContents = FormsAuthentication.Encrypt(authTicket);
             var cookie = new HttpCookie(FormsAuthentication.FormsCookieName, cookieContents)
             {

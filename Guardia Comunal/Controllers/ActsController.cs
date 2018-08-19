@@ -27,6 +27,9 @@ namespace Guardia_Comunal.Controllers
         public ActionResult Index()
         {
             List<Act> list = db.Acts.ToList();
+            ViewBag.AltaModificacion = PermissionViewModel.TienePermisoAlta(WindowHelper.GetWindowId("Actas", "Altas"));
+            ViewBag.Baja = PermissionViewModel.TienePermisoBaja(WindowHelper.GetWindowId("Actas", "Baja"));
+            ViewBag.Liberacion = PermissionViewModel.TienePermisoAlta(WindowHelper.GetWindowId("Actas", "Liberacion"));
 
             return View(list);
         }
@@ -219,6 +222,10 @@ namespace Guardia_Comunal.Controllers
         // GET: Acts/Create
         public ActionResult Create()
         {
+            if (!PermissionViewModel.TienePermisoAcesso(WindowHelper.GetWindowId("Actas", "Altas")))
+            {
+                return RedirectToAction("Index", "Acts");
+            }   
 
             List<VehicleType> lTipos = new List<VehicleType>();
             List<VehicleBrand> lMarcas = new List<VehicleBrand>();
@@ -338,6 +345,7 @@ namespace Guardia_Comunal.Controllers
         // GET: Acts/Edit/5
         public ActionResult Edit(int? id)
         {
+
             int i = 0;
             List<VehicleType> lTipos = new List<VehicleType>();
             List<VehicleBrand> lMarcas = new List<VehicleBrand>();
@@ -577,6 +585,8 @@ namespace Guardia_Comunal.Controllers
         // GET: Acts/Delete/5
         public ActionResult Delete(int? id)
         {
+
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);

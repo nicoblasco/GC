@@ -11,6 +11,7 @@ using Guardia_Comunal.Models;
 using Newtonsoft.Json;
 using Guardia_Comunal.Helpers;
 using Guardia_Comunal.Tags;
+using Guardia_Comunal.ViewModel;
 
 namespace Guardia_Comunal.Controllers
 {
@@ -24,6 +25,8 @@ namespace Guardia_Comunal.Controllers
         // GET: Police
         public ActionResult Index()
         {
+            ViewBag.AltaModificacion = PermissionViewModel.TienePermisoAlta(WindowHelper.GetWindowId(ModuleDescription, WindowDescription));
+            ViewBag.Baja = PermissionViewModel.TienePermisoBaja(WindowHelper.GetWindowId(ModuleDescription, WindowDescription));
             List<Police> list = db.Police.ToList();
             List<PoliceStation> lComisarias = new List<PoliceStation>();
             lComisarias = db.PoliceStations.ToList().Where(x => x.Enable == true).ToList();

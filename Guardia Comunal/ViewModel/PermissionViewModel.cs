@@ -10,29 +10,73 @@ namespace Guardia_Comunal.ViewModel
 {
     public class PermissionViewModel
     {
-        //public static bool TienePermisoAlta(int WindowId, PermissionTypes permissionTypes )
-        //{
-        //    //foreach (var item in PermissionViewModel.GetPermisos())
-        //    //{
+        public static bool TienePermisoAlta(int WindowId)
+        {
+            bool boPermiso = false;
+            if (IsAdmin())
+                return true;
 
-        //    //}
+            List<Permission> permission = new List<Permission>();
+            permission = GetPermisos();
+            boPermiso = permission.Where(x => x.WindowId == WindowId).Select(x => x.AltaModificacion).FirstOrDefault();
+            return boPermiso;
+        }
 
-        //    List<Permission> permission = new List<Permission>();
-        //    permission = GetPermisos();
+        public static bool TienePermisoBaja(int WindowId)
+        {
+            bool boPermiso = false;
 
-        //    switch (permissionTypes)
-        //    {
-        //        case PermissionTypes.Consulta:
-        //            permission.Where(x => x.WindowId == WindowId && x.Consulta == true);
-        //            break;               
-        //    }            
-        //}
+            if (IsAdmin())
+                return true;
+
+            List<Permission> permission = new List<Permission>();
+            permission = GetPermisos();
+            boPermiso= permission.Where(x => x.WindowId == WindowId).Select(x => x.Baja).FirstOrDefault();
+            return boPermiso;
+
+
+        }
+
+        public static bool TienePermisoAcesso(int WindowId)
+        {
+            bool boPermiso = false;
+
+            if (IsAdmin())
+                return true;
+
+            List<Permission> permission = new List<Permission>();
+            permission = GetPermisos();
+            boPermiso = permission.Where(x => x.WindowId == WindowId).Select(x => x.Consulta).FirstOrDefault();
+            return boPermiso;
+        }
 
         public static List<Permission> GetPermisos()
         {
             Usuario usuario = new Usuario();
-            usuario.Obtener(SessionHelper.GetUser());
+            usuario= usuario.Obtener(SessionHelper.GetUser());
             return new Permission().Obtener(usuario.RolId);
         }
+
+        public static bool IsAdmin()
+        {
+
+            using (var ctx = new ApplicationDbContext())
+            {
+                Usuario usuario = ctx.Usuarios.Find(SessionHelper.GetUser());
+                if (usuario == null)
+                    return false;
+
+                Rol rol = ctx.Rols.Find(usuario.RolId);
+
+                if (rol.Nombre == "Administrador")
+                    return true;
+                else
+                    return false;
+
+
+            }
+        }
+
+
     }
 }

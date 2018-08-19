@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<GuardiaComunal.Models.Audit>
-
+@using Guardia_Comunal.Helpers
+@using Guardia_Comunal.ViewModel
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -39,7 +40,7 @@
 <!-- /#page-wrapper -->
 
 @section scripts {
-    
+
     <script>
         $(document).ready(function () {
 

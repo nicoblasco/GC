@@ -16,16 +16,22 @@
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <button type="button" id="btnNuevo" class="btn btn-primary" data-toggle="modal" data-target="#nuevoModal">
-                        Nuevo
-                    </button>
-                    <button type="button" id="btnEditar" class="btn btn-primary" data-toggle="modal" data-target="#editarModal">
-                        Editar
-                    </button>
-                    <button type="button" id="btnBorrar" class="btn btn-primary" data-toggle="modal" data-target="#borrarModal">
-                        Borrar
-                    </button>
-                </div>
+                    @if (ViewBag.AltaModificacion)
+                    {
+                        <button type="button" id="btnNuevo" class="btn btn-primary" data-toggle="modal" data-target="#nuevoModal">
+                            Nuevo
+                        </button>
+                        <button type="button" id="btnEditar" class="btn btn-primary" data-toggle="modal" data-target="#editarModal">
+                            Editar
+                        </button>
+                    }
+                    @if (ViewBag.Baja)
+                    {
+                        <button type="button" id="btnBorrar" class="btn btn-primary" data-toggle="modal" data-target="#borrarModal">
+                            Borrar
+                        </button>
+                    }
+                    </div>
                 <!-- /.panel-heading -->
 
 

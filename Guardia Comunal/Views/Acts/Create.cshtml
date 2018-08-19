@@ -1,5 +1,6 @@
 ﻿@model GuardiaComunal.Models.Act
 @using Guardia_Comunal.Helpers
+@using Guardia_Comunal.ViewModel
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
     //HtmlHelper.ClientValidationEnabled = false;
@@ -272,16 +273,16 @@
                                     <label>Estado del vehiculo</label>
 
                                     @*@Html.DropDownListFor(model => model.EstadoVehiculo, new SelectList(
-        new List<Object>{
-                                            new { value = "No Retenido"  , text = "No Retenido"  },
-                                            new { value = "Retenido" , text = "Retenido" },
-                                            new { value = "Liberado" , text = "Liberado"},
-                                            new { value = "Compactado" , text = "Compactado"}
-          },
-        "value",
-        "text",
-         0), new { id = "ddlEstadoVehiculo", @class = "form-control input-sm", disabled = "disabled" })*@
-                                    @Html.EditorFor(model => model.EstadoVehiculo, new { htmlAttributes = new {@Value = "No Retenido", @class = "form-control input-sm", id = "ddlEstadoVehiculo" } })                                    
+                        new List<Object>{
+                                                            new { value = "No Retenido"  , text = "No Retenido"  },
+                                                            new { value = "Retenido" , text = "Retenido" },
+                                                            new { value = "Liberado" , text = "Liberado"},
+                                                            new { value = "Compactado" , text = "Compactado"}
+                          },
+                        "value",
+                        "text",
+                         0), new { id = "ddlEstadoVehiculo", @class = "form-control input-sm", disabled = "disabled" })*@
+                                    @Html.EditorFor(model => model.EstadoVehiculo, new { htmlAttributes = new { @Value = "No Retenido", @class = "form-control input-sm", id = "ddlEstadoVehiculo" } })
                                 </div>
                                 <div class="col-sm-3">
                                     <label>Fecha de Estado</label>
@@ -303,9 +304,9 @@
                                 <div class="col-sm-2">
                                     <label>Tipo Agente</label>
                                     @*<select class="form-control input-sm" id="ddlTipoAgente">
-                                            <option value="1">Inspector</option>
-                                            <option value="2">Policia</option>
-                                        </select>*@
+                            <option value="1">Inspector</option>
+                            <option value="2">Policia</option>
+                        </select>*@
 
                                     @Html.DropDownListFor(model => model.TipoAgente, new SelectList(
        new List<Object>{
@@ -337,7 +338,7 @@
                                     </label>
                                     <label class="checkbox-inline">
                                         @*<input id="ck-TicketAlcoholemia" name="ckTicketAlcoholemia" type="checkbox">Ticket Alcoholemia*@
-                                        @Html.CheckBoxFor(model => model.TicketAlcoholemia, new { htmlAttributes = new { @class = "form-control input-sm", id = "ck-TicketAlcoholemia" } })Ticket Alcoholemia                                        
+                                        @Html.CheckBoxFor(model => model.TicketAlcoholemia, new { htmlAttributes = new { @class = "form-control input-sm", id = "ck-TicketAlcoholemia" } })Ticket Alcoholemia
                                     </label>
                                 </div>
                             </div>
@@ -354,7 +355,7 @@
                                         <span class="input-group-btn">
                                             <button class="btn btn-default btn-choose btn-sm" type="button">Elegir</button>
                                         </span>
-                                        <input id="input-TicketAlcoholemia" name="inputTicketAlcoholemia" type="text" class="form-control input-sm" placeholder='Selecciona el Ticket...'  />
+                                        <input id="input-TicketAlcoholemia" name="inputTicketAlcoholemia" type="text" class="form-control input-sm" placeholder='Selecciona el Ticket...' />
                                         <span class="input-group-btn">
                                             <button class="btn btn-default btn-reset btn-sm" type="button">Borrar</button>
                                         </span>
@@ -405,9 +406,11 @@
                         </div>
                     </div>
                     <!-- /. https://pbauerochse.github.io/searchable-option-list/examples.html#basic-usage -->
-                    <button type="submit" class="btn btn-primary">Guardar</button>
-
-                </div>
+                    @if (PermissionViewModel.TienePermisoAlta(WindowHelper.GetWindowId("Actas", "Altas")))
+                    {
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    }
+                    </div>
                 <!-- /.col-lg-12 -->
             </form>
             <!-- /.form -->
@@ -470,7 +473,7 @@
         //    $('form').bind('submit', function () {
         //        $(this).find(':input').prop('disabled', false);
         //    });
-        //});        
+        //});
 
 
     //Cargo las calles y barrios

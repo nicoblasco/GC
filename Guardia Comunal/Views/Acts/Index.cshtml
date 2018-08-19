@@ -1,4 +1,6 @@
 ﻿@model IEnumerable<GuardiaComunal.Models.Act>
+@using Guardia_Comunal.Helpers
+@using Guardia_Comunal.ViewModel
 @{
 
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -41,79 +43,82 @@
         table-layout: fixed;
     }
 </style>
+@if (PermissionViewModel.TienePermisoAcesso(WindowHelper.GetWindowId("Actas", "Buscar")))
+{
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
 
-<div id="page-wrapper">
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">
+                    </div>
+                    <!-- /.panel-heading -->
+                    <div class="panel-body">
+                        <table id="dataTables-Index" width="100%" class="display nowrap table table-striped table-bordered table-hover" style="font-size:11px">
+                            <thead>
+                                <tr>
+                                    <th>Acción</th>
+                                    <th>Nro Acta</th>
+                                    <th>Fecha Infracción</th>
+                                    <th>DNI</th>
+                                    <th>Estado Vehiculo</th>
+                                    <th>Tipo Vehiculo</th>
+                                    <th>Dominio</th>
+                                    <th>Nro Motor</th>
+                                    <th>Nro Chasis</th>
+                                    <th>Marca</th>
+                                    <th>Modelo</th>
+                                    <th>Color</th>
+                                    <th>Agente</th>
 
-                </div>
-                <!-- /.panel-heading -->
-                <div class="panel-body">
-                    <table id="dataTables-Index" width="100%" class="display nowrap table table-striped table-bordered table-hover" style="font-size:11px">
-                        <thead>
-                            <tr>
-                                <th>Acción</th>
-                                <th>Nro Acta</th>
-                                <th>Fecha Infracción</th>
-                                <th>DNI</th>
-                                <th>Estado Vehiculo</th>
-                                <th>Tipo Vehiculo</th>
-                                <th>Dominio</th>
-                                <th>Nro Motor</th>
-                                <th>Nro Chasis</th>
-                                <th>Marca</th>
-                                <th>Modelo</th>
-                                <th>Color</th>
-                                <th>Agente</th>
+                                </tr>
+                            </thead>
 
-                            </tr>
-                        </thead>
-
-                        <tfoot>
-                            <tr>
-                                <th></th>
-                                <th>Nro Acta</th>
-                                <th>Fecha Infracción</th>
-                                <th>DNI</th>
-                                <th>Estado Vehiculo</th>
-                                <th>Tipo Vehiculo</th>
-                                <th>Dominio</th>
-                                <th>Nro Motor</th>
-                                <th>Nro Chasis</th>
-                                <th>Marca</th>
-                                <th>Modelo</th>
-                                <th>Color</th>
-                                <th>Agente</th>
-                            </tr>
-                        </tfoot>
-                    </table>
+                            <tfoot>
+                                <tr>
+                                    <th></th>
+                                    <th>Nro Acta</th>
+                                    <th>Fecha Infracción</th>
+                                    <th>DNI</th>
+                                    <th>Estado Vehiculo</th>
+                                    <th>Tipo Vehiculo</th>
+                                    <th>Dominio</th>
+                                    <th>Nro Motor</th>
+                                    <th>Nro Chasis</th>
+                                    <th>Marca</th>
+                                    <th>Modelo</th>
+                                    <th>Color</th>
+                                    <th>Agente</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
+
     </div>
-
-</div>
-<!-- Progress Loader -->
-<div id="div-loader" style="margin: 0px; padding: 0px; position: fixed; right: 0px; top: 0px; width: 100%; height: 100%; background-color: rgb(102, 102, 102); z-index: 30001; opacity: 0.8; display: none">
-    <p style="position: absolute; color: White; top: 35%; left: 45%;">
-        <img src="~/Images/loading.gif" alt="Loading..." />
-    </p>
-</div>
-
+    <!-- Progress Loader -->
+    <div id="div-loader" style="margin: 0px; padding: 0px; position: fixed; right: 0px; top: 0px; width: 100%; height: 100%; background-color: rgb(102, 102, 102); z-index: 30001; opacity: 0.8; display: none">
+        <p style="position: absolute; color: White; top: 35%; left: 45%;">
+            <img src="~/Images/loading.gif" alt="Loading..." />
+        </p>
+    </div>
 }
 <!-- /#page-wrapper -->
 <!-- /#wrapper -->
 @section scripts {
 
-<script>
+    <script>
 
 
 
 
     $(document).ready(function () {
 
+        var AltaModificacion = '@ViewBag.AltaModificacion';
+        var Baja = '@ViewBag.Baja';
+        var Liberacion = '@ViewBag.Liberacion';
 
          var table=  $('#dataTables-Index').DataTable({
               "ajax":
@@ -154,20 +159,29 @@
                   //Agrego las
                   // Add a class to the cell in the first column
                   $(nRow).children(':nth-child(1)').addClass('td-btn');
-                  // Add a class to the row
-                //  $(nRow).addClass('td-btn');
 
                   //Agrego el boton
-                  //$('td:eq(0)', nRow).append("<div class='btn-group'><button type='button' class='btn btn-primary btn-xs dropdown-toggle' data-toggle='dropdown'><i class='fa fa-gear'></i> <span class='caret'></span></button><ul class='dropdown-menu' role='menu'><li><a href='#' onclick='Edit(this);'>Ver/Editar</a></li><li><a href='liberaciones.html'>Liberar</a></li><li class='divider'></li><li><a href='#' onclick='Delete(this);'>Eliminar</a></li></ul></div>");
+                  if (AltaModificacion=='True')
+                  { 
+                  //Modificar
                   $('td:eq(0)', nRow).append("<span class='fa fa-pencil span-btn' type='button' value='E' data-toggle='tooltip' data-placement='top' title='Modificar' id='btn_Editar' />");
-                  if (aData.EstadoVehiculo == "Liberado") {
-                      $('td:eq(0)', nRow).append("<span class='fa fa-check-square span-btn' type='button' value='C' data-toggle='tooltip' data-placement='top' title='Liberar' id='btn_Liberar_Edit'/> ");
                   }
-                  else
-                  {
-                      $('td:eq(0)', nRow).append("<span class='fa fa-check-square span-btn' type='button' value='C' data-toggle='tooltip' data-placement='top' title='Liberar' id='btn_Liberar'/> ");
+
+                  if (Liberacion == 'True') {
+                      //Liberar
+                      if (aData.EstadoVehiculo == "Liberado") {
+                          $('td:eq(0)', nRow).append("<span class='fa fa-check-square span-btn' type='button' value='C' data-toggle='tooltip' data-placement='top' title='Liberar' id='btn_Liberar_Edit'/> ");
+                      }
+                      else {
+                          $('td:eq(0)', nRow).append("<span class='fa fa-check-square span-btn' type='button' value='C' data-toggle='tooltip' data-placement='top' title='Liberar' id='btn_Liberar'/> ");
+                      }
                   }
-                  $('td:eq(0)', nRow).append("<span data-toggle='modal' data-target='#eliminar-modal'><span class='fa fa-trash span-btn-dtl' type='button' value='D' data-toggle='tooltip' data-placement='top' title='Eliminar'/></span>");
+
+                  if (Baja == 'True') {
+                      //Borrar
+
+                      $('td:eq(0)', nRow).append("<span data-toggle='modal' data-target='#eliminar-modal'><span class='fa fa-trash span-btn-dtl' type='button' value='D' data-toggle='tooltip' data-placement='top' title='Eliminar'/></span>");
+                  }
               },
               "fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
                   if (aData.EstadoVehiculo == "Retenido") {
@@ -259,7 +273,7 @@
             });
         }
 
-        
 
-</script>
+
+    </script>
 }

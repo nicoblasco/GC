@@ -26,11 +26,21 @@ namespace Guardia_Comunal.Controllers
         // GET: Acts
         public ActionResult Index()
         {
-            List<Act> list = db.Acts.ToList();
+
+            List<Act> list = db.Acts.Where(x=>x.Enable==true).ToList();
             ViewBag.AltaModificacion = PermissionViewModel.TienePermisoAlta(WindowHelper.GetWindowId("Actas", "Altas"));
             ViewBag.Baja = PermissionViewModel.TienePermisoBaja(WindowHelper.GetWindowId("Actas", "Baja"));
             ViewBag.Liberacion = PermissionViewModel.TienePermisoAlta(WindowHelper.GetWindowId("Actas", "Liberacion"));
+            return View(list);
+        }
 
+        public ActionResult Search(string NroActa)
+        {
+            List<Act> list = db.Acts.Where(x => x.Enable == true).ToList();
+            ViewBag.AltaModificacion = PermissionViewModel.TienePermisoAlta(WindowHelper.GetWindowId("Actas", "Altas"));
+            ViewBag.Baja = PermissionViewModel.TienePermisoBaja(WindowHelper.GetWindowId("Actas", "Baja"));
+            ViewBag.Liberacion = PermissionViewModel.TienePermisoAlta(WindowHelper.GetWindowId("Actas", "Liberacion"));
+            ViewBag.NroActa = NroActa;
             return View(list);
         }
 
@@ -39,7 +49,7 @@ namespace Guardia_Comunal.Controllers
         {
             try
             {
-                var lista = db.Acts.Select(c => new { c.Id, c.NroActa, c.FechaInfraccion, c.DNI, c.EstadoVehiculo, c.VehicleType, c.Dominio, c.NroMotor, c.NroChasis, c.VehicleBrand, c.VehicleModel, c.Color, c.TipoAgente });
+                var lista = db.Acts.Where(x => x.Enable == true).Select(c => new { c.Id, c.NroActa, c.FechaInfraccion, c.DNI, c.EstadoVehiculo, c.VehicleType, c.Dominio, c.NroMotor, c.NroChasis, c.VehicleBrand, c.VehicleModel, c.Color, c.TipoAgente });
 
                 return Json(lista, JsonRequestBehavior.AllowGet);
             }
@@ -50,10 +60,10 @@ namespace Guardia_Comunal.Controllers
             }
         }
 
-        public ActionResult Search()
-        {
-            return View(db.Acts.ToList());
-        }
+        //public ActionResult Search()
+        //{
+        //    return View(db.Acts.ToList());
+        //}
 
         [HttpGet]
         public JsonResult GetDuplicates(int id, string nroActa)
@@ -64,6 +74,7 @@ namespace Guardia_Comunal.Controllers
                 var result = from c in db.Acts
                              where c.Id != id
                              && c.NroActa.ToUpper() == nroActa.ToUpper()
+                             && c.Enable==true
                              select c;
 
                 var responseObject = new
@@ -316,6 +327,7 @@ namespace Guardia_Comunal.Controllers
 
                     db.SaveChanges();
 
+                    TempData["message"] = "Los cambios se han grabado correctamente.";
                     //Audito
                     AuditHelper.Auditar("Alta", act.Id.ToString(), "Acts", ModuleDescription, WindowDescription);
 
@@ -325,9 +337,9 @@ namespace Guardia_Comunal.Controllers
                     return new HttpStatusCodeResult(404, ex.Message.Replace("\r\n", ""));
                     //return View(act);
                 }
-                return new HttpStatusCodeResult(200);
+                return RedirectToAction("Index", "Acts");
             }
-            return RedirectToAction("Index", "Acts");
+            return View(act);
             //return View(act);
         }
 
@@ -442,15 +454,20 @@ namespace Guardia_Comunal.Controllers
                 act.Contraventions = new List<Contravention>();
                 act.Observations = new List<Observation>();
 
-                foreach (int contraventionId in act.SelectedContraventions)
+                if (act.SelectedContraventions != null)
                 {
-                    act.Contraventions.Add(db.Contraventions.Find(contraventionId));
+                    foreach (int contraventionId in act.SelectedContraventions)
+                    {
+                        act.Contraventions.Add(db.Contraventions.Find(contraventionId));
+                    }
                 }
-
-                foreach (int observationId in act.SelectedObservations)
+                if (act.SelectedObservations != null)
                 {
-                    act.Observations.Add(db.Observations.Find(observationId));
+                    foreach (int observationId in act.SelectedObservations)
+                    {
+                        act.Observations.Add(db.Observations.Find(observationId));
 
+                    }
                 }
 
                 //Guardo los archivos
@@ -575,6 +592,8 @@ namespace Guardia_Comunal.Controllers
                 db.Entry(act).State = EntityState.Modified;
                 db.SaveChanges();
 
+                TempData["message"] = "Los cambios se han grabado correctamente.";
+
                 AuditHelper.Auditar("Modificacion", act.Id.ToString(), "Acts", ModuleDescription, WindowDescription);
 
                 return RedirectToAction("Index", "Acts");
@@ -607,7 +626,8 @@ namespace Guardia_Comunal.Controllers
             }
 
             Act act = db.Acts.Find(id);
-            db.Acts.Remove(act);
+            act.Enable = false;
+            db.Entry(act).State = EntityState.Modified;
             db.SaveChanges();
 
             AuditHelper.Auditar("Baja", act.Id.ToString(), "Acts", ModuleDescription, WindowDescription);

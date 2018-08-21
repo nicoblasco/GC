@@ -541,6 +541,8 @@
     <Content Include="sounds\sound4.ogg" />
     <Content Include="sounds\sound5.ogg" />
     <Content Include="sounds\sound6.ogg" />
+    <Content Include="Views\Acts\Search.cshtml" />
+    <Content Include="Views\Acts\_Table.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\uploads\" />

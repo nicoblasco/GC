@@ -246,20 +246,20 @@
                                     <label>Acarreo</label>
                                     <div class="form-group input-group">
                                         <span class="input-group-addon">$</span>
-                                        @Html.EditorFor(model => model.Acarreo, new { htmlAttributes = new { @class = "form-control input-sm", id = "input-Acarreo", placeholder = "Acarreo" } })
+                                        @Html.EditorFor(model => model.Acarreo, new { htmlAttributes = new { @class = "form-control input-sm", @Value = "0", id = "input-Acarreo", placeholder = "Acarreo" } })
                                     </div>
                                     @Html.ValidationMessageFor(model => model.Acarreo, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-sm-2">
                                     <label>Nro. Recibo</label>
-                                    @Html.EditorFor(model => model.NroRecibo, new { htmlAttributes = new { @class = "form-control input-sm", id = "input-NroRecibo", placeholder = "Nro de Recibo" } })
+                                    @Html.EditorFor(model => model.NroRecibo, new { htmlAttributes = new { @class = "form-control input-sm", @Value = "0", id = "input-NroRecibo", placeholder = "Nro de Recibo" } })
                                     @Html.ValidationMessageFor(model => model.NroRecibo, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-sm-2">
                                     <label>Importe</label>
                                     <div class="form-group input-group">
                                         <span class="input-group-addon">$</span>
-                                        @Html.EditorFor(model => model.Importe, new { htmlAttributes = new { @class = "form-control input-sm", id = "input-Importe", placeholder = "Importe" } })
+                                        @Html.EditorFor(model => model.Importe, new { htmlAttributes = new { @class = "form-control input-sm", @Value = "0", id = "input-Importe", placeholder = "Importe" } })
                                     </div>
                                     @Html.ValidationMessageFor(model => model.Importe, "", new { @class = "text-danger" })
                                 </div>
@@ -269,7 +269,7 @@
                                     <label>Monto en Cuotas</label>
                                     <div class="form-group input-group">
                                         <span class="input-group-addon">$</span>
-                                        @Html.EditorFor(model => model.MontoEnCuotas, new { htmlAttributes = new { @class = "form-control input-sm", id = "input-MontoEnCuotas", placeholder = "Monto En Cuotas" } })
+                                        @Html.EditorFor(model => model.MontoEnCuotas, new { htmlAttributes = new { @class = "form-control input-sm", id = "input-MontoEnCuotas", @Value = "0", placeholder = "Monto En Cuotas" } })
                                     </div>
                                     @Html.ValidationMessageFor(model => model.MontoEnCuotas, "", new { @class = "text-danger" })
                                 </div>
@@ -558,12 +558,6 @@
                     $('#input-EntreCalle').val(result.EntreCalle);
                     $('#input-Partido').val(result.Partido);
 
-                },
-                error: function (response) {
-                    Lobibox.notify('error', {
-                        title: 'Error',
-                        msg: 'Ah ocurrido un error, intente nuevamente.'
-                    });
                 }
             });
         });

@@ -1,35 +1,40 @@
 ﻿@model IEnumerable<GuardiaComunal.Models.Act>
 
-
-@if (TempData["message"] != null)
-{
-<div>
-    <div class="row">
-        <div class="col-md-6 col-md-offset-3">
-            <div class="alert alert-success alert-dismissable" >
-                <button id="btndismissable" type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>@TempData["message"]</div>
-          </div>
-       </div>
-</div>
-    }
-
-
+<table cellpadding="3" cellspacing="0" border="0" style="width: 67%; margin: 0 auto 2em auto; display: none ">
+    <tbody>
+        <tr id="filter_col2" data-column="1">
+            <td align="center"><input type="text" class="column_filter" id="col1_filter"></td>
+        </tr>
+    </tbody>
+</table>
 
 @Html.Partial("_Table");
 
-
+<!-- /#page-wrapper -->
+<!-- /#wrapper -->
 @section scripts {
 
-<script>
+    <script>
 
-
-
+        function filterColumn(i) {
+            $('#dataTables-Index').DataTable().column(i).search(
+                $('#col' + i + '_filter').val()
+            ).draw();
+        }
 
     $(document).ready(function () {
 
         var AltaModificacion = '@ViewBag.AltaModificacion';
         var Baja = '@ViewBag.Baja';
-        var Liberacion = '@ViewBag.Liberacion';
+        var Liberacion = '@ViewBag.Liberacion';        
+        var NroActa = '@ViewBag.NroActa';
+
+        $('#col1_filter').val(NroActa);
+        
+
+        $('input.column_filter').on('keyup click', function () {
+            filterColumn($(this).parents('tr').attr('data-column'));
+        });
 
          var table=  $('#dataTables-Index').DataTable({
               "ajax":
@@ -64,7 +69,6 @@
               rowId: 'Id',
               responsive: true,
               ordering: true,
-              "order": [[2, "desc"]],
               scrollX: true,
               "autoWidth": true,
               "fnCreatedRow": function (nRow, aData, iDataIndex) {
@@ -92,7 +96,7 @@
                   if (Baja == 'True') {
                       //Borrar
 
-                      $('td:eq(0)', nRow).append("<span data-toggle='modal' data-target='#eliminar-modal'><span class='fa fa-trash span-btn-dtl' type='button' value='D' data-toggle='tooltip' data-placement='top' title='Eliminar' id='btn_Eliminar' /></span>");
+                      $('td:eq(0)', nRow).append("<span data-toggle='modal' data-target='#eliminar-modal'><span class='fa fa-trash span-btn-dtl' type='button' value='D' data-toggle='tooltip' data-placement='top' title='Eliminar'/></span>");
                   }
               },
               "fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
@@ -107,7 +111,12 @@
                   }
               }
 
-       });
+        });
+
+
+         $('#col1_filter').trigger("click");
+
+
         // Setup - add a text input to each footer cell
          $('#dataTables-Index_wrapper tfoot th').each(function () {
             var title = $(this).text();
@@ -119,6 +128,7 @@
 
         table.columns().every(function () {
             var that = this;
+
 
             $('input', this.footer()).on('keyup change', function () {
                 if (that.search() !== this.value) {
@@ -148,11 +158,6 @@
         var baseUrl = "@Url.Action("Edit", "Liberations", new { id="ID"})";
         window.location.href = baseUrl.replace("ID",id);
     });
-
-    $(document).on('click', '#btn_Eliminar', function () {
-        Delete(this);
-    });
-
 
         function Delete(a) {
             var id = $(a).closest('tr').attr('id')
@@ -190,7 +195,5 @@
             });
         }
 
-
-
-                </script>
-            }
+    </script>
+}

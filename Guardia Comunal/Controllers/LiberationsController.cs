@@ -25,7 +25,7 @@ namespace Guardia_Comunal.Controllers
         // GET: Liberations
         public ActionResult Index()
         {
-            return View(db.Liberations.ToList());
+            return View(db.Liberations.Where(x=>x.Enable==true).ToList());
         }
 
         [HttpPost]
@@ -234,13 +234,13 @@ namespace Guardia_Comunal.Controllers
 
                 Act act = db.Acts.Find(liberation.ActaId);
 
-                liberation.Person.Nombre=liberation.Person.Nombre.ToUpper();
-                liberation.Person.Altura = liberation.Person.Altura.ToUpper();
-                liberation.Person.Apellido = liberation.Person.Apellido.ToUpper();
-                liberation.Person.EntreCalle = liberation.Person.EntreCalle.ToUpper();
-                liberation.Person.Partido = liberation.Person.Partido.ToUpper();
-                liberation.Person.Barrio = liberation.Person.Barrio.ToUpper();
-                liberation.Person.Calle = liberation.Person.Calle.ToUpper();
+                liberation.Person.Nombre= liberation.Person.Nombre?.ToUpper();
+                liberation.Person.Altura = liberation.Person.Altura?.ToUpper();
+                liberation.Person.Apellido = liberation.Person.Apellido?.ToUpper();
+                liberation.Person.EntreCalle = liberation.Person.EntreCalle?.ToUpper();
+                liberation.Person.Partido = liberation.Person.Partido?.ToUpper();
+                liberation.Person.Barrio = liberation.Person.Barrio?.ToUpper();
+                liberation.Person.Calle = liberation.Person.Calle?.ToUpper();
 
 
                 act.FechaEstado = DateTime.Now;
@@ -249,7 +249,7 @@ namespace Guardia_Comunal.Controllers
                 db.Entry(act).State = EntityState.Modified;
                 db.SaveChanges();
 
-
+                TempData["message"] = "Los cambios se han grabado correctamente.";
                 //Audito
                 AuditHelper.Auditar("Alta", liberation.Id.ToString(), "Liberations", ModuleDescription, WindowDescription);
 
@@ -300,13 +300,13 @@ namespace Guardia_Comunal.Controllers
             if (ModelState.IsValid)
             {
 
-                liberation.Person.Nombre = liberation.Person.Nombre.ToUpper();
-                liberation.Person.Altura = liberation.Person.Altura.ToUpper();
-                liberation.Person.Apellido = liberation.Person.Apellido.ToUpper();
-                liberation.Person.EntreCalle = liberation.Person.EntreCalle.ToUpper();
-                liberation.Person.Partido = liberation.Person.Partido.ToUpper();
-                liberation.Person.Barrio = liberation.Person.Barrio.ToUpper();
-                liberation.Person.Calle = liberation.Person.Calle.ToUpper();
+                liberation.Person.Nombre = liberation.Person.Nombre?.ToUpper();
+                liberation.Person.Altura = liberation.Person.Altura?.ToUpper();
+                liberation.Person.Apellido = liberation.Person.Apellido?.ToUpper();
+                liberation.Person.EntreCalle = liberation.Person.EntreCalle?.ToUpper();
+                liberation.Person.Partido = liberation.Person.Partido?.ToUpper();
+                liberation.Person.Barrio = liberation.Person.Barrio?.ToUpper();
+                liberation.Person.Calle = liberation.Person.Calle?.ToUpper();
 
                 liberation.Person.Id = liberation.PersonId;
                 liberation.Acta = db.Acts.Find(liberation.ActaId);
@@ -315,7 +315,7 @@ namespace Guardia_Comunal.Controllers
                 db.Entry(liberation.Person).State = EntityState.Modified;               
 
                 db.SaveChanges();
-
+                TempData["message"] = "Los cambios se han grabado correctamente.";
                 //Audito
                 AuditHelper.Auditar("Modificacion", liberation.Id.ToString(), "Liberations", ModuleDescription, WindowDescription);
 

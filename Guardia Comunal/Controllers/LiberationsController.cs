@@ -91,23 +91,9 @@ namespace Guardia_Comunal.Controllers
             List<Street> list = new List<Street>();
             try
             {
-                //Filtro los habilitados
-                // list = db.Streets.ToList();
-                var query = (from t in db.Streets
-                             where t.CodCalle > 0
-                             group t by new { t.Id, t.Nombre }
-                             into grp
-                             select new
-                             {
-                                 data = grp.Key.Id,
-                                 value = grp.Key.Nombre
-                             }).ToList();
-
-
-                var json = JsonConvert.SerializeObject(query);
-                //var json = JsonConvert.SerializeObject(list.GroupBy(x => new { x.CodCalle, x.Nombre }).Select(item =>
-                //  new { data = item.CodCalle.ToString(), value = item.Nombre }));
-
+                list = db.Streets.ToList();
+                var json = JsonConvert.SerializeObject(list.Select(item =>
+                                  new { data = item.Id.ToString() , value = item.Descripcion }));
 
                 return Json(json, JsonRequestBehavior.AllowGet);
             }

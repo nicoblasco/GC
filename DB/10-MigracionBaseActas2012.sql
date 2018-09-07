@@ -1,24 +1,32 @@
-select * from [dbo].[Actas2012_2014A]
 
 
 Declare
---Old Base de datos bkp
-@IdActa varchar(200),
-@ApellidoOld varchar(150),
-@FechaEmicion varchar(150),
-@Zona nvarchar(MAX),
-@FechadeCarga nvarchar(255),
-@LicenciaRetenidaOld bit,
-@Inspector  nvarchar(255),
-@InspectorName nvarchar(255),
+@IdActa int,
+@FechaEmicion datetime,
+@FechadeCarga datetime,
+@ApellidoOld nvarchar(50),
+@NombreOld nvarchar(50),
+@Domicilio nvarchar(50),
+@Numero int,
+@BarrioOld nvarchar(50),
+@Localidad nvarchar(50),
+@Partido nvarchar(50),
+@DNIOld nvarchar(50),
+@NumLicencia nvarchar(50),
+@Zona nvarchar(255),
 @InspectorLastName nvarchar(255),
-@Vehiculo nvarchar(255),
-@Marca nvarchar(255),
-@DNIOld   nvarchar(255),
-@NombreOld  nvarchar(255),
-@NumLicencia  nvarchar(255),
-@DominioA   nvarchar(255),
+@InspectorName nvarchar(255),
+@Inspector nvarchar(255),
+@Contravension nvarchar(MAX),
+@ContravensionOtras nvarchar(MAX),
+@Observaciones ntext,
+@Liberado bit,
+@LicenciaRetenidaOld bit,
+@Vehiculo nvarchar(50),
+@Marca nvarchar(50),
+@DominioA nvarchar(50),
 @DominioM nvarchar(255),
+@SinEspecificar nvarchar(50),
 --New Parametros de la nueva base de datos
 @NroActa nvarchar(MAX),
 @TipoDeActa nvarchar(MAX),
@@ -65,15 +73,16 @@ Declare
 select @DomainId = Id from GuardiaComunal.dbo.Domains where Descripcion='Viejo'
 select @UsuarioId = UsuarioId from GuardiaComunal.dbo.Usuarios where Nombreusuario ='admin'
 select @VehicleTypeIdAuto = Id from GuardiaComunal.dbo.VehicleTypes where Descripcion ='Auto'
-
+set @SinEspecificar='SIN ESPECIFICAR'
 
 Declare ccActs cursor GLOBAL
-	FOR select IdActa,Apellido,FechaEmicion, Zona, FechadeCarga, LicenciaRetenida, Inspector,
-	substring(Inspector, 1,charindex(' ',Inspector)) as InspectorLastName  ,substring(Inspector, charindex(' ',Inspector),len(Inspector)-charindex(' ',Inspector)+1) InspectorName,
-	Vehiculo, Marca, DNI, Nombre,NumLicencia, Replace( [Dominio A],'-','') DominioA,Replace( [Dominio M],'-','') DominioM
-    from [dbo].[Actas2012_2014A]
+FOR select IdActa,FechaEmicion,FechadeCarga,Apellido, Nombre, Domicilio, Numero, Barrio, Localidad, Partido,DNI,  NumLicencia, Zona, Inspector,
+    substring(Inspector, 1,charindex(' ',Inspector)) as InspectorLastName  ,substring(Inspector, charindex(' ',Inspector),len(Inspector)-charindex(' ',Inspector)+1) InspectorName,
+	Contravension,ContravensionOtras,Observaciones,	Liberado, LicenciaRetenida, Vehiculo, Marca, Replace( [Dominio A],'-','') DominioA,Replace( [Dominio M],'-','') DominioM
+    from [dbo].[01 Base de Actas]
 	Open ccActs
-fetch ccActs into @IdActa, @ApellidoOld,@FechaEmicion, @Zona,@FechadeCarga, @LicenciaRetenidaOld, @Inspector,@InspectorLastName,@InspectorName,@Vehiculo, @Marca, @DNIOld,@NombreOld,@NumLicencia,@DominioA,@Dominio
+fetch ccActs into @IdActa,@FechaEmicion,@FechadeCarga,@ApellidoOld,@NombreOld,@Domicilio,@Numero,@BarrioOld,@Localidad,@Partido,@DNIOld,@NumLicencia,@Zona,@Inspector, @InspectorLastName,
+@InspectorName,@Contravension,@ContravensionOtras,@Observaciones,@Liberado,@LicenciaRetenidaOld,@Vehiculo,@Marca,@DominioA,@DominioM
 while(@@fetch_status=0)
 begin
 	--TipoDeActa
@@ -82,38 +91,50 @@ begin
 	else
 	  set @TipoDeActa ='Documentada'	
 
-	--Acta
-	set @NroActa=@IdActa
+	  	--Acta
+	set @NroActa=CONVERT(nvarchar(255),@IdActa) 
 
-	--FechaInfraccion
-	set @FechaInfraccion =Convert(varchar(30),@FechaEmicion,102)
+		--FechaInfraccion
+	set @FechaInfraccion =@FechaEmicion
 
-	--Tanda
+		--Tanda
 	set @Tanda =1
 
-	--Calle (Las calles es imposible mapearlas, se van a guardar en entre calles)
-	set @Calle = null
+	--Calle 
+	if (@Domicilio is not null)
+		set @Calle = @Domicilio
+	else
+		set @Calle = @SinEspecificar
 
-	--Altura
-	set @Altura = null
+		--Altura
+	if (@Numero is not null)
+		set @Altura = CONVERT(nvarchar(255),@Numero)
+	else
+		set @Altura = 'S/N'
 
-	--EntreCalle *******La Zona no esta bien
-	set @EntreCalle= @Zona
+		--EntreCalle
+	if (@Zona is not null)
+		set @EntreCalle= @Zona
+	else
+		set @EntreCalle= @SinEspecificar
 
-	--Barrio
-	set @Barrio = null
+		--Barrio
+	if (@BarrioOld is not null)
+		set @Barrio = @BarrioOld
+	else
+		set @Barrio = @SinEspecificar
 
 	--FechaEnvioAlJuzgado
 	set @FechaEnvioAlJuzgado = null
 
-	--ActaAdjunta
+		--ActaAdjunta
 	set @ActaAdjunta=null
 
 	--FechaCarga
 	if (@FechadeCarga is not null)
 		set @FechaCarga=Convert(varchar(30),@FechadeCarga,102)
 	else
-		set @FechaCarga= null
+		set @FechaCarga= @FechaEmicion
 
 	--Color
 	set @Color= null
@@ -162,7 +183,7 @@ begin
 
 	--Enable
 	set @Enable =1
-	
+
 	--InspectorId
 	  --Busco el inspector por apellido y nombre	  
 	  if (@Inspector is not null)	 
@@ -177,6 +198,7 @@ begin
 
 	--PoliceId
 		set @PoliceId=null
+
 	
 	--DomainId
 		--(Lo puse arriba porque no cambia)	
@@ -219,7 +241,7 @@ begin
 	 if (@DNIOld is not null)
 	  set @DNI = @DNIOld
 	else
-	 set @Detalle= null
+	 set @DNI= null
 
 	 --Nombre
 	if (@NombreOld is not null)
@@ -248,6 +270,15 @@ begin
 		else
 		   set @Dominio = null
 
+	--Contravenciones
+
+		SELECT Split.a.value('.', 'VARCHAR(100)') AS ColName  
+		FROM  
+		(
+			 SELECT CONVERT(XML, '<M>' + REPLACE(ColName, ',', '</M><M>') + '</M>') AS ColName  
+			 FROM  (SELECT @ContravensionOtras AS ColName) TableName
+		 ) AS A CROSS APPLY ColName.nodes ('/M') AS Split(a)
+
 
 INSERT INTO GuardiaComunal.[dbo].[Acts]
            ([TipoDeActa],[NroActa],[FechaInfraccion],[Tanda],[Calle],[Altura],[EntreCalle],[Barrio],[FechaEnvioAlJuzgado]
@@ -261,18 +292,9 @@ INSERT INTO GuardiaComunal.[dbo].[Acts]
 			 @Detalle,@Enable,@InspectorId,@PoliceId,@DomainId,@UsuarioId,@VehicleBrandId,@VehicleModelId,@VehicleTypeId,
 			 @StreetId,@NighborhoodId,@DNI,@Nombre,@Apellido,@NroLicencia,@Dominio)
 
-	--print 'InspectorId: '+ CAST(@InspectorId AS VARCHAR)
-	--print 'Dominio: '+ CAST(@DomainId AS VARCHAR)
 
-	--print 'TipoDeActa: '+@TipoDeActa	
-	--print 'NroActa:' +@NroActa
-	----print 'FechaInfraccion:' + CONVERT( VARCHAR(24),@FechaInfraccion,102)
-	----print 'Tanda: '+@Tanda
-	--print 'Calle: ' + @Calle
-	--print 'Altura: '+@Altura
-	--print 'EntreCalle: '+@EntreCalle 
-	--insert ino GuardiaComunal.dbo.
-fetch ccActs into @IdActa, @ApellidoOld,@FechaEmicion, @Zona,@FechadeCarga, @LicenciaRetenidaOld, @Inspector,@InspectorLastName,@InspectorName,@Vehiculo, @Marca, @DNIOld,@NombreOld,@NumLicencia,@DominioA,@Dominio
+fetch ccActs into @IdActa,@FechaEmicion,@FechadeCarga,@ApellidoOld,@NombreOld,@Domicilio,@Numero,@BarrioOld,@Localidad,@Partido,@DNIOld,@NumLicencia,@Zona,@Inspector,@InspectorLastName,
+@InspectorName,@Contravension,@ContravensionOtras,@Observaciones,@Liberado,@LicenciaRetenidaOld,@Vehiculo,@Marca,@DominioA,@DominioM
 end
 close ccActs
 deallocate ccActs

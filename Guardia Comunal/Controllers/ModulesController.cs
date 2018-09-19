@@ -8,9 +8,11 @@ using System.Web;
 using System.Web.Mvc;
 using GuardiaComunal.Models;
 using Guardia_Comunal.Models;
+using Guardia_Comunal.Tags;
 
 namespace Guardia_Comunal.Controllers
 {
+    [AutenticadoAttribute]
     public class ModulesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

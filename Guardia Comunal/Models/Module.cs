@@ -12,6 +12,6 @@ namespace GuardiaComunal.Models
 
         public bool Enable { get; set; }
 
-        public List<Window> ListWindows { get; set; }
+       // public List<Window> ListWindows { get; set; }
     }
 }

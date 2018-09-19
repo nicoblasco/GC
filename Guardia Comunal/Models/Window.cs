@@ -8,7 +8,9 @@ namespace GuardiaComunal.Models
     public class Window
     {
         public int Id { get; set; }
-        public Module Module { get; set; }
+
+        public int ModuleId { get; set; }
+        public virtual Module Module { get; set; }
         public string Descripcion { get; set; }
         public bool Enable { get; set; }
         public string Url { get; set; }

@@ -9,7 +9,8 @@ namespace GuardiaComunal.Models
     {
         public int Id { get; set; }
         public string Descripcion { get; set; }
-        public VehicleBrand VehicleBrand { get; set; }
+        public int VehicleBrandId { get; set; }
+        public virtual VehicleBrand VehicleBrand { get; set; }
         public DateTime FechaAlta { get; set; }
         public bool Enable { get; set; }
 

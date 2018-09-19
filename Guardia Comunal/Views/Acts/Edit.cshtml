@@ -1,251 +1,658 @@
 ﻿@model GuardiaComunal.Models.Act
+@using Guardia_Comunal.Helpers
+@using Guardia_Comunal.ViewModel
 
 @{
     ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Edit</h2>
-
-
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>Act</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.Id)
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.TipoDeActa, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.TipoDeActa, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.TipoDeActa, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.NroActa, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.NroActa, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.NroActa, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.FechaInfraccion, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.FechaInfraccion, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.FechaInfraccion, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Tanda, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Tanda, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Tanda, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Calle, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Calle, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Calle, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Altura, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Altura, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Altura, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.EntreCalle, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.EntreCalle, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.EntreCalle, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Barrio, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Barrio, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Barrio, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.FechaEnvioAlJuzgado, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.FechaEnvioAlJuzgado, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.FechaEnvioAlJuzgado, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.ActaAdjunta, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ActaAdjunta, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ActaAdjunta, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.FechaCarga, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.FechaCarga, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.FechaCarga, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Color, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Color, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Color, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.NroMotor, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.NroMotor, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.NroMotor, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.NroChasis, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.NroChasis, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.NroChasis, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.EstadoVehiculo, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.EstadoVehiculo, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.EstadoVehiculo, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.FechaEstado, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.FechaEstado, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.FechaEstado, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.TipoAgente, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.TipoAgente, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.TipoAgente, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.VehiculoRetenido, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <div class="checkbox">
-                    @Html.EditorFor(model => model.VehiculoRetenido)
-                    @Html.ValidationMessageFor(model => model.VehiculoRetenido, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.LicenciaRetenida, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <div class="checkbox">
-                    @Html.EditorFor(model => model.LicenciaRetenida)
-                    @Html.ValidationMessageFor(model => model.LicenciaRetenida, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.TicketAlcoholemia, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <div class="checkbox">
-                    @Html.EditorFor(model => model.TicketAlcoholemia)
-                    @Html.ValidationMessageFor(model => model.TicketAlcoholemia, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.ResultadoAlcoholemia, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ResultadoAlcoholemia, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ResultadoAlcoholemia, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.TicketAlcoholemiaAdjunto, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.TicketAlcoholemiaAdjunto, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.TicketAlcoholemiaAdjunto, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Informe, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Informe, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Informe, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.InformeAdjunto, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.InformeAdjunto, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.InformeAdjunto, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Detalle, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Detalle, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Detalle, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Enable, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <div class="checkbox">
-                    @Html.EditorFor(model => model.Enable)
-                    @Html.ValidationMessageFor(model => model.Enable, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
-        </div>
-    </div>
+@{
+    string currentController = Html.ViewContext.RouteData.GetRequiredString("controller");
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+<style>
+    .btn-sm {
+        font-size: 12px;
+        height: 30px;
+        margin-bottom: 3px;
+    }
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
+
+    .ck-sm {
+        font-size: 12px;
+    }
+
+    .select2 {
+        font-size: 12px;
+    }
+
+    label {
+        font-size: 12px;
+    }
+
+
+    /*.panel-body {
+        padding: 10px;
+    }
+
+    .panel-heading {
+        padding: 8px;
+    }
+
+    .form-group {
+        margin-bottom: 8px;
+    }
+
+    .panel {
+        margin-bottom: 10px;
+    }*/
+
+    .sol-container {
+        padding: 0px;
+    }
+</style>
+@*@using (Html.BeginHorizontalForm())*@
+@using (Html.BeginForm("Edit", "Acts", FormMethod.Post, new { id = "frmActualizarOrden", style = "height:100%", @class = "form-horizontal", enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.Id)
+    <div id="page-wrapper">
+        <div class="row">
+            <h1 class="page-header" style="margin: 10px;">Actas</h1>
+
+            <form id="form-create" role="form" class="form-horizontal">
+                <div class="col-lg-12">
+                    <!-- /.Panel de Datos de Alta -->
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Datos de Acta
+                        </div>
+                        <div class="panel-body">
+                            <div class="form-group">
+                                <div class="col-sm-2">
+                                    <label>Tipo de Acta</label>
+
+                                    @Html.DropDownListFor(model => model.TipoDeActa, new SelectList(
+        new List<Object>{
+                                                                           new { value = "Oficio" , text = "Oficio"  },
+                                                                           new { value = "Documentada" , text = "Documentada" }
+                                         },
+        "value",
+        "text",
+         1), new { id = "ddl-tipoActa", name = "ddltipoActa", @class = "form-control input-sm" })
+                                    @Html.ValidationMessageFor(model => model.EstadoVehiculo, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-sm-3">
+                                    <label>Nro. Acta</label>
+                                    @*<input id="input-NroActa" name="inputNroActa" placeholder="Nro. Acta" class="form-control input-sm" autocomplete="off">*@
+                                    @Html.EditorFor(model => model.NroActa, new { htmlAttributes = new { @class = "form-control input-sm", id = "input-NroActa", name = "input-NroActa", placeholder = "Nro. Acta" } })
+                                    @Html.ValidationMessageFor(model => model.NroActa, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-sm-3">
+                                    <label>Fecha/Hora de Infracción</label>
+                                    @*<input type='text' class="form-control input-sm" name="dtInfraccion" id='dt-Infraccion' />*@
+                                    @Html.EditorFor(model => model.FechaInfraccion, new { htmlAttributes = new { @class = "form-control input-sm", id = "dt-Infraccion", name = "dtInfraccion", @type = "datetime" } })
+                                    @*@Html.TextBoxFor(model => model.FechaInfraccion, "{0:dd/MM/yyyy HH:mm}", new { @class = "form-control input-sm", id = "dt-Infraccion", name = "dtInfraccion"})*@
+                                    @Html.ValidationMessageFor(model => model.FechaInfraccion, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-sm-3">
+                                    <label>Tanda</label>
+                                    @Html.EditorFor(model => model.Tanda, new { htmlAttributes = new { @type = "number", @Value = "1", @class = "form-control input-sm", id = "input-Tanda", name = "inputTanda", placeholder = "Tanda" } })
+                                    @Html.ValidationMessageFor(model => model.Tanda, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <!-- /.Calle y Altura -->
+                            <div class="form-group">
+                                <div class="col-sm-3">
+                                    <label>Barrio</label>
+                                    @Html.EditorFor(model => model.Barrio, new { htmlAttributes = new { @class = "form-control input-sm", id = "ddlBarrio", name = "ddlBarrio" } })
+                                    @Html.EditorFor(model => model.NighborhoodId, new { htmlAttributes = new { @class = "form-control input-sm", id = "input-Barrio", name = "inputBarrio", style = "display:none" } })
+                                    @Html.ValidationMessageFor(model => model.Barrio, "", new { @class = "text-danger" })
+
+                                </div>
+                                <div class="col-sm-3">
+                                    <label>Calle</label>
+                                    @*<input id="input-Calle" name="inputCalle" placeholder="Calle" class="form-control input-sm">*@
+                                    @Html.EditorFor(model => model.Calle, new { htmlAttributes = new { @class = "form-control input-sm", id = "input-Calle", name = "inputCalle", placeholder = "Calle" } })
+                                    @Html.EditorFor(model => model.StreetId, new { htmlAttributes = new { @class = "form-control input-sm", id = "input-CalleId", name = "inputCalleId", style = "display:none" } })
+                                    @Html.ValidationMessageFor(model => model.Calle, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-sm-2">
+                                    <label>Altura</label>
+                                    @*<input id="input-Altura" name="inputAltura" placeholder="Altura" class="form-control input-sm" autocomplete="off">*@
+                                    @Html.EditorFor(model => model.Altura, new { htmlAttributes = new { @class = "form-control input-sm", id = "inputAltura", name = "inputAltura", placeholder = "Altura" } })
+                                    @Html.ValidationMessageFor(model => model.Altura, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-sm-3">
+                                    <label>Entre Calle</label>
+                                    @*<input id="input-EntreCalle" name="inputEntreCalle" placeholder="Entre Calle" class="form-control input-sm">*@
+                                    @Html.EditorFor(model => model.EntreCalle, new { htmlAttributes = new { @class = "form-control input-sm", id = "input-Calle", name = "inputCalle", placeholder = "Entre Calle" } })
+                                    @Html.ValidationMessageFor(model => model.EntreCalle, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-3">
+                                    <label>Fecha de Envío al Juzgado</label>
+                                    @*<input type='text' class="form-control input-sm" id="dt-EnvioJuzgado" name="dtEnvioJuzgado" />*@
+                                    @Html.EditorFor(model => model.FechaEnvioAlJuzgado, new { htmlAttributes = new { @class = "form-control input-sm", id = "dt-EnvioJuzgado", name = "dtEnvioJuzgado" } })
+                                    @Html.ValidationMessageFor(model => model.FechaEnvioAlJuzgado, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-sm-4" id="divArchivo">
+                                    <label>Acta Adjunta</label>
+                                    @*@Html.TextBoxFor(m => m.ActaAdjunta, new { type = "file", name = "fileUploadActa" })*@
+                                    @Html.HiddenFor(m => m.ActaAdjuntaBorrada, new { id = "hiddenArchivoBorrado" })
+                                    @Html.HiddenFor(m => m.ActaAdjunta)
+                                    <div class="input-group input-file" name="fileUploadActa">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default btn-choose btn-sm" type="button">Elegir</button>
+                                        </span>
+                                        <input id="input-ArchivoActa" name="inputArchivoActa" value="@Path.GetFileName(Model.ActaAdjunta)" type="text" class="form-control input-sm" placeholder='Selecciona Acta...' />
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default btn-reset btn-sm" type="button">Borrar</button>
+                                        </span>
+                                    </div>
+                                    @if (Model.ActaAdjunta != null)
+                                    {
+                                        <p>@Html.ActionLink(Path.GetFileName(Model.ActaAdjunta), "Download", "Acts", new { filePath = Model.ActaAdjunta, id = "linkActaAdjunta" }, null)</p>
+                                    }
+                                </div>
+                                <div class="col-sm-3">
+                                    <label>Fecha/Hora de Carga</label>
+                                    @Html.EditorFor(model => model.FechaCarga, new { htmlAttributes = new { @class = "form-control input-sm", id = "dt-Carga", name = "dtCarga" } })
+                                </div>
+                                <div class="col-sm-2">
+                                    <label>Usuario de Carga</label>
+                                    <input class="form-control input-sm" id="input-Usuario" value="@SessionHelper.GetUserName()" name="inputUsuario" placeholder="Usuario de Carga" type="text" disabled>
+                                    @Html.EditorFor(model => model.UsuarioId, new { htmlAttributes = new { @Value = SessionHelper.GetUser(), @class = "form-control input-sm", id = "input-UsuarioId", name = "inputUsuarioId", style = "display:none" } })
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- /. FIN Panel de Datos de Alta -->
+                    <!-- /. Panel de Datos del Infractor -->
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Datos del Infractor
+                        </div>
+                        <div class="panel-body">
+                            <div class="form-group">
+                                <div class="col-sm-3">
+                                    <label>DNI</label>
+                                    @*<input id="input-DNI" type="number" name="inputDNI" placeholder="DNI" class="form-control input-sm" autocomplete="off">*@
+                                    @Html.EditorFor(model => model.DNI, new { htmlAttributes = new { @type = "number", @class = "form-control input-sm", id = "input-DNI", name = "inputDNI", placeholder = "DNI" } })
+                                    @Html.ValidationMessageFor(model => model.DNI, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-sm-3">
+                                    <label>Apellido</label>
+                                    @*<input id="input-Apellido" name="inputApellido" placeholder="Apellido" class="form-control input-sm" autocomplete="off">*@
+                                    @Html.EditorFor(model => model.Apellido, new { htmlAttributes = new { @class = "form-control input-sm", id = "input-Apellido", name = "inputApellido", placeholder = "Apellido" } })
+                                    @Html.ValidationMessageFor(model => model.Apellido, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-sm-3">
+                                    <label>Nombre</label>
+                                    @*<input id="input-Nombre" name="inputNombre" placeholder="Nombre" class="form-control input-sm" autocomplete="off">*@
+                                    @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control input-sm", id = "input-Nombre", name = "inputNombre", placeholder = "Nombre" } })
+                                    @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-sm-3">
+                                    <label>Nro Licencia</label>
+                                    @*<input id="input-Licencia" name="inputLicencia" placeholder="Licencia" class="form-control input-sm" autocomplete="off">*@
+                                    @Html.EditorFor(model => model.NroLicencia, new { htmlAttributes = new { @class = "form-control input-sm", id = "input-Licencia", name = "inputLicencia", placeholder = "Nro Licencia" } })
+                                    @Html.ValidationMessageFor(model => model.NroLicencia, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /. FIN Panel de Datos del Infractor -->
+                    <!-- /. Panel de Datos de Detalle del Vehiculo -->
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Detalle del Vehiculo
+                        </div>
+                        <div class="panel-body">
+                            <div class="form-group">
+                                <div class="col-sm-2">
+                                    <label>Tipo de Vehiculo</label>
+                                    @Html.DropDownListFor(model => model.VehicleTypeId, new SelectList(ViewBag.listaTipos, "Id", "Descripcion"), "Seleccione...", htmlAttributes:
+     new
+     {
+         id = "ddlTipoVehiculo",
+         @class = "form-control input-sm",
+         @onchange = "refreshdropdown(ddlTipoVehiculo,ddlMarca,'GetMarcas')"
+     }
+     )
+                                    @*@Html.EditorFor(model => model.VehicleTypeId, new { htmlAttributes = new { @class = "form-control input-sm", id = "input-TipoVehiculo", name = "inputTipoVehiculo", style = "display:none" } })*@
+                                    @Html.ValidationMessageFor(model => model.VehicleTypeId, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-sm-2">
+                                    <label>Tipo de Dominio</label>
+                                    @Html.DropDownListFor(model => model.DomainId, new SelectList(ViewBag.listaDominios, "Id", "Descripcion"), new { @class = "form-control input-sm" })
+                                    @*@Html.EditorFor(model => model.DomainId, new { htmlAttributes = new { @class = "form-control input-sm", id = "input-TipoDominio", name = "inputTipoDominio", style = "display:none" } })*@
+                                </div>
+                                <div class="col-sm-2">
+                                    <label>Dominio</label>
+                                    @Html.EditorFor(model => model.Dominio, new { htmlAttributes = new { @class = "form-control input-sm", id = "input-TipoDominio", name = "inputTipoDominio", placeholder = "Dominio" } })
+                                    @Html.ValidationMessageFor(model => model.Dominio, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-sm-2">
+                                    <label>Marca</label>
+                                    @Html.DropDownListFor(model => model.VehicleBrandId, new SelectList(ViewBag.listaMarcas, "Id", "Descripcion"), "Seleccione...", htmlAttributes:
+      new
+      {
+          id = "ddlMarca",
+          @class = "form-control input-sm",
+          @onchange = "refreshdropdown(ddlMarca,ddlModelo,'GetModelos')"
+      }
+      )
+                                    @*@Html.EditorFor(model => model.VehicleBrandId, new { htmlAttributes = new { @class = "form-control input-sm", id = "input-Marca", name = "inputMarca", style = "display:none" } })*@
+                                </div>
+
+                                <div class="col-sm-2">
+                                    <label>Modelo</label>
+                                    @Html.DropDownListFor(model => model.VehicleModelId, new SelectList(ViewBag.listaModelos, "Id", "Descripcion"), "Seleccione...", new { @class = "form-control input-sm", id = "ddlModelo" })
+                                    @*@Html.EditorFor(model => model.VehicleModelId, new { htmlAttributes = new { @class = "form-control input-sm", id = "input-Modelo", name = "inputModelo", style = "display:none" } })*@
+                                </div>
+                                <div class="col-sm-2">
+                                    <label>Color</label>
+                                    @*<input id="input-Color" name="inputColor" placeholder="Color" class="form-control input-sm" autocomplete="off">*@
+                                    @Html.EditorFor(model => model.Color, new { htmlAttributes = new { @class = "form-control input-sm", id = "input-Color", name = "inputColor", placeholder = "Color" } })
+                                    @Html.ValidationMessageFor(model => model.Color, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+
+                                <div class="col-sm-3">
+                                    <label>Nro Motor</label>
+                                    @*<input id="input-NroMotor" name="inputNroMotor" placeholder="Nro Motor" class="form-control input-sm" autocomplete="off">*@
+                                    @Html.EditorFor(model => model.NroMotor, new { htmlAttributes = new { @class = "form-control input-sm", id = "input-NroMotor", name = "inputNroMotor", placeholder = "Nro Motor" } })
+                                </div>
+                                <div class="col-sm-3">
+                                    <label>Nro Chasis</label>
+                                    @*<input id="input-NroChasis" name="inputNroChasis" placeholder="Nro Chasis" class="form-control input-sm" autocomplete="off">*@
+                                    @Html.EditorFor(model => model.NroChasis, new { htmlAttributes = new { @class = "form-control input-sm", id = "input-NroChasis", name = "inputNroChasis", placeholder = "Nro Chasis" } })
+                                </div>
+                                <div class="col-sm-3">
+                                    <label>Estado del vehiculo</label>
+                                    @*<select class="form-control input-sm" id="ddlEstadoVehiculo" disabled>
+                                            <option>No Retenido</option>
+                                            <option>Retenido</option>
+                                            <option>Liberado</option>
+                                            <option>Compactado</option>
+                                        </select>*@
+
+                                    @Html.DropDownListFor(model => model.EstadoVehiculo, new SelectList(
+       new List<Object>{
+                                           new { value = "No Retenido"  , text = "No Retenido"  },
+                                           new { value = "Retenido" , text = "Retenido" },
+                                           new { value = "Liberado" , text = "Liberado"},
+                                           new { value = "Compactado" , text = "Compactado"}
+         },
+       "value",
+       "text",
+        0), new { id = "ddlEstadoVehiculo", @class = "form-control input-sm" })
+                                </div>
+                                <div class="col-sm-3">
+                                    <label>Fecha de Estado</label>
+                                    @*<input type='text' class="form-control input-sm" id="dt-EstadoVehiculo" name="dtEstadoVehiculo" disabled />*@
+                                    @Html.EditorFor(model => model.FechaEstado, new { htmlAttributes = new { @class = "form-control input-sm", id = "dt-EstadoVehiculo", name = "dtEstadoVehiculo" } })
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /. FIN Panel de Detalle del Vehiculo -->
+                    <!-- /. Panel de Detalle del Acta -->
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Detalle del Acta
+                        </div>
+                        <div class="panel-body">
+                            <div class="form-group">
+                                <div class="col-sm-2">
+                                    <label>Tipo Agente</label>
+                                    @*<select class="form-control input-sm" id="ddlTipoAgente">
+                                            <option value="1">Inspector</option>
+                                            <option value="2">Policia</option>
+                                        </select>*@
+
+                                    @Html.DropDownListFor(model => model.TipoAgente, new SelectList(
+       new List<Object>{
+                                           new { value = "Inspector" , text = "Inspector"  },
+                                           new { value = "Policia" , text = "Policia" }
+         },
+       "value",
+       "text",
+        1), new { id = "ddlTipoAgente", @class = "form-control input-sm" })
+                                    @Html.ValidationMessageFor(model => model.TipoAgente, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-sm-3">
+                                    <label>Agente</label>
+                                    @Html.DropDownListFor(model => model.InspectorId, new SelectList(ViewBag.listaInspectores, "Id", "FullName"), new { @class = "form-control input-sm", id = "ddlInspector" })
+                                    @Html.DropDownListFor(model => model.Police, new SelectList(ViewBag.listaPolicias, "Id", "FullName"), new { @class = "form-control input-sm", id = "ddlPolicia" })
+                                </div>
+
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-sm-7" style="margin-top: 20px;">
+                                    <label class="checkbox-inline">
+                                        @*<input id="ck-VehiculoRetenido" name="ckVehiculoRetenido" type="checkbox">Vehiculo Retenido*@
+                                        @Html.CheckBoxFor(model => model.VehiculoRetenido, new { htmlAttributes = new { @class = "form-control input-sm", id = "ck-VehiculoRetenido" } })Vehiculo Retenido
+                                    </label>
+                                    <label class="checkbox-inline">
+                                        @*<input id="ck-LicenciaRetenida" name="ckLicenciaRetenida" type="checkbox">Licencia Retenida*@
+                                        @Html.CheckBoxFor(model => model.LicenciaRetenida, new { htmlAttributes = new { @class = "form-control input-sm", id = "ck-LicenciaRetenida" } })Licencia Retenida
+                                    </label>
+                                    <label class="checkbox-inline">
+                                        @*<input id="ck-TicketAlcoholemia" name="ckTicketAlcoholemia" type="checkbox">Ticket Alcoholemia*@
+                                        @Html.CheckBoxFor(model => model.TicketAlcoholemia, new { htmlAttributes = new { @class = "form-control input-sm", id = "ck-TicketAlcoholemia" } })Ticket Alcoholemia
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-8">
+                                    <label>Resultado Alcoholemia</label>
+                                    @*<input id="input-ResultadoAlcoholemia" name="inputResultadoAlcoholemia" class="form-control input-sm" placeholder="Resultado del Ticket de Alcoholemia" type="text">*@
+                                    @Html.EditorFor(model => model.ResultadoAlcoholemia, new { htmlAttributes = new { @class = "form-control input-sm", id = "input-ResultadoAlcoholemia", placeholder = "Resultado del Ticket de Alcoholemia" } })
+                                    @Html.ValidationMessageFor(model => model.ResultadoAlcoholemia, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-sm-4" id="divArchivo">
+                                    <label>Ticket de Alcoholemia Adjunto</label>
+                                    @Html.HiddenFor(m => m.TicketAlcoholemiaAdjuntoBorrado, new { id = "hiddenArchivoBorrado" })
+                                    @Html.HiddenFor(m => m.TicketAlcoholemiaAdjunto)
+                                    <div class="input-group input-file" name="fileUploadTicketAlcoholemiaAdjunto">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default btn-choose btn-sm" type="button">Elegir</button>
+                                        </span>
+                                        <input id="input-ArchivoTicketAlcoholemiaAdjunto" name="inputArchivoTicketAlcoholemiaAdjunto" value="@Path.GetFileName(Model.TicketAlcoholemiaAdjunto)" type="text" class="form-control input-sm" placeholder='Seleccione Ticket...' />
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default btn-reset btn-sm" type="button">Borrar</button>
+                                        </span>
+                                    </div>
+                                    @if (Model.TicketAlcoholemiaAdjunto != null)
+                                    {
+                                        <p>@Html.ActionLink(Path.GetFileName(Model.TicketAlcoholemiaAdjunto), "Download", "Acts", new { filePath = Model.ActaAdjunta, id = "linkTicketAlcoholemiaAdjunto" }, null)</p>
+                                    }
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-8">
+                                    <label>Informe</label>
+                                    @*<input class="form-control input-sm" id="input-Informe" name="inputInforme" placeholder="Informe del Inspector" type="text">*@
+                                    @Html.EditorFor(model => model.Informe, new { htmlAttributes = new { @class = "form-control input-sm", id = "input-Informe", placeholder = "Informe del Inspector" } })
+                                </div>
+                                <div class="col-sm-4" id="divArchivo">
+                                    <label>Informe Adjunto</label>
+                                    @Html.HiddenFor(m => m.InformeAdjuntoBorrado, new { id = "hiddenArchivoBorrado" })
+                                    @Html.HiddenFor(m => m.InformeAdjunto)
+                                    <div class="input-group input-file" name="fileInformeAdjunto">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default btn-choose btn-sm" type="button">Elegir</button>
+                                        </span>
+                                        <input id="input-InformeAdjunto" name="inputInformeAdjunto" value="@Path.GetFileName(Model.InformeAdjunto)" type="text" class="form-control input-sm" placeholder='Selecciona Informe...' />
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default btn-reset btn-sm" type="button">Borrar</button>
+                                        </span>
+                                    </div>
+                                    @if (Model.InformeAdjunto != null)
+                                    {
+                                        <p>@Html.ActionLink(Path.GetFileName(Model.InformeAdjunto), "Download", "Acts", new { filePath = Model.InformeAdjunto, id = "linkInformeAdjunto" }, null)</p>
+                                    }
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-8">
+                                    <label>Contravenciones</label>
+                                    @Html.ListBoxFor(model => model.SelectedContraventions, new SelectList(ViewBag.listaContravenciones, "Id", "Descripcion", Model.SelectedContraventions), new { id = "ddlContravenciones", multiple = "multiple" })
+                                    @*@Html.EditorFor(model => model.VehicleModelId, new { htmlAttributes = new { @class = "form-control input-sm", id = "input-Modelo", name = "inputModelo", style = "display:none" } })*@
+
+
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-sm-8">
+                                    <label>Observaciones</label>
+                                    @Html.ListBoxFor(model => model.SelectedObservations, new SelectList(ViewBag.listaObservaciones, "Id", "Descripcion", Model.SelectedObservations), new { id = "ddlObservaciones", multiple = "multiple" })
+                                </div>
+                                <div class="col-sm-4">
+                                    <label>Detalle</label>
+                                    @*<input class="form-control input-sm" id="input-Detalle" name="inputDetalle" placeholder="Detalle" type="text">*@
+                                    @Html.EditorFor(model => model.Detalle, new { htmlAttributes = new { @class = "form-control input-sm", id = "input-Detalle", placeholder = "Detalle" } })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /. https://pbauerochse.github.io/searchable-option-list/examples.html#basic-usage -->
+                    @if (PermissionViewModel.TienePermisoAlta(WindowHelper.GetWindowId("Actas", "Altas")))
+                    {
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    }
+                </div>
+                <!-- /.col-lg-12 -->
+            </form>
+            <!-- /.form -->
+        </div>
+        <!-- /.ro -->
+    </div>
+}
+<!-- /#page-wrapper -->
+<!-- /#wrapper -->
+@section scripts {
+
+    <script>
+        //\\\\\\\ JS  retrun message SucccessPost or FailPost
+        function SuccessMessage() {
+            Lobibox.notify('success', {
+                title: 'Exito',
+                msg: 'Los cambios se han grabado correctamente.'
+            });
+
+            var baseUrl = "@Url.Action("Index","Acts")";
+            window.location.href = baseUrl;
+
+        }
+        function FailMessage() {
+            Lobibox.notify('error', {
+                title: 'Error',
+                msg: 'Ah ocurrido un error, intente nuevamente.'
+            });
+        }
+    </script>
+
+    <script>
+
+        window.onload = function () {
+            if ($('#ddlTipoAgente').value === "Inspector") {
+                $('#ddlInspector').show();
+                $('#ddlPolicia').hide();
+
+            }
+            else {
+                $('#ddlInspector').hide();
+                $('#ddlPolicia').show();
+            }
+
+            if ($('#ddlEstadoVehiculo').val() === "Liberado") {
+                $("#frmActualizarOrden :input").prop("disabled", true);
+            }
+        };
+
+    //Desabilito los campos que no voy a usar
+
+        $('#dt-Carga').attr("readonly", "readonly")
+        $('#dt-EstadoVehiculo').attr("readonly", "readonly");
+        $('#input-Usuario').prop("disabled", true);
+        $('#ddlEstadoVehiculo').prop("disabled", true);
+        $('#ddlPolicia').hide();
+
+
+        $('#ddlTipoAgente').on('change', function () {
+            if (this.value === "Inspector") {
+                $('#ddlInspector').show();
+                $('#ddlPolicia').hide();
+
+            }
+            else {
+                $('#ddlInspector').hide();
+                $('#ddlPolicia').show();
+            }
+
+        });
+
+
+
+
+
+    //Cargo las calles y barrios
+    var varListaBarrios = @Html.Raw(Json.Encode(ViewBag.listaBarrios));
+    var barriosJson = $.parseJSON(varListaBarrios.Data);
+
+    var varListaCalles = @Html.Raw(Json.Encode(ViewBag.listaCalles));
+    var callesJson = $.parseJSON(varListaCalles.Data);
+
+    $('#ddlBarrio').autocomplete({
+        lookup: barriosJson,
+        onSelect: function (suggestion) {
+            $("#input-Barrio").val(suggestion.data);
+        }
+    });
+
+    $('#input-Calle').autocomplete({
+        lookup: callesJson,
+        onSelect: function (suggestion) {
+            $("#input-CalleId").val(suggestion.data);
+        }
+    });
+
+    // Fechas
+    $(function () {
+        $('#dt-Infraccion').datetimepicker({
+            locale: 'en-GB'
+        });
+        $('#dt-EnvioJuzgado').datetimepicker({
+            locale: 'es'
+        });
+        $('#dt-Carga').datetimepicker({
+            locale: 'es'
+        });
+        $('#dt-EstadoVehiculo').datetimepicker({
+            locale: 'es'
+        });
+        });
+
+    function refreshdropdown(parent,child, action) {
+            // get references to the source and target drop downs html controls
+            // These are jquery searches to find the drop down controls
+
+        //var parent = $('#' + parent);
+        //var child = $('#' + child);
+        var jsUrl = '@Url.Action("action", currentController)'; // ## is the token
+
+        if ($(parent).val() == "")
+            {
+            $(parent+"  option:eq(0)").prop("selected", true);
+                return;
+            }
+                // find a control with id=Manufacturer
+            src = $(parent);
+
+            // find a control with id=Model (you need to add this to your view)
+            tgt = $(child);
+
+            // clear drop down
+            tgt.empty();
+
+            // Get new model dataset via ajax
+            // based on manufacturer
+            // The url parameter points at your web method
+            $.ajax({
+                url: jsUrl.replace('action', action),
+                    type: 'POST',
+                    data: JSON.stringify({
+                        "id": src.val()
+                    }),
+                    contentType: 'application/json; charset=utf-8;',
+                // success is called when dataset returns
+                success: function (p) {
+                    // Populate with each returned member
+                    tgt.append(
+                        '<option value>' +
+                        "Seleccione..." + '</option>'
+                    );
+                    $.each(p, function (i, pr) {
+                        tgt.append(
+                            '<option value="' + pr.Id + '">' +
+                            pr.Descripcion + '</option>'
+                        );
+                    })
+                }
+            });
+        }
+
+
+
+        $(function () {
+            $('.dropdown-menu a').click(function () {
+                console.log($(this).attr('data-value'));
+                $(this).closest('.dropdown').find('input.countrycode')
+                    .val('(' + $(this).attr('data-value') + ')');
+            });
+        });
+
+        function bs_input_file() {
+            $(".input-file").before(
+                function () {
+                    if (!$(this).prev().hasClass('input-ghost')) {
+                        var element = $("<input type='file' class='input-ghost' style='visibility:hidden; height:0'>");
+                        element.attr("name", $(this).attr("name"));
+                        element.change(function () {
+                            element.next(element).find('input').val((element.val()).split('\\').pop());
+                            $(this).parents('#divArchivo').children('p').hide();
+                            //$('#ActaAdjuntaBorrada').val('True');
+                            $(this).parents('#divArchivo').children('#hiddenArchivoBorrado').val('True');
+                        });
+                        $(this).find("button.btn-choose").click(function () {
+                            element.click();
+                        });
+                        $(this).find("button.btn-reset").click(function () {
+                            element.val(null);
+                            $(this).parents(".input-file").find('input').val('');
+                            $(this).parents('#divArchivo').children('p').hide();
+                            //$('#ActaAdjuntaBorrada').val('True');
+                            $(this).parents('#divArchivo').children('#hiddenArchivoBorrado').val('True');
+
+                        });
+                        $(this).find('input').css("cursor", "pointer");
+                        $(this).find('input').mousedown(function () {
+                            $(this).parents('.input-file').prev().click();
+                            return false;
+                        });
+                        return element;
+                    }
+                }
+            );
+        }
+        $(function () {
+            bs_input_file();
+        });
+
+
+        $(function () {
+            // initialize sol
+            $('#ddlContravenciones').searchableOptionList();
+            $('#ddlObservaciones').searchableOptionList();
+        });
+
+        function onSuccess(result) {
+            //if (result.url) {
+            //    window.location.href = result.url;
+            //}
+            alert("Aca hay que hacer un link");
+        }
+
+    </script>
 }

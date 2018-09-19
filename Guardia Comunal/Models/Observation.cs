@@ -11,5 +11,8 @@ namespace GuardiaComunal.Models
         public string Descripcion { get; set; }
         public DateTime FechaAlta { get; set; }
         public bool Enable { get; set; }
+
+        public virtual ICollection<Act> Acts { get; set; }
+
     }
 }

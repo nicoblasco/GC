@@ -8,9 +8,11 @@ using System.Web;
 using System.Web.Mvc;
 using GuardiaComunal.Models;
 using Guardia_Comunal.Models;
+using Guardia_Comunal.Tags;
 
 namespace Guardia_Comunal.Controllers
 {
+    [AutenticadoAttribute]
     public class AuditsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -18,8 +20,29 @@ namespace Guardia_Comunal.Controllers
         // GET: Audits
         public ActionResult Index()
         {
-            return View(db.Audits.ToList());
+            return View(db.Audits.ToList().Take(2000));
         }
+
+
+        [HttpPost]
+        public JsonResult GetAudits()
+        {
+            //List<Contravention> list = new List<Contravention>();
+            try
+            {
+                //list = db.Contraventions.ToList().Where(x => x.Enable == true).ToList();
+                //var json = JsonConvert.SerializeObject(list);
+                //var list = db.Audits.OrderByDescending(c => c.Fecha).Select(c => new { c.Id, c.Fecha, c.User.Nombreusuario,c.Window.Module.Descripcion, c.Window.Descripcion, c.Accion });
+                var list = db.Audits.OrderByDescending(x=> x.Fecha).ToList();
+                return Json(list, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
 
         // GET: Audits/Details/5
         public ActionResult Details(int? id)

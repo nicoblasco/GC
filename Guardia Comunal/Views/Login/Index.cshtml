@@ -36,7 +36,8 @@
                             <form role="form">
                                 <fieldset>
                                     <div class="form-group">
-                                        <img src="../Images/Logo.png" />
+                                        @*<img src="../Images/Logo.png" />*@
+                                        <img src="~/Images/Logo.png" runat="server" />
                                     </div>
                                     <div class="form-group">
                                         @Html.TextBoxFor(x => x.NombreDeUsuario, new { placeholder = "Usuario", @class = "form-control", autofocus = "autofocus" })

@@ -45,6 +45,7 @@ namespace Guardia_Comunal
                       "~/Scripts/notifications.js",
                       "~/Scripts/fnReloadAjax.js",
                       "~/Scripts/jquery.autocomplete.js",
+                      //"~/Scripts/jquery.datetimepicker.full.min.js",                      
                       "~/Scripts/select2.js"
                       ));
 
@@ -60,7 +61,8 @@ namespace Guardia_Comunal
                       "~/Content/font-awesome.min.css",
                       "~/Content/lobibox.css",
                       "~/Content/bootstrap-datetimepicker.css",
-                      "~/Content/css/select2.css"
+                      "~/Content/jquery.datetimepicker.min.css",                      
+                      "~/Content/select2.css"
                       ));
         }
     }

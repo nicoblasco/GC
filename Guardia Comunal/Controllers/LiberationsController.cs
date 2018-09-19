@@ -250,7 +250,8 @@ namespace Guardia_Comunal.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                TempData["message"] = "Lo sentimos! No se encontro la liberación";
+                return RedirectToAction("Index", "Acts");
             }
 
             Act act = db.Acts.Find(id);
@@ -258,7 +259,8 @@ namespace Guardia_Comunal.Controllers
             Liberation liberation = db.Liberations.Where(x => x.ActaId == act.Id).FirstOrDefault();
             if (liberation == null)
             {
-                return HttpNotFound();
+                TempData["message"] = "Lo sentimos! No se encontro la liberación";
+                return RedirectToAction("Index", "Acts");
             }
 
 

@@ -20,7 +20,7 @@ namespace Guardia_Comunal.Controllers
         // GET: Audits
         public ActionResult Index()
         {
-            return View(db.Audits.ToList());
+            return View(db.Audits.ToList().Take(2000));
         }
 
 

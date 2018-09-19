@@ -37,7 +37,6 @@ namespace Guardia_Comunal.Controllers
             try
             {
                 list = db.VehicleTypes.ToList().Where(x => x.Enable == true).ToList();
-                var json = JsonConvert.SerializeObject(list);
 
                 return Json(list, JsonRequestBehavior.AllowGet);
             }

@@ -87,6 +87,7 @@ namespace GuardiaComunal.Models
         public int? VehicleBrandId { get; set; }
         public virtual VehicleBrand VehicleBrand { get; set; }
 
+
         public int? VehicleModelId { get; set; }
         public virtual VehicleModel VehicleModel { get; set; }
         public string Color { get; set; }
@@ -94,7 +95,6 @@ namespace GuardiaComunal.Models
         public string NroChasis { get; set; }
         public string EstadoVehiculo { get; set; }
         public DateTime FechaEstado { get; set; }
-
 
         // -----------Datos del Acta
         [Required(AllowEmptyStrings = false, ErrorMessage = "Requerido")]

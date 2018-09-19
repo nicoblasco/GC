@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GuardiaComunal.Models;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
@@ -60,6 +61,12 @@ namespace Guardia_Comunal.Models
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
+
+            //modelBuilder.Entity<Act>()
+            //.HasMany(c => c.)
+            //.WithOptional()
+            //.Map(m => m.MapKey("ClaimId"));
+
         }
         
 

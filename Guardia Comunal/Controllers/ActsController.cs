@@ -26,22 +26,172 @@ namespace Guardia_Comunal.Controllers
         // GET: Acts
         public ActionResult Index()
         {
-
-            List<Act> list = db.Acts.Where(x=>x.Enable==true).ToList();
+          //   List<Act> list = db.Acts.Where(x=>x.Enable==true).ToList();
             ViewBag.AltaModificacion = PermissionViewModel.TienePermisoAlta(WindowHelper.GetWindowId("Actas", "Altas"));
             ViewBag.Baja = PermissionViewModel.TienePermisoBaja(WindowHelper.GetWindowId("Actas", "Baja"));
             ViewBag.Liberacion = PermissionViewModel.TienePermisoAlta(WindowHelper.GetWindowId("Actas", "Liberacion"));
-            return View(list);
+            return View();
         }
 
-        public ActionResult Search(string NroActa)
+        //public ActionResult Search(string NroActa)
+        //{
+        //    //  List<Act> list = db.Acts.Where(x => x.Enable == true && x.NroActa==NroActa).ToList();
+
+        //    List<Act> list = db.Acts.Where(x => x.Enable == true && x.NroActa == NroActa).ToList();
+
+        //    ViewBag.AltaModificacion = PermissionViewModel.TienePermisoAlta(WindowHelper.GetWindowId("Actas", "Altas"));
+        //    ViewBag.Baja = PermissionViewModel.TienePermisoBaja(WindowHelper.GetWindowId("Actas", "Baja"));
+        //    ViewBag.Liberacion = PermissionViewModel.TienePermisoAlta(WindowHelper.GetWindowId("Actas", "Liberacion"));
+        //    ViewBag.NroActa = NroActa;
+        //    return View(list);
+        //}
+
+        public ActionResult SearchNroActa(string NroActa)
         {
-            List<Act> list = db.Acts.Where(x => x.Enable == true).ToList();
+            List<ActIndexViewModel> acts = new List<ActIndexViewModel>();
+            acts = ArmarConsulta(NroActa, null, null, null, null, null, null, null);
             ViewBag.AltaModificacion = PermissionViewModel.TienePermisoAlta(WindowHelper.GetWindowId("Actas", "Altas"));
             ViewBag.Baja = PermissionViewModel.TienePermisoBaja(WindowHelper.GetWindowId("Actas", "Baja"));
             ViewBag.Liberacion = PermissionViewModel.TienePermisoAlta(WindowHelper.GetWindowId("Actas", "Liberacion"));
             ViewBag.NroActa = NroActa;
-            return View(list);
+            return View("Index",acts);
+        }
+        
+
+        private List<ActIndexViewModel> ArmarConsulta(string NroActa, string NroLiberacion, string Estado, string DNI, string Apellido, string Dominio, string FechaDesde, string FechaHasta)
+        {
+            List<ActIndexViewModel> acts = new List<ActIndexViewModel>();
+            DateTime? dtFechaDesde = null;
+            DateTime? dtFechaHasta = null;
+
+            if (!String.IsNullOrEmpty(FechaDesde))
+                dtFechaDesde = Convert.ToDateTime(FechaDesde);
+
+            if (!String.IsNullOrEmpty(FechaHasta))
+                dtFechaHasta = Convert.ToDateTime(FechaHasta);
+
+
+            try
+            {
+
+                List<Liberation> liberationsList = new List<Liberation>();
+
+
+
+                var lista = db.Acts
+                .Where(x => x.Enable == true)
+                .Where(x => !string.IsNullOrEmpty(NroActa) ? (x.NroActa == NroActa && x.NroActa != null) : true)
+                .Where(x => !string.IsNullOrEmpty(Estado) ? (x.EstadoVehiculo == Estado && x.EstadoVehiculo != null) : true)
+                .Where(x => !string.IsNullOrEmpty(DNI) ? (x.DNI == DNI && x.DNI != null) : true)
+                .Where(x => !string.IsNullOrEmpty(Apellido) ? (x.Apellido == Apellido && x.Apellido != null) : true)
+                .Where(x => !string.IsNullOrEmpty(Dominio) ? (x.Dominio == Dominio && x.Dominio != null) : true)
+                .Where(x => !string.IsNullOrEmpty(FechaDesde) ? (x.FechaInfraccion >= dtFechaDesde && x.FechaInfraccion != null) : true)
+                .Where(x => !string.IsNullOrEmpty(FechaHasta) ? (x.FechaInfraccion <= dtFechaHasta && x.FechaInfraccion != null) : true)
+                .Where(x => !string.IsNullOrEmpty(NroLiberacion) ? (db.Liberations.Where(y => y.ActaId == x.Id && y.NroLiberacion == NroLiberacion).Any()) : true)
+                .Select(c => new { c.Id, c.FechaCarga, c.FechaInfraccion, c.NroActa, c.Dominio, c.EstadoVehiculo, c.DNI, c.Nombre, c.Apellido }).OrderByDescending(x => x.FechaInfraccion).Take(1000);
+                ;
+
+
+
+                // List<ActIndexViewModel> acts = new List<ActIndexViewModel>();
+                var liberations = db.Liberations.Where(x => x.Enable == true).ToList();
+
+                foreach (var item in lista)
+                {
+                    ActIndexViewModel act = new ActIndexViewModel();
+                    Liberation liberation = new Liberation();
+
+                    //Busco si tiene un liberacion
+                    liberation = liberations.Where(x => x.ActaId == item.Id).FirstOrDefault();
+
+                    act.Id = item.Id;
+                    act.NroActa = item.NroActa;
+                    if (liberation != null)
+                        act.NroLiberacion = liberation.NroLiberacion;
+
+                    act.Apellido = item.Apellido;
+                    act.DNI = item.DNI;
+                    act.Dominio = item.Dominio;
+                    act.Estado = item.EstadoVehiculo;
+                    act.FechaCarga = item.FechaCarga;
+                    act.FechaInfraccion = item.FechaInfraccion;
+
+                    acts.Add(act);
+
+                }
+
+            }
+            catch (Exception e)
+            {
+
+                throw;
+            }
+
+            return acts;
+        }
+
+        public JsonResult Search(string NroActa, string NroLiberacion, string Estado, string DNI, string Apellido, string Dominio, string FechaDesde, string FechaHasta )
+        {
+
+            List<ActIndexViewModel> acts = new List<ActIndexViewModel>();
+            acts = ArmarConsulta(NroActa, NroLiberacion, Estado, DNI, Apellido, Dominio, FechaDesde, FechaHasta);
+
+            ViewBag.AltaModificacion = PermissionViewModel.TienePermisoAlta(WindowHelper.GetWindowId("Actas", "Altas"));
+            ViewBag.Baja = PermissionViewModel.TienePermisoBaja(WindowHelper.GetWindowId("Actas", "Baja"));
+            ViewBag.Liberacion = PermissionViewModel.TienePermisoAlta(WindowHelper.GetWindowId("Actas", "Liberacion"));
+          //  ViewBag.NroActa = NroActa;
+
+            return Json(acts, JsonRequestBehavior.AllowGet);
+
+        }
+
+
+
+        private List<ActIndexViewModel> GetActIndexFiltrado()
+        {
+            try
+            {
+
+
+                var lista = db.Acts.Where(x => x.Enable == true).Select(c => new { c.Id, c.FechaCarga, c.FechaInfraccion, c.NroActa, c.Dominio, c.EstadoVehiculo, c.DNI, c.Nombre, c.Apellido }).OrderByDescending(x => x.FechaInfraccion).OrderByDescending(x=>x.FechaCarga).Take(1000);
+                ;
+
+
+                List<ActIndexViewModel> acts = new List<ActIndexViewModel>();
+                var liberations = db.Liberations.Where(x => x.Enable == true).ToList();
+
+                foreach (var item in lista)
+                {
+                    ActIndexViewModel act = new ActIndexViewModel();
+                    Liberation liberation = new Liberation();
+
+                    //Busco si tiene un liberacion
+                    liberation = liberations.Where(x => x.ActaId == item.Id).FirstOrDefault();
+
+                    act.Id = item.Id;
+                    act.NroActa = item.NroActa;
+                    if (liberation != null)
+                        act.NroLiberacion = liberation.NroLiberacion;
+
+                    act.Apellido = item.Apellido;
+                    act.DNI = item.DNI;
+                    act.Dominio = item.Dominio;
+                    act.Estado = item.EstadoVehiculo;
+                    act.FechaCarga = item.FechaCarga;
+                    act.FechaInfraccion = item.FechaInfraccion;
+
+                    acts.Add(act);
+
+                }
+
+                return acts;
+            }
+            catch (Exception e)
+            {
+
+                throw;
+            }
+
         }
 
         [HttpPost]
@@ -49,21 +199,18 @@ namespace Guardia_Comunal.Controllers
         {
             try
             {
-                var lista = db.Acts.Where(x => x.Enable == true).Select(c => new { c.Id, c.NroActa, c.FechaInfraccion, c.DNI, c.EstadoVehiculo, c.VehicleType, c.Dominio, c.NroMotor, c.NroChasis, c.VehicleBrand, c.VehicleModel, c.Color, c.TipoAgente });
 
-                return Json(lista, JsonRequestBehavior.AllowGet);
+                List<ActIndexViewModel> acts = new List<ActIndexViewModel>();
+                acts = GetActIndexFiltrado();
+                 return Json(acts, JsonRequestBehavior.AllowGet);
             }
-            catch (Exception)
+            catch (Exception e)
             {
 
                 throw;
             }
         }
 
-        //public ActionResult Search()
-        //{
-        //    return View(db.Acts.ToList());
-        //}
 
         [HttpGet]
         public JsonResult GetDuplicates(int id, string nroActa)

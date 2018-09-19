@@ -10,6 +10,7 @@ namespace GuardiaComunal.Models
     public class Liberation
     {
         public int Id { get; set; }
+
         public int ActaId { get; set; }
         public virtual Act Acta { get; set; }
         [Required(AllowEmptyStrings = false, ErrorMessage = "Requerido")]

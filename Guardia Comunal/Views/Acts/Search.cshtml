@@ -29,7 +29,7 @@
         var Liberacion = '@ViewBag.Liberacion';        
         var NroActa = '@ViewBag.NroActa';
 
-        $('#col1_filter').val(NroActa);
+      //  $('#col1_filter').val(NroActa);
         
 
         $('input.column_filter').on('keyup click', function () {
@@ -39,8 +39,11 @@
          var table=  $('#dataTables-Index').DataTable({
               "ajax":
                   {
-                      url: "@Url.Action("GetActs", "Acts")",
+                  "url": "@Url.Action("GetActs2", "Acts", new { NroActa = "_Switch" })".replace("_Switch", NroActa),
                       type: "post",
+                      data: JSON.stringify({
+                          "NroActa": NroActa
+                      }),
                       dataSrc: ""
                   },
               "columns": [

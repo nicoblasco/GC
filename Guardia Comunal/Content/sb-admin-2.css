@@ -45,11 +45,11 @@ body {
 }
 
 .navbar-top-links li a:hover{
-  background-color: darkgreen !important;;
+  background-color: darkgreen !important;
 }
 
 .navbar-top-links li a:focus{
-  background-color: darkgreen !important;;
+  background-color: darkgreen !important;
 }
 
 
@@ -94,7 +94,7 @@ body {
   border-bottom: 1px solid #e7e7e7;
 }
 .sidebar ul li a.active {
-  background-color: darkgreen;
+  background-color: darkgreen!important;
 }
 
 .sidebar ul li a:hover {

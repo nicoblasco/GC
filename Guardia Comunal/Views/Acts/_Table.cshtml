@@ -42,6 +42,17 @@
         content: "" !important;
     }
 
+    .px200 {
+        width: 200px;
+        max-width: 200px;
+        word-wrap: break-word;
+    }
+
+    .px100 {
+        width: 10px !important;
+        max-width: 50px;
+        word-wrap: break-word;
+    }
 
 </style>
 @if (PermissionViewModel.TienePermisoAcesso(WindowHelper.GetWindowId("Actas", "Buscar")))
@@ -55,43 +66,34 @@
                     </div>
                     <!-- /.panel-heading -->
                     <div class="panel-body">
-                        <table id="dataTables-Index" width="100%" class="display nowrap table table-striped table-bordered table-hover" style="font-size:11px">
+                        <table id="dataTables-Index" class="display nowrap table table-striped table-bordered table-hover" style="font-size:11px">
                             <thead>
                                 <tr>
-                                    <th>Acción</th>
+                                    <th class="px100">Acción</th>
                                     <th>Nro Acta</th>
+                                    <th>Nro Liberacion</th>
                                     <th>Fecha Infracción</th>
-                                    <th>DNI</th>
                                     <th>Estado Vehiculo</th>
-                                    <th>Tipo Vehiculo</th>
+                                    <th>DNI</th>
+                                    <th>Apellido</th>
                                     <th>Dominio</th>
-                                    <th>Nro Motor</th>
-                                    <th>Nro Chasis</th>
-                                    <th>Marca</th>
-                                    <th>Modelo</th>
-                                    <th>Color</th>
-                                    <th>Agente</th>
+
 
                                 </tr>
                             </thead>
 
-                            <tfoot>
+                            @*<tfoot>
                                 <tr>
-                                    <th></th>
+                                    <th style="width: 100%"></th>
                                     <th id="thNroActa">Nro Acta</th>
+                                    <th>Nro Liberacion</th>
                                     <th>Fecha Infracción</th>
-                                    <th>DNI</th>
                                     <th>Estado Vehiculo</th>
-                                    <th>Tipo Vehiculo</th>
+                                    <th>DNI</th>
+                                    <th>Apellido</th>
                                     <th>Dominio</th>
-                                    <th>Nro Motor</th>
-                                    <th>Nro Chasis</th>
-                                    <th>Marca</th>
-                                    <th>Modelo</th>
-                                    <th>Color</th>
-                                    <th>Agente</th>
                                 </tr>
-                            </tfoot>
+                            </tfoot>*@
                         </table>
                     </div>
                 </div>

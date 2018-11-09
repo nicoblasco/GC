@@ -136,19 +136,6 @@ and YEAR (a.FechaCarga ) in (2016,2017)
 and lp.Descripcion = l.LiberadoDesde
 and l.FechaEmision is not null
 UNION
---2017 B
-select l.IdLiberado as NroLiberacion, isnull(l.Fecha,FechaDeCarga) as FechaDeLiberacion, l.NumJuzgado as NroJuzgado, Isnull(l.FechaDeCarga,l.Fecha) as FechaCarga,
-l.Convenio as Convenio, isnull(l.CantCuotas,0) as Cuotas, isnull(l.Acarreo,0) as Acarreo, isnull(l.NroRecibo,0) as NroRecibo, 
-isnull(l.Importe,0) as Importe, isnull(l.MontoCuotas,0) as MontoEnCuotas, isnull(l.FechaEmision, l.FechaDeCarga) as FechaEmisionRecibo, 
-1 as Enable,a.Id, lp.Id,
-p.Id as PersonId, (select UsuarioId from GuardiaComunal.dbo.Usuarios where Nombreusuario ='admin') as UsuarioId
-from [BasedeActas2017B].[dbo].[Liberados] l, GuardiaComunal.dbo.People p,  GuardiaComunal.dbo.Acts a, GuardiaComunal.dbo.LiberationPlaces lp
-where l.DNI=p.DNI
-and a.NroActa = l.IdActa
-and YEAR (a.FechaCarga ) in (2016,2017)
-and lp.Descripcion = l.LiberadoDesde
-and l.FechaEmision is not null
-UNION
 --2018
 select l.IdLiberado as NroLiberacion, isnull(l.Fecha,FechaDeCarga) as FechaDeLiberacion, l.NumJuzgado as NroJuzgado, Isnull(l.FechaDeCarga,l.Fecha) as FechaCarga,
 l.Convenio as Convenio, isnull(l.CantCuotas,0) as Cuotas, isnull(l.Acarreo,0) as Acarreo, isnull(l.NroRecibo,0) as NroRecibo, 

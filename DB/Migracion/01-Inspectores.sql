@@ -49,9 +49,6 @@ select distinct(Inspector)
 from [BasedeActas2017A].[dbo].[Base de Actas]
 union
 select distinct(Inspector) 
-from [BasedeActas2017B].[dbo].[Base de Actas]
-union
-select distinct(Inspector) 
 from [BasedeActas2018A].[dbo].[Base de Actas]
 
 insert into @T1B 

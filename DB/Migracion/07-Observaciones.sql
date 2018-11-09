@@ -59,11 +59,6 @@ where Observaciones is not null
 and a.IdActa = b.NroActa
 and a.FechaEmision=b.FechaInfraccion
 Union
-select b.Id , CONVERT(nvarchar(MAX), Observaciones ) from [BasedeActas2017B].[dbo].[Base de Actas] a,  GuardiaComunal.dbo.Acts b
-where Observaciones is not null
-and a.IdActa = b.NroActa
-and a.FechaEmision=b.FechaInfraccion
-Union
 select b.Id , CONVERT(nvarchar(MAX), Observaciones ) from [BasedeActas2018A].[dbo].[Base de Actas] a,  GuardiaComunal.dbo.Acts b
 where Observaciones is not null
 and a.IdActa = b.NroActa

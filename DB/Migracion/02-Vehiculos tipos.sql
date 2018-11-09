@@ -57,10 +57,6 @@ from [BasedeActas2017A].[dbo].[Base de Actas]
 where Vehiculo is not null
 union
 select distinct(Vehiculo) 
-from [BasedeActas2017B].[dbo].[Base de Actas]
-where Vehiculo is not null
-union
-select distinct(Vehiculo) 
 from [BasedeActas2018A].[dbo].[Base de Actas]
 where Vehiculo is not null
 
@@ -76,3 +72,6 @@ select UPPER(Descripcion) from GuardiaComunal.dbo.VehicleTypes
 
 insert into GuardiaComunal.dbo.VehicleTypes (Descripcion,FechaAlta,Enable)
 select Vehiculo,GETDATE(),1  from @T2
+
+
+

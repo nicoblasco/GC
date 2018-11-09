@@ -1,0 +1,64 @@
+C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\bin\ApplicationInsights.config
+C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\bin\Guardia Comunal.dll.config
+C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\bin\Guardia Comunal.dll
+C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\bin\Guardia Comunal.pdb
+C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\bin\Antlr3.Runtime.dll
+C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\bin\EntityFramework.dll
+C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\bin\EntityFramework.SqlServer.dll
+C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\bin\ExpressiveAnnotations.dll
+C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\bin\ExpressiveAnnotations.MvcUnobtrusive.dll
+C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\bin\Microsoft.AI.Agent.Intercept.dll
+C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\bin\Microsoft.AI.DependencyCollector.dll
+C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\bin\Microsoft.AI.PerfCounterCollector.dll
+C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\bin\Microsoft.AI.ServerTelemetryChannel.dll
+C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\bin\Microsoft.AI.Web.dll
+C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\bin\Microsoft.AI.WindowsServer.dll
+C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\bin\Microsoft.ApplicationInsights.dll
+C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\bin\Newtonsoft.Json.dll
+C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\bin\System.Net.Http.Formatting.dll
+C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\bin\System.Web.Helpers.dll
+C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\bin\System.Web.Http.dll
+C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\bin\System.Web.Http.WebHost.dll
+C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\bin\System.Web.Mvc.dll
+C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\bin\System.Web.Optimization.dll
+C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\bin\System.Web.Razor.dll
+C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\bin\System.Web.WebPages.Deployment.dll
+C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\bin\System.Web.WebPages.dll
+C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\bin\System.Web.WebPages.Razor.dll
+C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\bin\WebGrease.dll
+C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\bin\EntityFramework.xml
+C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\bin\EntityFramework.SqlServer.xml
+C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\bin\ExpressiveAnnotations.pdb
+C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\bin\ExpressiveAnnotations.xml
+C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\bin\ExpressiveAnnotations.MvcUnobtrusive.xml
+C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\bin\System.Net.Http.Formatting.xml
+C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\bin\System.Web.Http.xml
+C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\bin\System.Web.Http.WebHost.xml
+C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\bin\System.Web.Helpers.xml
+C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\bin\System.Web.Mvc.xml
+C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\bin\System.Web.Optimization.xml
+C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\bin\System.Web.Razor.xml
+C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\bin\System.Web.WebPages.xml
+C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\bin\System.Web.WebPages.Deployment.xml
+C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\bin\System.Web.WebPages.Razor.xml
+C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\bin\Antlr3.Runtime.pdb
+C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\bin\Newtonsoft.Json.xml
+C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\bin\Microsoft.ApplicationInsights.xml
+C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\bin\Microsoft.AI.DependencyCollector.xml
+C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\bin\Microsoft.AI.ServerTelemetryChannel.xml
+C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\bin\Microsoft.AI.WindowsServer.xml
+C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\bin\Microsoft.AI.Web.xml
+C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\bin\es\System.Web.Helpers.resources.dll
+C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\bin\es\System.Web.Mvc.resources.dll
+C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\bin\es\System.Web.Optimization.resources.dll
+C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\bin\es\System.Web.Razor.resources.dll
+C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\bin\es\System.Web.WebPages.resources.dll
+C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\bin\es\System.Web.WebPages.Deployment.resources.dll
+C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\bin\es\System.Web.WebPages.Razor.resources.dll
+C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\obj\Release\Guardia Comunal.csproj.CoreCompileInputs.cache
+C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\obj\Release\Guardia Comunal.csproj.CopyComplete
+C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\obj\Release\Guardia Comunal.dll
+C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\obj\Release\Guardia Comunal.pdb

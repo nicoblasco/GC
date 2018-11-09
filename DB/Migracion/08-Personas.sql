@@ -48,9 +48,6 @@ select distinct CONVERT(NVARCHAR(MAX), CONVERT(INT,l.DNI)), l.Apellido, l.Nombre
 from [BasedeActas2017A].[dbo].[Liberados] l
 UNION
 select distinct CONVERT(NVARCHAR(MAX), CONVERT(INT,l.DNI)), l.Apellido, l.Nombre, l.Domicilio as Calle, l.Numero as Altura, l.Entre as EntreCalle, l.Partido
-from [BasedeActas2017B].[dbo].[Liberados] l
-UNION
-select distinct CONVERT(NVARCHAR(MAX), CONVERT(INT,l.DNI)), l.Apellido, l.Nombre, l.Domicilio as Calle, l.Numero as Altura, l.Entre as EntreCalle, l.Partido
 from [BasedeActas2018A].[dbo].[Liberados] l
 
 insert into @T2 (DNI,Apellido, Nombre, Calle, Altura, EntreCalle, Partido)

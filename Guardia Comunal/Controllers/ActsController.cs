@@ -93,6 +93,8 @@ namespace Guardia_Comunal.Controllers
 
 
 
+
+
                 // List<ActIndexViewModel> acts = new List<ActIndexViewModel>();
                 var liberations = db.Liberations.Where(x => x.Enable == true).ToList();
 
@@ -539,6 +541,7 @@ namespace Guardia_Comunal.Controllers
             act.TicketAlcoholemiaAdjuntoBorrado = false;
             act.InformeAdjuntoBorrado = false;
 
+
             foreach (var item in act.Contraventions)
             {
                act.SelectedContraventions[i] = item.Id;
@@ -567,36 +570,116 @@ namespace Guardia_Comunal.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,TipoDeActa,NroActa,FechaInfraccion,Tanda,Calle,StreetId,Altura,EntreCalle,Barrio,NighborhoodId,FechaEnvioAlJuzgado,ActaAdjunta,FechaCarga,UsuarioId,VehicleTypeId,VehicleBrandId,VehicleModelId,Color,NroMotor,NroChasis,EstadoVehiculo,FechaEstado,TipoAgente,InspectorId,PoliceId,VehiculoRetenido,LicenciaRetenida,TicketAlcoholemia,ResultadoAlcoholemia,TicketAlcoholemiaAdjunto,Informe,InformeAdjunto,Detalle,Enable,DNI,Nombre,Apellido,NroLicencia,DomainId,Dominio,Contraventions,Observations,SelectedContraventions,SelectedObservations,ActaAdjuntaBorrada,TicketAlcoholemiaAdjuntoBorrado,InformeAdjuntoBorrado")] Act act, HttpPostedFileBase fileUploadActa, HttpPostedFileBase fileUploadTicketAlcoholemiaAdjunto, HttpPostedFileBase fileInformeAdjunto)
+        public ActionResult Edit([Bind(Include = "Id,TipoDeActa,NroActa,FechaInfraccion,Tanda,Calle,StreetId,Altura,EntreCalle,Barrio,NighborhoodId,FechaEnvioAlJuzgado,ActaAdjunta,FechaCarga,UsuarioId,VehicleTypeId,VehicleBrandId,VehicleModelId,Color,NroMotor,NroChasis,EstadoVehiculo,FechaEstado,TipoAgente,InspectorId,PoliceId,VehiculoRetenido,LicenciaRetenida,TicketAlcoholemia,ResultadoAlcoholemia,TicketAlcoholemiaAdjunto,Informe,InformeAdjunto,Detalle,Enable,DNI,Nombre,Apellido,NroLicencia,DomainId,Dominio,Contraventions,Observations,SelectedContraventions,SelectedObservations,ActaAdjuntaBorrada,TicketAlcoholemiaAdjuntoBorrado,InformeAdjuntoBorrado")] Act actviewwmodel, HttpPostedFileBase fileUploadActa, HttpPostedFileBase fileUploadTicketAlcoholemiaAdjunto, HttpPostedFileBase fileInformeAdjunto)
         {
             if (ModelState.IsValid)
             {
-                act.Calle = act.Calle?.ToUpper();
-                act.Barrio = act.Barrio?.ToUpper();
-                act.Altura = act.Altura?.ToUpper();
-                act.Color = act.Color?.ToUpper();
-                act.Dominio = act.Dominio?.ToUpper();
-                act.Nombre = act.Nombre?.ToUpper();
-                act.Apellido = act.Apellido?.ToUpper();
-                act.EntreCalle = act.EntreCalle?.ToUpper();
-                act.NroActa = act.NroActa?.ToUpper();
-                act.NroChasis = act.NroChasis?.ToUpper();
-                act.NroLicencia = act.NroLicencia?.ToUpper();
-                act.NroMotor = act.NroMotor?.ToUpper();
 
-                act.Contraventions = new List<Contravention>();
-                act.Observations = new List<Observation>();
+                Act act = db.Acts.Find(actviewwmodel.Id);
 
-                if (act.SelectedContraventions != null)
+                actviewwmodel.Calle = actviewwmodel.Calle?.ToUpper();
+                actviewwmodel.Barrio = actviewwmodel.Barrio?.ToUpper();
+                actviewwmodel.Altura = actviewwmodel.Altura?.ToUpper();
+                actviewwmodel.Color = actviewwmodel.Color?.ToUpper();
+                actviewwmodel.Dominio = actviewwmodel.Dominio?.ToUpper();
+                actviewwmodel.Nombre = actviewwmodel.Nombre?.ToUpper();
+                actviewwmodel.Apellido = actviewwmodel.Apellido?.ToUpper();
+                actviewwmodel.EntreCalle = actviewwmodel.EntreCalle?.ToUpper();
+                actviewwmodel.NroActa = actviewwmodel.NroActa?.ToUpper();
+                actviewwmodel.NroChasis = actviewwmodel.NroChasis?.ToUpper();
+                actviewwmodel.NroLicencia = actviewwmodel.NroLicencia?.ToUpper();
+                actviewwmodel.NroMotor = actviewwmodel.NroMotor?.ToUpper();
+
+
+                actviewwmodel.Contraventions = new List<Contravention>();
+                actviewwmodel.Observations = new List<Observation>();
+
+
+                //Map
+                act.TipoDeActa = actviewwmodel.TipoDeActa;
+                act.FechaInfraccion = actviewwmodel.FechaInfraccion;
+                act.NroActa = actviewwmodel.NroActa;
+                act.Tanda = actviewwmodel.Tanda;
+                act.Calle = actviewwmodel.Calle;
+                act.StreetId = actviewwmodel.StreetId;
+                act.Altura = actviewwmodel.Altura;
+                act.EntreCalle = actviewwmodel.EntreCalle;
+                act.Barrio = actviewwmodel.Barrio;
+                act.NighborhoodId = actviewwmodel.NighborhoodId;
+                act.FechaEnvioAlJuzgado = actviewwmodel.FechaEnvioAlJuzgado;
+                act.ActaAdjunta = actviewwmodel.ActaAdjunta;
+                act.FechaCarga = actviewwmodel.FechaCarga;
+                act.DNI = actviewwmodel.DNI;
+                act.Nombre = actviewwmodel.Nombre;
+                act.Apellido = actviewwmodel.Apellido;
+                act.NroLicencia = actviewwmodel.NroLicencia;
+                act.VehicleTypeId = actviewwmodel.VehicleTypeId;
+                act.DomainId = actviewwmodel.DomainId;
+                act.VehicleBrandId = actviewwmodel.VehicleBrandId;
+                act.VehicleModelId = actviewwmodel.VehicleModelId;
+                act.Color = actviewwmodel.Color;
+                act.NroMotor = actviewwmodel.NroMotor;
+                act.NroChasis = actviewwmodel.NroChasis;
+                act.EstadoVehiculo = actviewwmodel.EstadoVehiculo;
+                act.FechaEstado = actviewwmodel.FechaEstado;
+                act.TipoAgente = actviewwmodel.TipoAgente;
+                act.InspectorId = actviewwmodel.InspectorId;
+                act.PoliceId = actviewwmodel.PoliceId;
+                act.VehiculoRetenido = actviewwmodel.VehiculoRetenido;
+                act.LicenciaRetenida = actviewwmodel.LicenciaRetenida;
+                act.TicketAlcoholemia = actviewwmodel.TicketAlcoholemia;
+                act.ResultadoAlcoholemia = actviewwmodel.ResultadoAlcoholemia;
+                act.TicketAlcoholemiaAdjunto = actviewwmodel.TicketAlcoholemiaAdjunto;
+                act.Informe = actviewwmodel.Informe;
+                act.InformeAdjunto = actviewwmodel.InformeAdjunto;
+                act.Detalle = actviewwmodel.Detalle;
+
+
+
+
+
+
+
+
+                //Borro los que tenia 
+
+                if (act.Contraventions != null)
                 {
-                    foreach (int contraventionId in act.SelectedContraventions)
+                    List<Contravention> ContraventionAux = new List<Contravention>();
+                    foreach (Contravention item in act.Contraventions)
+                    {
+                        ContraventionAux.Add(item);
+                    }
+                    foreach (Contravention contravention in ContraventionAux)
+                    {
+                        act.Contraventions.Remove(contravention);
+                    }
+                }
+
+                if (act.Observations != null)
+                {
+                    List<Observation> ObsAux = new List<Observation>();
+                    foreach (Observation item in act.Observations)
+                    {
+                        ObsAux.Add(item);
+                    }
+                    foreach (Observation obs in ObsAux)
+                    {
+                        act.Observations.Remove(obs);
+                    }
+                }
+
+
+                if (actviewwmodel.SelectedContraventions != null)
+                {
+                    foreach (int contraventionId in actviewwmodel.SelectedContraventions)
                     {
                         act.Contraventions.Add(db.Contraventions.Find(contraventionId));
                     }
                 }
-                if (act.SelectedObservations != null)
+                if (actviewwmodel.SelectedObservations != null)
                 {
-                    foreach (int observationId in act.SelectedObservations)
+                    foreach (int observationId in actviewwmodel.SelectedObservations)
                     {
                         act.Observations.Add(db.Observations.Find(observationId));
 
@@ -609,10 +692,10 @@ namespace Guardia_Comunal.Controllers
                     //puede venir nulo porque no hizo ningun cambio o porque lo borro
 
                     //Si la borro
-                    if (act.ActaAdjuntaBorrada)
+                    if (actviewwmodel.ActaAdjuntaBorrada)
                     {
                         //fisicamente
-                        var file = Path.Combine(act.ActaAdjunta);
+                        var file = Path.Combine(actviewwmodel.ActaAdjunta);
                         if (System.IO.File.Exists(file))
                             System.IO.File.Delete(file);
                         //logicamente
@@ -624,17 +707,17 @@ namespace Guardia_Comunal.Controllers
                 else
                 {
                     //Borro la anterior por si la reemplazo
-                    if (!String.IsNullOrEmpty( act.ActaAdjunta))
+                    if (!String.IsNullOrEmpty(actviewwmodel.ActaAdjunta))
                     {
                         //fisicamente
-                        var file = Path.Combine(act.ActaAdjunta);
+                        var file = Path.Combine(actviewwmodel.ActaAdjunta);
                         if (System.IO.File.Exists(file))
                             System.IO.File.Delete(file);
                     }
 
                     if (fileUploadActa.ContentLength > 0)
                     {
-                        act.ActaAdjunta = SaveFile(fileUploadActa, act, "Acta");
+                        act.ActaAdjunta = SaveFile(fileUploadActa, actviewwmodel, "Acta");
                     }
                     else
                     {
@@ -648,10 +731,10 @@ namespace Guardia_Comunal.Controllers
                     //puede venir nulo porque no hizo ningun cambio o porque lo borro
 
                     //Si la borro
-                    if (act.TicketAlcoholemiaAdjuntoBorrado)
+                    if (actviewwmodel.TicketAlcoholemiaAdjuntoBorrado)
                     {
                         //fisicamente
-                        var file = Path.Combine(act.TicketAlcoholemiaAdjunto);
+                        var file = Path.Combine(actviewwmodel.TicketAlcoholemiaAdjunto);
                         if (System.IO.File.Exists(file))
                             System.IO.File.Delete(file);
                         //logicamente
@@ -663,7 +746,7 @@ namespace Guardia_Comunal.Controllers
                 else
                 {
                     //Borro la anterior por si la reemplazo
-                    if (!String.IsNullOrEmpty(act.TicketAlcoholemiaAdjunto))
+                    if (!String.IsNullOrEmpty(actviewwmodel.TicketAlcoholemiaAdjunto))
                     {
                         //fisicamente
                         var file = Path.Combine(fileUploadTicketAlcoholemiaAdjunto.FileName);
@@ -673,7 +756,7 @@ namespace Guardia_Comunal.Controllers
 
                     if (fileUploadTicketAlcoholemiaAdjunto.ContentLength > 0)
                     {
-                      act.TicketAlcoholemiaAdjunto=  SaveFile(fileUploadTicketAlcoholemiaAdjunto, act, "Ticket");
+                        act.TicketAlcoholemiaAdjunto=  SaveFile(fileUploadTicketAlcoholemiaAdjunto, actviewwmodel, "Ticket");
                     }
                     else
                     {
@@ -687,10 +770,10 @@ namespace Guardia_Comunal.Controllers
                     //puede venir nulo porque no hizo ningun cambio o porque lo borro
 
                     //Si la borro
-                    if (act.InformeAdjuntoBorrado)
+                    if (actviewwmodel.InformeAdjuntoBorrado)
                     {
                         //fisicamente
-                        var file = Path.Combine(act.InformeAdjunto);
+                        var file = Path.Combine(actviewwmodel.InformeAdjunto);
                         if (System.IO.File.Exists(file))
                             System.IO.File.Delete(file);
                         //logicamente
@@ -702,17 +785,17 @@ namespace Guardia_Comunal.Controllers
                 else
                 {
                     //Borro la anterior por si la reemplazo
-                    if (!String.IsNullOrEmpty(act.ActaAdjunta))
+                    if (!String.IsNullOrEmpty(actviewwmodel.ActaAdjunta))
                     {
                         //fisicamente
-                        var file = Path.Combine(act.ActaAdjunta);
+                        var file = Path.Combine(actviewwmodel.ActaAdjunta);
                         if (System.IO.File.Exists(file))
                             System.IO.File.Delete(file);
                     }
 
                     if (fileInformeAdjunto.ContentLength > 0)
                     {
-                        act.InformeAdjunto = SaveFile(fileInformeAdjunto, act, "Informe");
+                        act.InformeAdjunto = SaveFile(fileInformeAdjunto, actviewwmodel, "Informe");
                     }
                     else
                     {
@@ -731,7 +814,7 @@ namespace Guardia_Comunal.Controllers
 
                 return RedirectToAction("Index", "Acts");
             }
-            return View(act);
+            return View(actviewwmodel);
         }
 
         // GET: Acts/Delete/5

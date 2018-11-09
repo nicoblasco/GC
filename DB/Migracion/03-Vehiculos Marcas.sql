@@ -74,12 +74,6 @@ where a.Vehiculo is not null
 and a.Vehiculo = b.Descripcion
 and a.Marca is not null
 union
-select  DISTINCT  b.Id, Marca
-from [BasedeActas2017B].[dbo].[Base de Actas] a, GuardiaComunal.dbo.VehicleTypes b
-where a.Vehiculo is not null 
-and a.Vehiculo = b.Descripcion
-and a.Marca is not null
-union
 select  DISTINCT  b.Id, Marca 
 from [BasedeActas2018A].[dbo].[Base de Actas] a, GuardiaComunal.dbo.VehicleTypes b
 where a.Vehiculo is not null 

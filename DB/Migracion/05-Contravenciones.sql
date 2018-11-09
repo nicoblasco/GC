@@ -125,13 +125,6 @@ and YEAR(b.FechaInfraccion) = 2017
 and upper(CONVERT(nvarchar(MAX), a.Contravencion)) = Upper(c.Descripcion)
 union
 select distinct b.Id,c.Id
-from [BasedeActas2017B].[dbo].[Base de Contravenciones] a, GuardiaComunal.dbo.Acts b,GuardiaComunal.dbo.Contraventions c
-where a.Contravencion is not null
-and a.IdActas=b.NroActa
-and YEAR(b.FechaInfraccion) = 2017
-and upper(CONVERT(nvarchar(MAX), a.Contravencion)) = Upper(c.Descripcion)
-union
-select distinct b.Id,c.Id
 from [BasedeActas2018A].[dbo].[Base de Contravenciones] a, GuardiaComunal.dbo.Acts b,GuardiaComunal.dbo.Contraventions c
 where a.Contravencion is not null
 and a.IdActas=b.NroActa

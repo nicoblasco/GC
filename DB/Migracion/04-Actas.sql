@@ -255,28 +255,7 @@ and Upper(i.Nombre)=substring(a.Inspector, charindex(' ',a.Inspector),len(a.Insp
 and Upper(t.Descripcion) = Upper(a.Vehiculo)
 and Upper(m.Descripcion) = Upper(a.Marca) and t.Id=m.VehicleTypeId
 and a.FechaEmision is not null
---2017 B
-UNION
-select case when a.Apellido = 'Oficio' or a.Apellido is null then 'Oficio' else 'Documentada' End as TipoDeActa, CONVERT(nvarchar(255),a.IdActa) as NroActa,
-FechaEmision as FechaInfraccion,  Isnull(Tanda,1) as Tanda,  
-ISNULL([En Calle], 'SIN ESPECIFICAR' ) Calle, 'S/N' Altura,
-ISNULL(a.[Y Calle],'SIN ESPECIFICAR') as EntreCalle, 'SIN ESPECIFICAR' as Barrio, a.FechaEmision as FechaEnvioAlJuzgado,
-null ActaAdjunto,ISNULL(a.FechadeCarga,a.FechaEmision) FechaCarga, Color as Color, NumMotor as NroMotor, NumChasis as NroChasis , 
-case when Liberado = 1 then 'Liberado' else case when Remitido=1 then 'Retenido' else 'No Retenido' end end   as EstadoVehiculo,
-getdate() as FechaEstado, 'Inspector' as TipoAgente, Remitido as VehiculoRetenido, Isnull(a.LicenciaRetenida,0) LicenciaRetenida, 0 as TicketAlcoholemia,
-null as ResultadoAlcoholemia, null TicketAlcoholemiaAdjunto,null as Informe, null as InformeAdjunto, null as Detalle, 1 as Enable, i.Id as InspectorId, null as PoliceId,
-(select Id from GuardiaComunal.dbo.Domains where Descripcion='Viejo') as DomainID,
-(select UsuarioId from GuardiaComunal.dbo.Usuarios where Nombreusuario ='admin') as UsuarioId, 
-m.Id as VehicleBrandId, null as VehicleModelId, t.Id as VehicleTypeId,null as StreetId, null as NighborhoodId, a.DNI, a.Nombre, 
-case when a.Apellido ='Oficio' then null else a.Apellido end as Apellido,a.NumLicencia,
-case when [Dominio A] is not null then [Dominio A]  else a.[Dominio M] End  as Dominio
-from  [BasedeActas2017B].[dbo].[Base de Actas]  a, GuardiaComunal.dbo.Inspectors i, GuardiaComunal.dbo.VehicleTypes t,GuardiaComunal.dbo.VehicleBrands m
-where Upper(i.Apellido)= substring(a.Inspector, 1,charindex(' ',a.Inspector))
-and Upper(i.Nombre)=substring(a.Inspector, charindex(' ',a.Inspector),len(a.Inspector)-charindex(' ',a.Inspector)+1) 
-and Upper(t.Descripcion) = Upper(a.Vehiculo)
-and Upper(m.Descripcion) = Upper(a.Marca) and t.Id=m.VehicleTypeId
-and a.FechaEmision is not null
---2018
+----2018
 UNION
 select case when a.Apellido = 'Oficio' or a.Apellido is null then 'Oficio' else 'Documentada' End as TipoDeActa, CONVERT(nvarchar(255),a.IdActa) as NroActa,
 FechaEmision as FechaInfraccion,  Isnull(Tanda,1) as Tanda,  
@@ -301,4 +280,3 @@ and a.FechaEmision is not null
 
 insert into  GuardiaComunal.dbo.Acts
 select * from @T1
-

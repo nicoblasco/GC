@@ -104,3 +104,8 @@ table.dataTable > tbody > tr.child span.dtr-title {
   min-width: 75px;
   font-weight: bold;
 }
+
+table.dataTable tbody tr.selected {
+    color: white !important;
+    background-color: #428bca !important;
+}

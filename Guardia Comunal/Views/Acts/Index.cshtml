@@ -269,10 +269,45 @@
         });
 
         $('.tags-group').find(".close").click(function () {
+            var idTag = $(this).parents('.alert').attr('id');
             $(this).parents('.alert').hide();
             var child = $(this).parents('.alert');
             child.children('.tagId').text('');
             child.children('.tagValue').text('');
+
+            //Limpio el combo del tag que cerro
+            switch (idTag) {
+                case "tagActa":
+                    $('#Acta').val('');
+                    break;
+                case "tagLiberacion":
+                    $('#Liberacion').val('');
+                    break;
+                case "tagEstado":
+                    $('#Estado').val('').change();
+                    break;
+                case "tagDNI":
+                    $('#DNI').val('');
+                    break;
+                case "tagApellido":
+                    $('#Apellido').val('');
+                    break;
+                case "tagNombre":
+                    $('#Nombre').val('');
+                    break;
+                case "tagDominio":
+                    $('#Dominio').val('');
+                    break;
+                case "tagFechaDesde":
+                    $('#fecha-inicio').val('');
+                    break;
+                case "tagFechaHasta":
+                    $('#fecha-fin').val('');
+                    break;
+
+                default:
+            }
+
             buscarActas();
         });
 
@@ -283,6 +318,7 @@
                 var Estado = $('#tagEstado').find('.tagId').text();
                 var DNI = $('#tagDNI').find('.tagId').text();
                 var Apellido = $('#tagApellido').find('.tagId').text();
+                var Nombre = $('#tagNombre').find('.tagId').text();
                 var Dominio = $('#tagDominio').find('.tagId').text();
                 var FechaDesde = $('#tagFechaDesde').find('.tagId').text();
                 var FechaHasta = $('#tagFechaHasta').find('.tagId').text();
@@ -296,6 +332,7 @@
                             "Estado": Estado,
                             "DNI": DNI,
                             "Apellido": Apellido,
+                            "Nombre": Nombre,
                             "Dominio": Dominio,
                             "FechaDesde": FechaDesde,
                             "FechaHasta": FechaHasta,
@@ -376,6 +413,18 @@
                     $('#tagApellido').find('.tagValue').text('');
                     $('#tagApellido').hide();
                 }
+
+                if ($('#Nombre').val() != null && $('#Nombre').val() != '') {
+                    $('#tagNombre').find('.tagId').text($('#Nombre').val());
+                    $('#tagNombre').find('.tagValue').text($('#Nombre').val());
+                    $('#tagNombre').css("display", "inline-block");
+                }
+                else {
+                    $('#tagNombre').find('.tagId').text('');
+                    $('#tagNombre').find('.tagValue').text('');
+                    $('#tagNombre').hide();
+                }
+
 
                 if ($('#Dominio').val() != null && $('#Dominio').val() != '') {
                     $('#tagDominio').find('.tagId').text($('#Dominio').val());

@@ -13,11 +13,17 @@ namespace GuardiaComunal.Models
         public string Nombre { get; set; }
         public string Apellido { get; set; }
 
+        public string Legajo { get; set; }
+
         public DateTime FechaAlta { get; set; }
         public bool Enable { get; set; }
 
 
         [NotMapped]
         public string FullName => Apellido + " " + Nombre;
+
+        [NotMapped]
+        public string FullNameLeg => Legajo + " - " + Apellido + " " + Nombre;
+
     }
 }

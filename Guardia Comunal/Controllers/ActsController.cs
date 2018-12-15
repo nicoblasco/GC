@@ -49,7 +49,7 @@ namespace Guardia_Comunal.Controllers
         public ActionResult SearchNroActa(string NroActa)
         {
             List<ActIndexViewModel> acts = new List<ActIndexViewModel>();
-            acts = ArmarConsulta(NroActa, null, null, null, null, null, null, null);
+            acts = ArmarConsulta(NroActa, null, null, null, null, null, null, null, null);
             ViewBag.AltaModificacion = PermissionViewModel.TienePermisoAlta(WindowHelper.GetWindowId("Actas", "Altas"));
             ViewBag.Baja = PermissionViewModel.TienePermisoBaja(WindowHelper.GetWindowId("Actas", "Baja"));
             ViewBag.Liberacion = PermissionViewModel.TienePermisoAlta(WindowHelper.GetWindowId("Actas", "Liberacion"));
@@ -58,7 +58,7 @@ namespace Guardia_Comunal.Controllers
         }
         
 
-        private List<ActIndexViewModel> ArmarConsulta(string NroActa, string NroLiberacion, string Estado, string DNI, string Apellido, string Dominio, string FechaDesde, string FechaHasta)
+        private List<ActIndexViewModel> ArmarConsulta(string NroActa, string NroLiberacion, string Estado, string DNI, string Apellido, string Nombre, string Dominio, string FechaDesde, string FechaHasta)
         {
             List<ActIndexViewModel> acts = new List<ActIndexViewModel>();
             DateTime? dtFechaDesde = null;
@@ -77,13 +77,13 @@ namespace Guardia_Comunal.Controllers
                 List<Liberation> liberationsList = new List<Liberation>();
 
 
-
                 var lista = db.Acts
                 .Where(x => x.Enable == true)
                 .Where(x => !string.IsNullOrEmpty(NroActa) ? (x.NroActa == NroActa && x.NroActa != null) : true)
                 .Where(x => !string.IsNullOrEmpty(Estado) ? (x.EstadoVehiculo == Estado && x.EstadoVehiculo != null) : true)
-                .Where(x => !string.IsNullOrEmpty(DNI) ? (x.DNI == DNI && x.DNI != null) : true)
+                .Where(x => !string.IsNullOrEmpty(DNI) ? (x.DNI == DNI && x.DNI != null  || (db.Liberations.Where(y => y.ActaId == x.Id && y.Person.DNI == DNI).Any())) : true)
                 .Where(x => !string.IsNullOrEmpty(Apellido) ? (x.Apellido == Apellido && x.Apellido != null) : true)
+                .Where(x => !string.IsNullOrEmpty(Nombre) ? (x.Nombre == Nombre && x.Nombre != null) : true)
                 .Where(x => !string.IsNullOrEmpty(Dominio) ? (x.Dominio == Dominio && x.Dominio != null) : true)
                 .Where(x => !string.IsNullOrEmpty(FechaDesde) ? (x.FechaInfraccion >= dtFechaDesde && x.FechaInfraccion != null) : true)
                 .Where(x => !string.IsNullOrEmpty(FechaHasta) ? (x.FechaInfraccion <= dtFechaHasta && x.FechaInfraccion != null) : true)
@@ -132,11 +132,11 @@ namespace Guardia_Comunal.Controllers
             return acts;
         }
 
-        public JsonResult Search(string NroActa, string NroLiberacion, string Estado, string DNI, string Apellido, string Dominio, string FechaDesde, string FechaHasta )
+        public JsonResult Search(string NroActa, string NroLiberacion, string Estado, string DNI, string Apellido, string Nombre, string Dominio, string FechaDesde, string FechaHasta )
         {
 
             List<ActIndexViewModel> acts = new List<ActIndexViewModel>();
-            acts = ArmarConsulta(NroActa, NroLiberacion, Estado, DNI, Apellido, Dominio, FechaDesde, FechaHasta);
+            acts = ArmarConsulta(NroActa, NroLiberacion, Estado, DNI, Apellido, Nombre, Dominio, FechaDesde, FechaHasta);
 
             ViewBag.AltaModificacion = PermissionViewModel.TienePermisoAlta(WindowHelper.GetWindowId("Actas", "Altas"));
             ViewBag.Baja = PermissionViewModel.TienePermisoBaja(WindowHelper.GetWindowId("Actas", "Baja"));
@@ -224,6 +224,7 @@ namespace Guardia_Comunal.Controllers
                              where c.Id != id
                              && c.NroActa.ToUpper() == nroActa.ToUpper()
                              && c.Enable==true
+                             && c.FechaCarga.Year == DateTime.Now.Year
                              select c;
 
                 var responseObject = new
@@ -287,7 +288,26 @@ namespace Guardia_Comunal.Controllers
             }
         }
 
+        [HttpGet]
+        public JsonResult GetPolicias()
+        {
+            List<Police> list = new List<Police>();
+            try
+            {
+                //Filtro los habilitados
+                list = db.Police.ToList();
+                var json = JsonConvert.SerializeObject(list.Select(item =>
+                                  new { data = item.Id.ToString(), value = item.FullName }));
 
+                return Json(json, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+
+                throw;
+
+            }
+        }
         [HttpGet]
         public JsonResult GetCalles()
         {
@@ -377,7 +397,7 @@ namespace Guardia_Comunal.Controllers
             List<VehicleBrand> lMarcas = new List<VehicleBrand>();
             List<VehicleModel> lModelos = new List<VehicleModel>();
             List<Domain> lDominios = new List<Domain>();
-            List<Police> lPolicias = new List<Police>();
+           // List<Police> lPolicias = new List<Police>();
             List<Inspector> lIspectores = new List<Inspector>();
             List<Contravention> lContravenciones = new List<Contravention>();
             List<Observation> lObservaciones = new List<Observation>();
@@ -388,8 +408,8 @@ namespace Guardia_Comunal.Controllers
             lMarcas = db.VehicleBrands.ToList().Where(x => x.Enable == true).ToList();
             lModelos = db.VehicleModels.ToList().Where(x => x.Enable == true).ToList();
             lDominios = db.Domains.ToList();
-            lPolicias = db.Police.ToList().Where(x => x.Enable == true).ToList();
-            lIspectores = db.Inspectors.ToList().Where(x => x.Enable == true).ToList();
+            //lPolicias = db.Police.ToList().Where(x => x.Enable == true).OrderBy(x => x.FullName).ToList();
+            lIspectores = db.Inspectors.ToList().Where(x => x.Enable == true).OrderBy(x => x.FullNameLeg).ToList();
             lContravenciones = db.Contraventions.ToList().Where(x => x.Enable == true).ToList();
             lObservaciones = db.Observations.ToList().Where(x => x.Enable == true).ToList();
 
@@ -399,7 +419,7 @@ namespace Guardia_Comunal.Controllers
             ViewBag.listaMarcas = lMarcas;
             ViewBag.listaModelos = lModelos;
             ViewBag.listaDominios = lDominios;
-            ViewBag.listaPolicias = lPolicias;
+            ViewBag.listaPolicias = GetPolicias();// lPolicias;
             ViewBag.listaInspectores = lIspectores;
             ViewBag.listaObservaciones = lObservaciones;
             ViewBag.listaContravenciones = lContravenciones;
@@ -411,7 +431,7 @@ namespace Guardia_Comunal.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,TipoDeActa,NroActa,FechaInfraccion,Tanda,Calle,StreetId,Altura,EntreCalle,Barrio,NighborhoodId,FechaEnvioAlJuzgado,FechaCarga,UsuarioId,VehicleTypeId,VehicleBrandId,VehicleModelId,Color,NroMotor,NroChasis,EstadoVehiculo,FechaEstado,TipoAgente,InspectorId,PoliceId,VehiculoRetenido,LicenciaRetenida,TicketAlcoholemia,ResultadoAlcoholemia,TicketAlcoholemiaAdjunto,Informe,InformeAdjunto,Detalle,Enable,DNI,Nombre,Apellido,NroLicencia,DomainId,Dominio,SelectedContraventions,SelectedObservations")] Act act, HttpPostedFileBase fileUploadActa, HttpPostedFileBase fileUploadTicketAlcoholemiaAdjunto, HttpPostedFileBase fileInformeAdjunto)
+        public ActionResult Create([Bind(Include = "Id,TipoDeActa,NroActa,FechaInfraccion,Tanda,Calle,StreetId,Altura,EntreCalle,Barrio,NighborhoodId,FechaEnvioAlJuzgado,FechaCarga,UsuarioId,VehicleTypeId,VehicleBrandId,VehicleModelId,Color,NroMotor,NroChasis,EstadoVehiculo,FechaEstado,TipoAgente,InspectorId,PoliceId,Policia,VehiculoRetenido,LicenciaRetenida,TicketAlcoholemia,ResultadoAlcoholemia,TicketAlcoholemiaAdjunto,Informe,InformeAdjunto,Detalle,Enable,DNI,Nombre,Apellido,NroLicencia,DomainId,Dominio,SelectedContraventions,SelectedObservations")] Act act, HttpPostedFileBase fileUploadActa, HttpPostedFileBase fileUploadTicketAlcoholemiaAdjunto, HttpPostedFileBase fileInformeAdjunto)
         {
             if (ModelState.IsValid)
             {
@@ -464,7 +484,7 @@ namespace Guardia_Comunal.Controllers
 
                     TempData["message"] = "Los cambios se han grabado correctamente.";
                     //Audito
-                    AuditHelper.Auditar("Alta", act.Id.ToString(), "Acts", ModuleDescription, WindowDescription);
+                    AuditHelper.Auditar("Alta", "Id -" +act.Id.ToString() + " / Acta -" + act.NroActa, "Acts", ModuleDescription, WindowDescription);
 
                 }
                 catch (Exception ex)
@@ -498,7 +518,7 @@ namespace Guardia_Comunal.Controllers
             List<VehicleBrand> lMarcas = new List<VehicleBrand>();
             List<VehicleModel> lModelos = new List<VehicleModel>();
             List<Domain> lDominios = new List<Domain>();
-            List<Police> lPolicias = new List<Police>();
+          //  List<Police> lPolicias = new List<Police>();
             List<Inspector> lIspectores = new List<Inspector>();
             List<Contravention> lContravenciones = new List<Contravention>();
             List<Observation> lObservaciones = new List<Observation>();
@@ -510,7 +530,7 @@ namespace Guardia_Comunal.Controllers
             lMarcas = db.VehicleBrands.ToList().Where(x => x.Enable == true).ToList();
             lModelos = db.VehicleModels.ToList().Where(x => x.Enable == true).ToList();
             lDominios = db.Domains.ToList();
-            lPolicias = db.Police.ToList().Where(x => x.Enable == true).ToList();
+          //  lPolicias = db.Police.ToList().Where(x => x.Enable == true).ToList();
             lIspectores = db.Inspectors.ToList().Where(x => x.Enable == true).ToList();
             lContravenciones = db.Contraventions.ToList().Where(x => x.Enable == true).ToList();
             lObservaciones = db.Observations.ToList().Where(x => x.Enable == true).ToList();
@@ -521,7 +541,7 @@ namespace Guardia_Comunal.Controllers
             ViewBag.listaMarcas = lMarcas;
             ViewBag.listaModelos = lModelos;
             ViewBag.listaDominios = lDominios;
-            ViewBag.listaPolicias = lPolicias;
+            ViewBag.listaPolicias = GetPolicias(); // lPolicias;
             ViewBag.listaInspectores = lIspectores;
             ViewBag.listaObservaciones = lObservaciones;
             ViewBag.listaContravenciones = lContravenciones;
@@ -570,7 +590,7 @@ namespace Guardia_Comunal.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,TipoDeActa,NroActa,FechaInfraccion,Tanda,Calle,StreetId,Altura,EntreCalle,Barrio,NighborhoodId,FechaEnvioAlJuzgado,ActaAdjunta,FechaCarga,UsuarioId,VehicleTypeId,VehicleBrandId,VehicleModelId,Color,NroMotor,NroChasis,EstadoVehiculo,FechaEstado,TipoAgente,InspectorId,PoliceId,VehiculoRetenido,LicenciaRetenida,TicketAlcoholemia,ResultadoAlcoholemia,TicketAlcoholemiaAdjunto,Informe,InformeAdjunto,Detalle,Enable,DNI,Nombre,Apellido,NroLicencia,DomainId,Dominio,Contraventions,Observations,SelectedContraventions,SelectedObservations,ActaAdjuntaBorrada,TicketAlcoholemiaAdjuntoBorrado,InformeAdjuntoBorrado")] Act actviewwmodel, HttpPostedFileBase fileUploadActa, HttpPostedFileBase fileUploadTicketAlcoholemiaAdjunto, HttpPostedFileBase fileInformeAdjunto)
+        public ActionResult Edit([Bind(Include = "Id,TipoDeActa,NroActa,FechaInfraccion,Tanda,Calle,StreetId,Altura,EntreCalle,Barrio,NighborhoodId,FechaEnvioAlJuzgado,ActaAdjunta,FechaCarga,UsuarioId,VehicleTypeId,VehicleBrandId,VehicleModelId,Color,NroMotor,NroChasis,EstadoVehiculo,FechaEstado,TipoAgente,InspectorId,PoliceId,Policia,VehiculoRetenido,LicenciaRetenida,TicketAlcoholemia,ResultadoAlcoholemia,TicketAlcoholemiaAdjunto,Informe,InformeAdjunto,Detalle,Enable,DNI,Nombre,Apellido,NroLicencia,DomainId,Dominio,Contraventions,Observations,SelectedContraventions,SelectedObservations,ActaAdjuntaBorrada,TicketAlcoholemiaAdjuntoBorrado,InformeAdjuntoBorrado")] Act actviewwmodel, HttpPostedFileBase fileUploadActa, HttpPostedFileBase fileUploadTicketAlcoholemiaAdjunto, HttpPostedFileBase fileInformeAdjunto)
         {
             if (ModelState.IsValid)
             {
@@ -625,6 +645,7 @@ namespace Guardia_Comunal.Controllers
                 act.TipoAgente = actviewwmodel.TipoAgente;
                 act.InspectorId = actviewwmodel.InspectorId;
                 act.PoliceId = actviewwmodel.PoliceId;
+                act.Policia = actviewwmodel.Policia;
                 act.VehiculoRetenido = actviewwmodel.VehiculoRetenido;
                 act.LicenciaRetenida = actviewwmodel.LicenciaRetenida;
                 act.TicketAlcoholemia = actviewwmodel.TicketAlcoholemia;
@@ -810,7 +831,7 @@ namespace Guardia_Comunal.Controllers
 
                 TempData["message"] = "Los cambios se han grabado correctamente.";
 
-                AuditHelper.Auditar("Modificacion", act.Id.ToString(), "Acts", ModuleDescription, WindowDescription);
+                AuditHelper.Auditar("Modificacion", "Id -"+ act.Id.ToString() + " / Acta -" + act.NroActa, "Acts", ModuleDescription, WindowDescription);
 
                 return RedirectToAction("Index", "Acts");
             }
@@ -846,7 +867,7 @@ namespace Guardia_Comunal.Controllers
             db.Entry(act).State = EntityState.Modified;
             db.SaveChanges();
 
-            AuditHelper.Auditar("Baja", act.Id.ToString(), "Acts", ModuleDescription, WindowDescription);
+            AuditHelper.Auditar("Baja", "Id -" + act.Id.ToString() + " / Acta -" + act.NroActa, "Acts", ModuleDescription, WindowDescription);
 
             var responseObject = new
             {
@@ -867,7 +888,7 @@ namespace Guardia_Comunal.Controllers
             db.Acts.Remove(act);
             db.SaveChanges();
 
-            AuditHelper.Auditar("Baja", act.Id.ToString(), "Acts", ModuleDescription, WindowDescription);
+            AuditHelper.Auditar("Baja", "Id -" + act.Id.ToString() + " / Acta -" + act.NroActa, "Acts", ModuleDescription, WindowDescription);
 
             return RedirectToAction("Index");
         }

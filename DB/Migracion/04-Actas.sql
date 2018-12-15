@@ -39,7 +39,8 @@ DNI nvarchar(MAX),
 Nombre nvarchar(MAX),
 Apellido nvarchar(MAX),
 NroLicencia nvarchar(MAX),
-Dominio nvarchar(MAX) )
+Dominio nvarchar(MAX),
+Policia nvarchar(MAX)  )
 
 insert into @T1
 --2012
@@ -56,7 +57,7 @@ null as ResultadoAlcoholemia, null TicketAlcoholemiaAdjunto,null as Informe, nul
 (select UsuarioId from GuardiaComunal.dbo.Usuarios where Nombreusuario ='admin') as UsuarioId, 
 m.Id as VehicleBrandId, null as VehicleModelId, t.Id as VehicleTypeId,null as StreetId, null as NighborhoodId, a.DNI, a.Nombre, 
 case when a.Apellido ='Oficio' then null else a.Apellido end as Apellido,a.NumLicencia,
-case when [Dominio A] is not null then [Dominio A] else [Dominio M] end as Dominio
+case when [Dominio A] is not null then [Dominio A] else [Dominio M] end as Dominio, null
 from [BasedeActas2012].[dbo].[01 Base de Actas] a, GuardiaComunal.dbo.Inspectors i, GuardiaComunal.dbo.VehicleTypes t,GuardiaComunal.dbo.VehicleBrands m
 where Upper(i.Apellido)= substring(a.Inspector, 1,charindex(' ',a.Inspector))
 and Upper(i.Nombre)=substring(a.Inspector, charindex(' ',a.Inspector),len(a.Inspector)-charindex(' ',a.Inspector)+1) 
@@ -78,7 +79,7 @@ null as ResultadoAlcoholemia, null TicketAlcoholemiaAdjunto,null as Informe, nul
 (select UsuarioId from GuardiaComunal.dbo.Usuarios where Nombreusuario ='admin') as UsuarioId, 
 m.Id as VehicleBrandId, null as VehicleModelId, t.Id as VehicleTypeId,null as StreetId, null as NighborhoodId, a.DNI, a.Nombre, 
 case when a.Apellido ='Oficio' then null else a.Apellido end as Apellido,a.NumLicencia,
-case when [Dominio A] is not null then [Dominio A] else [Dominio M] end as Dominio
+case when [Dominio A] is not null then [Dominio A] else [Dominio M] end as Dominio, null
 from [BasedeActas2013].[dbo].[02b Base de Actas] a, GuardiaComunal.dbo.Inspectors i, GuardiaComunal.dbo.VehicleTypes t,GuardiaComunal.dbo.VehicleBrands m
 where Upper(i.Apellido)= substring(a.Inspector, 1,charindex(' ',a.Inspector))
 and Upper(i.Nombre)=substring(a.Inspector, charindex(' ',a.Inspector),len(a.Inspector)-charindex(' ',a.Inspector)+1) 
@@ -100,7 +101,7 @@ null as ResultadoAlcoholemia, null TicketAlcoholemiaAdjunto,null as Informe, nul
 (select UsuarioId from GuardiaComunal.dbo.Usuarios where Nombreusuario ='admin') as UsuarioId, 
 m.Id as VehicleBrandId, null as VehicleModelId, t.Id as VehicleTypeId,null as StreetId, null as NighborhoodId, a.DNI, a.Nombre, 
 case when a.Apellido ='Oficio' then null else a.Apellido end as Apellido,a.NumLicencia,
-case when [Dominio A] is not null then [Dominio A] else [Dominio M] end as Dominio
+case when [Dominio A] is not null then [Dominio A] else [Dominio M] end as Dominio, null
 from [BasedeActas2013].[dbo].[03 Base de Actas] a, GuardiaComunal.dbo.Inspectors i, GuardiaComunal.dbo.VehicleTypes t,GuardiaComunal.dbo.VehicleBrands m
 where Upper(i.Apellido)= substring(a.Inspector, 1,charindex(' ',a.Inspector))
 and Upper(i.Nombre)=substring(a.Inspector, charindex(' ',a.Inspector),len(a.Inspector)-charindex(' ',a.Inspector)+1) 
@@ -122,7 +123,7 @@ null as ResultadoAlcoholemia, null TicketAlcoholemiaAdjunto,null as Informe, nul
 (select UsuarioId from GuardiaComunal.dbo.Usuarios where Nombreusuario ='admin') as UsuarioId, 
 m.Id as VehicleBrandId, null as VehicleModelId, t.Id as VehicleTypeId,null as StreetId, null as NighborhoodId, a.DNI, a.Nombre, 
 case when a.Apellido ='Oficio' then null else a.Apellido end as Apellido,a.NumLicencia,
-case when [Dominio A] is not null then [Dominio A] else [Dominio M] end as Dominio
+case when [Dominio A] is not null then [Dominio A] else [Dominio M] end as Dominio, null
 from  [BasedeActas2014].[dbo].[03 Base de Actas] a, GuardiaComunal.dbo.Inspectors i, GuardiaComunal.dbo.VehicleTypes t,GuardiaComunal.dbo.VehicleBrands m
 where Upper(i.Apellido)= substring(a.Inspector, 1,charindex(' ',a.Inspector))
 and Upper(i.Nombre)=substring(a.Inspector, charindex(' ',a.Inspector),len(a.Inspector)-charindex(' ',a.Inspector)+1) 
@@ -143,7 +144,7 @@ null as ResultadoAlcoholemia, null TicketAlcoholemiaAdjunto,null as Informe, nul
 (select UsuarioId from GuardiaComunal.dbo.Usuarios where Nombreusuario ='admin') as UsuarioId, 
 m.Id as VehicleBrandId, null as VehicleModelId, t.Id as VehicleTypeId,null as StreetId, null as NighborhoodId, a.DNI, a.Nombre, 
 case when a.Apellido ='Oficio' then null else a.Apellido end as Apellido,a.NumLicencia,
-case when [Dominio A] is not null then [Dominio A] else [Dominio M] end as Dominio
+case when [Dominio A] is not null then [Dominio A] else [Dominio M] end as Dominio, null
 from  [BasedeActas2014].[dbo].[04 Base de Actas] a, GuardiaComunal.dbo.Inspectors i, GuardiaComunal.dbo.VehicleTypes t,GuardiaComunal.dbo.VehicleBrands m
 where Upper(i.Apellido)= substring(a.Inspector, 1,charindex(' ',a.Inspector))
 and Upper(i.Nombre)=substring(a.Inspector, charindex(' ',a.Inspector),len(a.Inspector)-charindex(' ',a.Inspector)+1) 
@@ -164,7 +165,7 @@ null as ResultadoAlcoholemia, null TicketAlcoholemiaAdjunto,null as Informe, nul
 (select UsuarioId from GuardiaComunal.dbo.Usuarios where Nombreusuario ='admin') as UsuarioId, 
 m.Id as VehicleBrandId, null as VehicleModelId, t.Id as VehicleTypeId,null as StreetId, null as NighborhoodId, a.DNI, a.Nombre, 
 case when a.Apellido ='Oficio' then null else a.Apellido end as Apellido,a.NumLicencia,
-case when [Dominio A] is not null then [Dominio A] else [Dominio M] end as Dominio
+case when [Dominio A] is not null then [Dominio A] else [Dominio M] end as Dominio, null
 from  [BasedeActas2015].[dbo].[05 Base de Actas] a, GuardiaComunal.dbo.Inspectors i, GuardiaComunal.dbo.VehicleTypes t,GuardiaComunal.dbo.VehicleBrands m
 where Upper(i.Apellido)= substring(a.Inspector, 1,charindex(' ',a.Inspector))
 and Upper(i.Nombre)=substring(a.Inspector, charindex(' ',a.Inspector),len(a.Inspector)-charindex(' ',a.Inspector)+1) 
@@ -185,7 +186,7 @@ null as ResultadoAlcoholemia, null TicketAlcoholemiaAdjunto,null as Informe, nul
 (select UsuarioId from GuardiaComunal.dbo.Usuarios where Nombreusuario ='admin') as UsuarioId, 
 m.Id as VehicleBrandId, null as VehicleModelId, t.Id as VehicleTypeId,null as StreetId, null as NighborhoodId, a.DNI, a.Nombre, 
 case when a.Apellido ='Oficio' then null else a.Apellido end as Apellido,a.NumLicencia,
-case when [Dominio A] is not null then [Dominio A] else [Dominio M] end as Dominio
+case when [Dominio A] is not null then [Dominio A] else [Dominio M] end as Dominio, null
 from  [BasedeActas2015].[dbo].[06 Base de Actas] a, GuardiaComunal.dbo.Inspectors i, GuardiaComunal.dbo.VehicleTypes t,GuardiaComunal.dbo.VehicleBrands m
 where Upper(i.Apellido)= substring(a.Inspector, 1,charindex(' ',a.Inspector))
 and Upper(i.Nombre)=substring(a.Inspector, charindex(' ',a.Inspector),len(a.Inspector)-charindex(' ',a.Inspector)+1) 
@@ -206,7 +207,7 @@ null as ResultadoAlcoholemia, null TicketAlcoholemiaAdjunto,null as Informe, nul
 (select UsuarioId from GuardiaComunal.dbo.Usuarios where Nombreusuario ='admin') as UsuarioId, 
 m.Id as VehicleBrandId, null as VehicleModelId, t.Id as VehicleTypeId,null as StreetId, null as NighborhoodId, a.DNI, a.Nombre, 
 case when a.Apellido ='Oficio' then null else a.Apellido end as Apellido,a.NumLicencia,
-case when [Dominio A] is not null then [Dominio A] else [Dominio M] end as Dominio
+case when [Dominio A] is not null then [Dominio A] else [Dominio M] end as Dominio, null
 from  [BasedeActas2016A].[dbo].[Base de Actas]  a, GuardiaComunal.dbo.Inspectors i, GuardiaComunal.dbo.VehicleTypes t,GuardiaComunal.dbo.VehicleBrands m
 where Upper(i.Apellido)= substring(a.Inspector, 1,charindex(' ',a.Inspector))
 and Upper(i.Nombre)=substring(a.Inspector, charindex(' ',a.Inspector),len(a.Inspector)-charindex(' ',a.Inspector)+1) 
@@ -227,7 +228,7 @@ null as ResultadoAlcoholemia, null TicketAlcoholemiaAdjunto,null as Informe, nul
 (select UsuarioId from GuardiaComunal.dbo.Usuarios where Nombreusuario ='admin') as UsuarioId, 
 m.Id as VehicleBrandId, null as VehicleModelId, t.Id as VehicleTypeId,null as StreetId, null as NighborhoodId, a.DNI, a.Nombre, 
 case when a.Apellido ='Oficio' then null else a.Apellido end as Apellido,a.NumLicencia,
-case when [Dominio A] is not null then [Dominio A] else case when a.[Dominio M] is null then ISNULL(a.[DM A],a.[DM M]) else a.[Dominio M] End end as Dominio
+case when [Dominio A] is not null then [Dominio A] else case when a.[Dominio M] is null then ISNULL(a.[DM A],a.[DM M]) else a.[Dominio M] End end as Dominio, null
 from  [BasedeActas2016B].[dbo].[Base de Actas]  a, GuardiaComunal.dbo.Inspectors i, GuardiaComunal.dbo.VehicleTypes t,GuardiaComunal.dbo.VehicleBrands m
 where Upper(i.Apellido)= substring(a.Inspector, 1,charindex(' ',a.Inspector))
 and Upper(i.Nombre)=substring(a.Inspector, charindex(' ',a.Inspector),len(a.Inspector)-charindex(' ',a.Inspector)+1) 
@@ -248,7 +249,7 @@ null as ResultadoAlcoholemia, null TicketAlcoholemiaAdjunto,null as Informe, nul
 (select UsuarioId from GuardiaComunal.dbo.Usuarios where Nombreusuario ='admin') as UsuarioId, 
 m.Id as VehicleBrandId, null as VehicleModelId, t.Id as VehicleTypeId,null as StreetId, null as NighborhoodId, a.DNI, a.Nombre, 
 case when a.Apellido ='Oficio' then null else a.Apellido end as Apellido,a.NumLicencia,
-case when [Dominio A] is not null then [Dominio A] else case when a.[Dominio M] is null then ISNULL(a.[Dominio N A] ,a.[Dominio N M] ) else a.[Dominio M] End end as Dominio
+case when [Dominio A] is not null then [Dominio A] else case when a.[Dominio M] is null then ISNULL(a.[Dominio N A] ,a.[Dominio N M] ) else a.[Dominio M] End end as Dominio, null
 from  [BasedeActas2017A].[dbo].[Base de Actas]  a, GuardiaComunal.dbo.Inspectors i, GuardiaComunal.dbo.VehicleTypes t,GuardiaComunal.dbo.VehicleBrands m
 where Upper(i.Apellido)= substring(a.Inspector, 1,charindex(' ',a.Inspector))
 and Upper(i.Nombre)=substring(a.Inspector, charindex(' ',a.Inspector),len(a.Inspector)-charindex(' ',a.Inspector)+1) 
@@ -269,7 +270,7 @@ null as ResultadoAlcoholemia, null TicketAlcoholemiaAdjunto,null as Informe, nul
 (select UsuarioId from GuardiaComunal.dbo.Usuarios where Nombreusuario ='admin') as UsuarioId, 
 m.Id as VehicleBrandId, null as VehicleModelId, t.Id as VehicleTypeId,null as StreetId, null as NighborhoodId, a.DNI, a.Nombre, 
 case when a.Apellido ='Oficio' then null else a.Apellido end as Apellido,a.NumLicencia,
-case when [Dominio A] is not null then [Dominio A] else case when a.[Dominio M] is null then ISNULL(a.[Dominio N A] ,a.[Dominio N M] ) else a.[Dominio M] End end as Dominio
+case when [Dominio A] is not null then [Dominio A] else case when a.[Dominio M] is null then ISNULL(a.[Dominio N A] ,a.[Dominio N M] ) else a.[Dominio M] End end as Dominio, null
 from  [BasedeActas2018A].[dbo].[Base de Actas]  a, GuardiaComunal.dbo.Inspectors i, GuardiaComunal.dbo.VehicleTypes t,GuardiaComunal.dbo.VehicleBrands m
 where Upper(i.Apellido)= substring(a.Inspector, 1,charindex(' ',a.Inspector))
 and Upper(i.Nombre)=substring(a.Inspector, charindex(' ',a.Inspector),len(a.Inspector)-charindex(' ',a.Inspector)+1) 

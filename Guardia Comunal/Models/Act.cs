@@ -101,6 +101,8 @@ namespace GuardiaComunal.Models
         public string TipoAgente { get; set; }
         public int? InspectorId { get; set; }
         public virtual Inspector Inspector { get; set; }
+
+        public string Policia { get; set; }
         public int? PoliceId  { get; set; }
         public virtual Police Police { get; set; }
         public bool VehiculoRetenido { get; set; }

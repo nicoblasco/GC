@@ -1,7 +1,7 @@
 USE [GuardiaComunal]
 GO
 
-/****** Object:  Table [dbo].[__MigrationHistory]    Script Date: 23/10/2018 13:09:10 ******/
+/****** Object:  Table [dbo].[__MigrationHistory]    Script Date: 14/12/2018 22:21:44 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -21,7 +21,7 @@ CREATE TABLE [dbo].[__MigrationHistory](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 
-/****** Object:  Table [dbo].[Acts]    Script Date: 23/10/2018 13:09:10 ******/
+/****** Object:  Table [dbo].[Acts]    Script Date: 14/12/2018 22:21:45 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -70,6 +70,7 @@ CREATE TABLE [dbo].[Acts](
 	[Apellido] [nvarchar](max) NULL,
 	[NroLicencia] [nvarchar](max) NULL,
 	[Dominio] [nvarchar](max) NULL,
+	[Policia] [nvarchar](max) NULL,
  CONSTRAINT [PK_dbo.Acts] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -77,7 +78,7 @@ CREATE TABLE [dbo].[Acts](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 
-/****** Object:  Table [dbo].[Audits]    Script Date: 23/10/2018 13:09:10 ******/
+/****** Object:  Table [dbo].[Audits]    Script Date: 14/12/2018 22:21:45 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -99,7 +100,7 @@ CREATE TABLE [dbo].[Audits](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 
-/****** Object:  Table [dbo].[ContraventionActs]    Script Date: 23/10/2018 13:09:10 ******/
+/****** Object:  Table [dbo].[ContraventionActs]    Script Date: 14/12/2018 22:21:45 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -117,7 +118,7 @@ CREATE TABLE [dbo].[ContraventionActs](
 ) ON [PRIMARY]
 GO
 
-/****** Object:  Table [dbo].[Contraventions]    Script Date: 23/10/2018 13:09:10 ******/
+/****** Object:  Table [dbo].[Contraventions]    Script Date: 14/12/2018 22:21:45 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -137,7 +138,7 @@ CREATE TABLE [dbo].[Contraventions](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 
-/****** Object:  Table [dbo].[Domains]    Script Date: 23/10/2018 13:09:10 ******/
+/****** Object:  Table [dbo].[Domains]    Script Date: 14/12/2018 22:21:45 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -154,7 +155,7 @@ CREATE TABLE [dbo].[Domains](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 
-/****** Object:  Table [dbo].[Inspectors]    Script Date: 23/10/2018 13:09:10 ******/
+/****** Object:  Table [dbo].[Inspectors]    Script Date: 14/12/2018 22:21:45 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -168,6 +169,7 @@ CREATE TABLE [dbo].[Inspectors](
 	[Apellido] [nvarchar](max) NULL,
 	[FechaAlta] [datetime] NOT NULL,
 	[Enable] [bit] NOT NULL,
+	[Legajo] [nvarchar](max) NULL,
  CONSTRAINT [PK_dbo.Inspectors] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -175,7 +177,7 @@ CREATE TABLE [dbo].[Inspectors](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 
-/****** Object:  Table [dbo].[LiberationPlaces]    Script Date: 23/10/2018 13:09:10 ******/
+/****** Object:  Table [dbo].[LiberationPlaces]    Script Date: 14/12/2018 22:21:45 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -194,7 +196,7 @@ CREATE TABLE [dbo].[LiberationPlaces](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 
-/****** Object:  Table [dbo].[Liberations]    Script Date: 23/10/2018 13:09:10 ******/
+/****** Object:  Table [dbo].[Liberations]    Script Date: 14/12/2018 22:21:45 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -219,6 +221,7 @@ CREATE TABLE [dbo].[Liberations](
 	[LiberationPlaceId] [int] NOT NULL,
 	[PersonId] [int] NOT NULL,
 	[UsuarioId] [int] NOT NULL,
+	[Numero] [int] NOT NULL,
  CONSTRAINT [PK_dbo.Liberations] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -226,7 +229,7 @@ CREATE TABLE [dbo].[Liberations](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 
-/****** Object:  Table [dbo].[Modules]    Script Date: 23/10/2018 13:09:10 ******/
+/****** Object:  Table [dbo].[Modules]    Script Date: 14/12/2018 22:21:45 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -244,7 +247,7 @@ CREATE TABLE [dbo].[Modules](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 
-/****** Object:  Table [dbo].[Nighborhoods]    Script Date: 23/10/2018 13:09:10 ******/
+/****** Object:  Table [dbo].[Nighborhoods]    Script Date: 14/12/2018 22:21:45 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -277,7 +280,7 @@ CREATE TABLE [dbo].[Nighborhoods](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 
-/****** Object:  Table [dbo].[ObservationActs]    Script Date: 23/10/2018 13:09:11 ******/
+/****** Object:  Table [dbo].[ObservationActs]    Script Date: 14/12/2018 22:21:45 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -295,7 +298,7 @@ CREATE TABLE [dbo].[ObservationActs](
 ) ON [PRIMARY]
 GO
 
-/****** Object:  Table [dbo].[Observations]    Script Date: 23/10/2018 13:09:11 ******/
+/****** Object:  Table [dbo].[Observations]    Script Date: 14/12/2018 22:21:45 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -314,7 +317,7 @@ CREATE TABLE [dbo].[Observations](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 
-/****** Object:  Table [dbo].[People]    Script Date: 23/10/2018 13:09:11 ******/
+/****** Object:  Table [dbo].[People]    Script Date: 14/12/2018 22:21:45 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -340,7 +343,7 @@ CREATE TABLE [dbo].[People](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 
-/****** Object:  Table [dbo].[Permissions]    Script Date: 23/10/2018 13:09:11 ******/
+/****** Object:  Table [dbo].[Permissions]    Script Date: 14/12/2018 22:21:45 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -362,7 +365,7 @@ CREATE TABLE [dbo].[Permissions](
 ) ON [PRIMARY]
 GO
 
-/****** Object:  Table [dbo].[Police]    Script Date: 23/10/2018 13:09:11 ******/
+/****** Object:  Table [dbo].[Police]    Script Date: 14/12/2018 22:21:45 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -384,7 +387,7 @@ CREATE TABLE [dbo].[Police](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 
-/****** Object:  Table [dbo].[PoliceStations]    Script Date: 23/10/2018 13:09:11 ******/
+/****** Object:  Table [dbo].[PoliceStations]    Script Date: 14/12/2018 22:21:45 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -410,7 +413,7 @@ CREATE TABLE [dbo].[PoliceStations](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 
-/****** Object:  Table [dbo].[Rols]    Script Date: 23/10/2018 13:09:11 ******/
+/****** Object:  Table [dbo].[Rols]    Script Date: 14/12/2018 22:21:45 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -428,7 +431,7 @@ CREATE TABLE [dbo].[Rols](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 
-/****** Object:  Table [dbo].[Streets]    Script Date: 23/10/2018 13:09:11 ******/
+/****** Object:  Table [dbo].[Streets]    Script Date: 14/12/2018 22:21:45 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -449,7 +452,7 @@ CREATE TABLE [dbo].[Streets](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 
-/****** Object:  Table [dbo].[Usuarios]    Script Date: 23/10/2018 13:09:11 ******/
+/****** Object:  Table [dbo].[Usuarios]    Script Date: 14/12/2018 22:21:45 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -461,7 +464,7 @@ CREATE TABLE [dbo].[Usuarios](
 	[Nombre] [nvarchar](max) NULL,
 	[Apellido] [nvarchar](max) NULL,
 	[Nombreusuario] [nvarchar](max) NULL,
-	[Contraseña] [nvarchar](max) NULL,
+	[ContraseÃ±a] [nvarchar](max) NULL,
 	[Enable] [bit] NOT NULL,
 	[RolId] [int] NOT NULL,
  CONSTRAINT [PK_dbo.Usuarios] PRIMARY KEY CLUSTERED 
@@ -471,7 +474,7 @@ CREATE TABLE [dbo].[Usuarios](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 
-/****** Object:  Table [dbo].[VehicleBrands]    Script Date: 23/10/2018 13:09:11 ******/
+/****** Object:  Table [dbo].[VehicleBrands]    Script Date: 14/12/2018 22:21:45 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -491,7 +494,7 @@ CREATE TABLE [dbo].[VehicleBrands](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 
-/****** Object:  Table [dbo].[VehicleModels]    Script Date: 23/10/2018 13:09:11 ******/
+/****** Object:  Table [dbo].[VehicleModels]    Script Date: 14/12/2018 22:21:45 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -511,7 +514,7 @@ CREATE TABLE [dbo].[VehicleModels](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 
-/****** Object:  Table [dbo].[VehicleTypes]    Script Date: 23/10/2018 13:09:11 ******/
+/****** Object:  Table [dbo].[VehicleTypes]    Script Date: 14/12/2018 22:21:45 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -530,7 +533,7 @@ CREATE TABLE [dbo].[VehicleTypes](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 
-/****** Object:  Table [dbo].[Windows]    Script Date: 23/10/2018 13:09:11 ******/
+/****** Object:  Table [dbo].[Windows]    Script Date: 14/12/2018 22:21:45 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -549,6 +552,9 @@ CREATE TABLE [dbo].[Windows](
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[Liberations] ADD  DEFAULT ((0)) FOR [Numero]
 GO
 
 ALTER TABLE [dbo].[Acts]  WITH CHECK ADD  CONSTRAINT [FK_dbo.Acts_dbo.Domains_TipoDeDominio_Id] FOREIGN KEY([DomainId])

@@ -81,6 +81,7 @@ namespace Guardia_Comunal.Controllers
             db.Entry(inspector).Property(x => x.DNI).IsModified = true;
             db.Entry(inspector).Property(x => x.Apellido).IsModified = true;
             db.Entry(inspector).Property(x => x.Nombre).IsModified = true;
+            db.Entry(inspector).Property(x => x.Legajo).IsModified = true;
 
             db.SaveChanges();
 

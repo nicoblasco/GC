@@ -16,7 +16,8 @@ Enable bit,
 ActaId int,
 LiberationPlaceId int,
 PersonId int,
-UsuarioId int)
+UsuarioId int,
+Numero int)
 
 insert into @T1
 --2012
@@ -24,7 +25,7 @@ select l.IdLiberado as NroLiberacion, isnull(l.Fecha,FechaDeCarga) as FechaDeLib
 l.Convenio as Convenio, isnull(l.CantCuotas,0) as Cuotas, isnull(l.Acarreo,0) as Acarreo, isnull(l.NroRecibo,0) as NroRecibo, 
 isnull(l.Importe,0) as Importe, isnull(l.MontoCuotas,0) as MontoEnCuotas, isnull(l.FechaEmision, l.FechaDeCarga) as FechaEmisionRecibo, 
 1 as Enable,l.IdActa, lp.Id,
-p.Id as PersonId, (select UsuarioId from GuardiaComunal.dbo.Usuarios where Nombreusuario ='admin') as UsuarioId
+p.Id as PersonId, (select UsuarioId from GuardiaComunal.dbo.Usuarios where Nombreusuario ='admin') as UsuarioId, CAST( l.IdLiberado AS INT)
 from [BasedeActas2012].[dbo].[02 Liberados] l, GuardiaComunal.dbo.People p,  GuardiaComunal.dbo.Acts a, GuardiaComunal.dbo.LiberationPlaces lp
 where l.DNI=p.DNI
 and a.NroActa = l.IdActa
@@ -37,7 +38,7 @@ select l.IdLiberado as NroLiberacion, isnull(l.Fecha,FechaDeCarga) as FechaDeLib
 l.Convenio as Convenio, isnull(l.CantCuotas,0) as Cuotas, isnull(l.Acarreo,0) as Acarreo, isnull(l.NroRecibo,0) as NroRecibo, 
 isnull(l.Importe,0) as Importe, isnull(l.MontoCuotas,0) as MontoEnCuotas, isnull(l.FechaEmision, l.FechaDeCarga) as FechaEmisionRecibo, 
 1 as Enable,a.Id, lp.Id,
-p.Id as PersonId, (select UsuarioId from GuardiaComunal.dbo.Usuarios where Nombreusuario ='admin') as UsuarioId
+p.Id as PersonId, (select UsuarioId from GuardiaComunal.dbo.Usuarios where Nombreusuario ='admin') as UsuarioId, CAST( l.IdLiberado AS INT)
 from [BasedeActas2013].[dbo].[03 Liberados] l, GuardiaComunal.dbo.People p,  GuardiaComunal.dbo.Acts a, GuardiaComunal.dbo.LiberationPlaces lp
 where l.DNI=p.DNI
 and a.NroActa = l.IdActa
@@ -50,7 +51,7 @@ select l.IdLiberado as NroLiberacion, isnull(l.Fecha,FechaDeCarga) as FechaDeLib
 l.Convenio as Convenio, isnull(l.CantCuotas,0) as Cuotas, isnull(l.Acarreo,0) as Acarreo, isnull(l.NroRecibo,0) as NroRecibo, 
 isnull(l.Importe,0) as Importe, isnull(l.MontoCuotas,0) as MontoEnCuotas, isnull(l.FechaEmision, l.FechaDeCarga) as FechaEmisionRecibo, 
 1 as Enable,a.Id, lp.Id,
-p.Id as PersonId, (select UsuarioId from GuardiaComunal.dbo.Usuarios where Nombreusuario ='admin') as UsuarioId
+p.Id as PersonId, (select UsuarioId from GuardiaComunal.dbo.Usuarios where Nombreusuario ='admin') as UsuarioId, CAST( l.IdLiberado AS INT)
 from [BasedeActas2013].[dbo].[03 Liberados] l, GuardiaComunal.dbo.People p,  GuardiaComunal.dbo.Acts a, GuardiaComunal.dbo.LiberationPlaces lp
 where l.DNI=p.DNI
 and a.NroActa = l.IdActa
@@ -63,7 +64,7 @@ select l.IdLiberado as NroLiberacion, isnull(l.Fecha,FechaDeCarga) as FechaDeLib
 l.Convenio as Convenio, isnull(l.CantCuotas,0) as Cuotas, isnull(l.Acarreo,0) as Acarreo, isnull(l.NroRecibo,0) as NroRecibo, 
 isnull(l.Importe,0) as Importe, isnull(l.MontoCuotas,0) as MontoEnCuotas, isnull(l.FechaEmision, l.FechaDeCarga) as FechaEmisionRecibo, 
 1 as Enable,a.Id, lp.Id,
-p.Id as PersonId, (select UsuarioId from GuardiaComunal.dbo.Usuarios where Nombreusuario ='admin') as UsuarioId
+p.Id as PersonId, (select UsuarioId from GuardiaComunal.dbo.Usuarios where Nombreusuario ='admin') as UsuarioId, CAST( l.IdLiberado AS INT)
 from [BasedeActas2014].[dbo].[04 Liberados] l, GuardiaComunal.dbo.People p,  GuardiaComunal.dbo.Acts a, GuardiaComunal.dbo.LiberationPlaces lp
 where l.DNI=p.DNI
 and a.NroActa = l.IdActa
@@ -76,7 +77,7 @@ select l.IdLiberado as NroLiberacion, isnull(l.Fecha,FechaDeCarga) as FechaDeLib
 l.Convenio as Convenio, isnull(l.CantCuotas,0) as Cuotas, isnull(l.Acarreo,0) as Acarreo, isnull(l.NroRecibo,0) as NroRecibo, 
 isnull(l.Importe,0) as Importe, isnull(l.MontoCuotas,0) as MontoEnCuotas, isnull(l.FechaEmision, l.FechaDeCarga) as FechaEmisionRecibo, 
 1 as Enable,a.Id, lp.Id,
-p.Id as PersonId, (select UsuarioId from GuardiaComunal.dbo.Usuarios where Nombreusuario ='admin') as UsuarioId
+p.Id as PersonId, (select UsuarioId from GuardiaComunal.dbo.Usuarios where Nombreusuario ='admin') as UsuarioId, CAST( l.IdLiberado AS INT)
 from [BasedeActas2015].[dbo].[05 Liberados]l, GuardiaComunal.dbo.People p,  GuardiaComunal.dbo.Acts a, GuardiaComunal.dbo.LiberationPlaces lp
 where l.DNI=p.DNI
 and a.NroActa = l.IdActa
@@ -89,7 +90,7 @@ select l.IdLiberado as NroLiberacion, isnull(l.Fecha,FechaDeCarga) as FechaDeLib
 l.Convenio as Convenio, isnull(l.CantCuotas,0) as Cuotas, isnull(l.Acarreo,0) as Acarreo, isnull(l.NroRecibo,0) as NroRecibo, 
 isnull(l.Importe,0) as Importe, isnull(l.MontoCuotas,0) as MontoEnCuotas, isnull(l.FechaEmision, l.FechaDeCarga) as FechaEmisionRecibo, 
 1 as Enable,a.Id, lp.Id,
-p.Id as PersonId, (select UsuarioId from GuardiaComunal.dbo.Usuarios where Nombreusuario ='admin') as UsuarioId
+p.Id as PersonId, (select UsuarioId from GuardiaComunal.dbo.Usuarios where Nombreusuario ='admin') as UsuarioId, CAST( l.IdLiberado AS INT)
 from [BasedeActas2015].[dbo].[06 Liberados] l, GuardiaComunal.dbo.People p,  GuardiaComunal.dbo.Acts a, GuardiaComunal.dbo.LiberationPlaces lp
 where l.DNI=p.DNI
 and a.NroActa = l.IdActa
@@ -102,7 +103,7 @@ select l.IdLiberado as NroLiberacion, isnull(l.Fecha,FechaDeCarga) as FechaDeLib
 l.Convenio as Convenio, isnull(l.CantCuotas,0) as Cuotas, isnull(l.Acarreo,0) as Acarreo, isnull(l.NroRecibo,0) as NroRecibo, 
 isnull(l.Importe,0) as Importe, isnull(l.MontoCuotas,0) as MontoEnCuotas, isnull(l.FechaEmision, l.FechaDeCarga) as FechaEmisionRecibo, 
 1 as Enable,a.Id, lp.Id,
-p.Id as PersonId, (select UsuarioId from GuardiaComunal.dbo.Usuarios where Nombreusuario ='admin') as UsuarioId
+p.Id as PersonId, (select UsuarioId from GuardiaComunal.dbo.Usuarios where Nombreusuario ='admin') as UsuarioId, CAST( l.IdLiberado AS INT)
 from [BasedeActas2016A].[dbo].[Liberados] l, GuardiaComunal.dbo.People p,  GuardiaComunal.dbo.Acts a, GuardiaComunal.dbo.LiberationPlaces lp
 where l.DNI=p.DNI
 and a.NroActa = l.IdActa
@@ -115,7 +116,7 @@ select l.IdLiberado as NroLiberacion, isnull(l.Fecha,FechaDeCarga) as FechaDeLib
 l.Convenio as Convenio, isnull(l.CantCuotas,0) as Cuotas, isnull(l.Acarreo,0) as Acarreo, isnull(l.NroRecibo,0) as NroRecibo, 
 isnull(l.Importe,0) as Importe, isnull(l.MontoCuotas,0) as MontoEnCuotas, isnull(l.FechaEmision, l.FechaDeCarga) as FechaEmisionRecibo, 
 1 as Enable,a.Id, lp.Id,
-p.Id as PersonId, (select UsuarioId from GuardiaComunal.dbo.Usuarios where Nombreusuario ='admin') as UsuarioId
+p.Id as PersonId, (select UsuarioId from GuardiaComunal.dbo.Usuarios where Nombreusuario ='admin') as UsuarioId, CAST( l.IdLiberado AS INT)
 from [BasedeActas2016B].[dbo].[Liberados] l, GuardiaComunal.dbo.People p,  GuardiaComunal.dbo.Acts a, GuardiaComunal.dbo.LiberationPlaces lp
 where l.DNI=p.DNI
 and a.NroActa = l.IdActa
@@ -128,7 +129,7 @@ select l.IdLiberado as NroLiberacion, isnull(l.Fecha,FechaDeCarga) as FechaDeLib
 l.Convenio as Convenio, isnull(l.CantCuotas,0) as Cuotas, isnull(l.Acarreo,0) as Acarreo, isnull(l.NroRecibo,0) as NroRecibo, 
 isnull(l.Importe,0) as Importe, isnull(l.MontoCuotas,0) as MontoEnCuotas, isnull(l.FechaEmision, l.FechaDeCarga) as FechaEmisionRecibo, 
 1 as Enable,a.Id, lp.Id,
-p.Id as PersonId, (select UsuarioId from GuardiaComunal.dbo.Usuarios where Nombreusuario ='admin') as UsuarioId
+p.Id as PersonId, (select UsuarioId from GuardiaComunal.dbo.Usuarios where Nombreusuario ='admin') as UsuarioId, CAST( l.IdLiberado AS INT)
 from [BasedeActas2017A].[dbo].[Liberados]l, GuardiaComunal.dbo.People p,  GuardiaComunal.dbo.Acts a, GuardiaComunal.dbo.LiberationPlaces lp
 where l.DNI=p.DNI
 and a.NroActa = l.IdActa
@@ -141,7 +142,7 @@ select l.IdLiberado as NroLiberacion, isnull(l.Fecha,FechaDeCarga) as FechaDeLib
 l.Convenio as Convenio, isnull(l.CantCuotas,0) as Cuotas, isnull(l.Acarreo,0) as Acarreo, isnull(l.NroRecibo,0) as NroRecibo, 
 isnull(l.Importe,0) as Importe, isnull(l.MontoCuotas,0) as MontoEnCuotas, isnull(l.FechaEmision, l.FechaDeCarga) as FechaEmisionRecibo, 
 1 as Enable,a.Id, lp.Id,
-p.Id as PersonId, (select UsuarioId from GuardiaComunal.dbo.Usuarios where Nombreusuario ='admin') as UsuarioId
+p.Id as PersonId, (select UsuarioId from GuardiaComunal.dbo.Usuarios where Nombreusuario ='admin') as UsuarioId, CAST( l.IdLiberado AS INT)
 from [BasedeActas2018A].[dbo].[Liberados] l, GuardiaComunal.dbo.People p,  GuardiaComunal.dbo.Acts a, GuardiaComunal.dbo.LiberationPlaces lp
 where l.DNI=p.DNI
 and a.NroActa = l.IdActa
@@ -151,9 +152,9 @@ and l.FechaEmision is not null
 
 
 insert into GuardiaComunal.dbo.Liberations (NroLiberacion,FechaDeLiberacion,NroJuzgado,FechaCarga,Convenio,Cuotas,Acarreo,
-NroRecibo,Importe,MontoEnCuotas,FechaEmisionRecibo,Enable,ActaId,LiberationPlaceId,PersonId ,UsuarioId )
+NroRecibo,Importe,MontoEnCuotas,FechaEmisionRecibo,Enable,ActaId,LiberationPlaceId,PersonId ,UsuarioId, Numero )
 select NroLiberacion,FechaDeLiberacion,NroJuzgado,FechaCarga,Convenio,Cuotas,Acarreo,
-NroRecibo,Importe,MontoEnCuotas,FechaEmisionRecibo,Enable,ActaId,LiberationPlaceId,PersonId ,UsuarioId 
+NroRecibo,Importe,MontoEnCuotas,FechaEmisionRecibo,Enable,ActaId,LiberationPlaceId,PersonId ,UsuarioId, Numero 
 from @T1
 
 --SELECT ActaId, count(*)

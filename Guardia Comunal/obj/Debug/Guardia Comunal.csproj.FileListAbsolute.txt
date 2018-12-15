@@ -67,3 +67,5 @@ C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaCom
 C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\bin\ExpressiveAnnotations.xml
 C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\bin\ExpressiveAnnotations.MvcUnobtrusive.xml
 C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\obj\Debug\Guardia Comunal.csprojAssemblyReference.cache
+C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\obj\Debug\Guardia_Comunal.Migrations.InitialCreate.resources
+C:\Users\nicoblasco\Documents\Sistemas\En Desarrollo\Repositorios Git\GuardiaComunal\Guardia Comunal\obj\Debug\Guardia Comunal.csproj.GenerateResource.cache

@@ -1,4 +1,4 @@
-﻿@model GuardiaComunal.Models.Liberation
+﻿@model Guardia_Comunal.ViewModel.LiberationViewModel
 @using Guardia_Comunal.Helpers
 @using Guardia_Comunal.ViewModel
 @{
@@ -45,7 +45,7 @@
     @Html.HiddenFor(model => model.PersonId, new { @Value = ViewBag.PersonId })
     <div id="page-wrapper">
         <div class="row">
-            <h1 class="page-header" style="margin: 10px;">Actas</h1>
+            <h1 class="page-header" style="margin: 10px;">Liberaciones</h1>
 
             <form id="form-create" role="form" class="form-horizontal">
                 <div class="col-lg-12">
@@ -87,7 +87,7 @@
                                 </div>
                                 <div class="col-sm-3">
                                     <label>Nro Juzgado</label>
-                                    @Html.EditorFor(model => model.NroJuzgado, new { htmlAttributes = new { @class = "form-control input-sm", id = "input-NroLiberacion", name = "input-NroLiberacion", placeholder = "Nro de Liberación" } })
+                                    @Html.EditorFor(model => model.NroJuzgado, new { htmlAttributes = new { @class = "form-control input-sm", id = "input-NroJuzgado", name = "input-NroJuzgado", placeholder = "Nro de Liberación" } })
                                 </div>
                                 <div class="col-sm-3">
                                     <label>Fecha/Hora de Carga</label>
@@ -182,12 +182,12 @@
                                 </div>
                                 <div class="col-sm-3">
                                     <label>Tipo de Dominio</label>
-                                    @Html.DropDownListFor(model => model.Acta.DomainId, new SelectList(ViewBag.listaDominios, "Id", "Descripcion"), new { @class = "form-control input-sm" })
+                                    @Html.DropDownListFor(model => model.DomainId, new SelectList(ViewBag.listaDominios, "Id", "Descripcion"), new { @class = "form-control input-sm" })
                                 </div>
                                 <div class="col-sm-3">
                                     <label>Dominio</label>
-                                    @Html.EditorFor(model => model.Acta.Dominio, new { htmlAttributes = new { @class = "form-control input-sm", id = "input-TipoDominio", name = "inputTipoDominio", placeholder = "Dominio" } })
-                                    @Html.ValidationMessageFor(model => model.Acta.Dominio, "", new { @class = "text-danger" })
+                                    @Html.EditorFor(model => model.Dominio, new { htmlAttributes = new { @class = "form-control input-sm", id = "input-TipoDominio", name = "inputTipoDominio", placeholder = "Dominio" } })
+                                    @Html.ValidationMessageFor(model => model.Dominio, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-sm-3">
                                     <label>Marca</label>
@@ -215,11 +215,13 @@
                                 </div>
                                 <div class="col-sm-3">
                                     <label>Nro Motor</label>
-                                    @Html.EditorFor(model => model.Acta.NroMotor, new { htmlAttributes = new { @class = "form-control input-sm", id = "input-NroMotor", name = "inputNroMotor", placeholder = "Nro Motor" } })
+                                    @Html.EditorFor(model => model.NroMotor, new { htmlAttributes = new { @class = "form-control input-sm", id = "input-NroMotor", name = "inputNroMotor", placeholder = "Nro Motor" } })
+                                    @Html.ValidationMessageFor(model => model.NroMotor, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-sm-3">
                                     <label>Nro Chasis</label>
-                                    @Html.EditorFor(model => model.Acta.NroChasis, new { htmlAttributes = new { @class = "form-control input-sm", id = "input-NroChasis", name = "inputNroChasis", placeholder = "Nro Chasis" } })
+                                    @Html.EditorFor(model => model.NroChasis, new { htmlAttributes = new { @class = "form-control input-sm", id = "input-NroChasis", name = "inputNroChasis", placeholder = "Nro Chasis" } })
+                                    @Html.ValidationMessageFor(model => model.NroChasis, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                         </div>
@@ -328,13 +330,19 @@
         $('#input-NroActa').prop("disabled", true);
         $('#input-Usuario').prop("disabled", true);
         $('#ddlTipoVehiculo').prop("disabled", true);
-        $('#Acta_DomainId').prop("disabled", true);
-        $('#input-TipoDominio').prop("disabled", true);
+        $('#input-NroLiberacion').prop("disabled", true);
+        
+        if ($('#input-TipoDominio').val() != '')  
+            $('#DomainId').prop("disabled", true);
+        if ($('#input-TipoDominio').val() != '')  
+            $('#input-TipoDominio').prop("disabled", true);
         $('#ddlMarca').prop("disabled", true);
         $('#ddlModelo').prop("disabled", true);
         $('#inputColor').prop("disabled", true);
-        $('#input-NroMotor').prop("disabled", true);
-        $('#input-NroChasis').prop("disabled", true);
+        if ($('#input-NroMotor').val() != '')
+            $('#input-NroMotor').prop("disabled", true);
+        if ($('#input-NroChasis').val()!='')
+            $('#input-NroChasis').prop("disabled", true);
 
 
         ////Habilito los componentes habilitados para que hagan submit

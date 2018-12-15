@@ -20,7 +20,7 @@ namespace Guardia_Comunal.Controllers
         // GET: Audits
         public ActionResult Index()
         {
-            return View(db.Audits.ToList().Take(2000));
+            return View(db.Audits.OrderByDescending(x => x.Fecha).ToList().Take(2000));
         }
 
 
@@ -33,7 +33,7 @@ namespace Guardia_Comunal.Controllers
                 //list = db.Contraventions.ToList().Where(x => x.Enable == true).ToList();
                 //var json = JsonConvert.SerializeObject(list);
                 //var list = db.Audits.OrderByDescending(c => c.Fecha).Select(c => new { c.Id, c.Fecha, c.User.Nombreusuario,c.Window.Module.Descripcion, c.Window.Descripcion, c.Accion });
-                var list = db.Audits.OrderByDescending(x=> x.Fecha).ToList();
+                var list = db.Audits.OrderByDescending(x=> x.Fecha).ToList().Take(2000);
                 return Json(list, JsonRequestBehavior.AllowGet);
             }
             catch (Exception)

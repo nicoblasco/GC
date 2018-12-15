@@ -1,21 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using GuardiaComunal.Models;
+using System;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Web;
 
-namespace GuardiaComunal.Models
+namespace Guardia_Comunal.ViewModel
 {
-    public class Liberation
+    public class LiberationViewModel
     {
         public int Id { get; set; }
 
         public int ActaId { get; set; }
         public virtual Act Acta { get; set; }
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Requerido")]
+        //[Required(AllowEmptyStrings = false, ErrorMessage = "Requerido")]
         public string NroLiberacion { get; set; }
-        public int Numero { get; set; }
+
         [Required(AllowEmptyStrings = false, ErrorMessage = "Requerido")]
         public int LiberationPlaceId { get; set; }
         public virtual LiberationPlace LiberationPlace { get; set; }
@@ -42,6 +39,17 @@ namespace GuardiaComunal.Models
         public decimal MontoEnCuotas { get; set; }
         [Required(AllowEmptyStrings = false, ErrorMessage = "Requerido")]
         public DateTime FechaEmisionRecibo { get; set; }
+
+        //Validacion de Datos obligatorios
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Requerido")]
+        public int DomainId { get; set; }        
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Requerido")]
+        public string Dominio { get; set; }
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Requerido")]
+        public string NroMotor { get; set; }
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Requerido")]
+        public string NroChasis { get; set; }
+
         public bool Enable { get; set; }
     }
 }

@@ -45,6 +45,7 @@
                             <tr>
                                 <th>ID</th>
                                 <th>DNI</th>
+                                <th>Legajo</th>
                                 <th>Nombre</th>
                                 <th>Apellido</th>
                             </tr>
@@ -87,6 +88,10 @@
                             <input id="input-DNI-Create" name="inputDNI" class="form-control" autocomplete="off">
                         </div>
                         <div class="form-group">
+                            <label>Legajo</label>
+                            <input id="input-Legajo-Create" name="inputLegajo" class="form-control" autocomplete="off">
+                        </div>
+                        <div class="form-group">
                             <label>Nombre</label>
                             <input id="input-Nombre-Create" name="inputNombre" class="form-control" autocomplete="off">
                         </div>
@@ -123,6 +128,10 @@
                         <div class="form-group">
                             <label>DNI</label>
                             <input id="input-DNI-Edit" name="inputDNI" class="form-control" autocomplete="off">
+                        </div>
+                        <div class="form-group">
+                            <label>Legajo</label>
+                            <input id="input-Legajo-Edit" name="inputLegajo" class="form-control" autocomplete="off">
                         </div>
                         <div class="form-group">
                             <label>Nombre</label>
@@ -165,6 +174,7 @@
            "columns": [
                { "data": "Id" },
                { "data": "DNI" },
+               { "data": "Legajo" },
                { "data": "Nombre" },
                { "data": "Apellido" }
 
@@ -262,6 +272,7 @@
             $("#div-loader").show();
             var object = new Object();
             object.DNI = $("#input-DNI-Create").val();
+            object.Legajo = $("#input-Legajo-Create").val();
             object.Nombre = $("#input-Nombre-Create").val();
             object.Apellido = $("#input-Apellido-Create").val();
             var data = JSON.stringify(object);
@@ -347,6 +358,7 @@
             $("#div-loader").show();
             object.Id = $('#editarModal').find('input#input-Id-Edit').val();
             object.DNI = $("#input-DNI-Edit").val();
+            object.Legajo = $("#input-Legajo-Edit").val();
             object.Nombre = $("#input-Nombre-Edit").val();
             object.Apellido = $("#input-Apellido-Edit").val();
             var data = JSON.stringify(object);
@@ -416,6 +428,7 @@
             success: function (result) {
                 $('#editarModal').find('input#input-Id-Edit').val(result.Id);
                 $('#editarModal').find('input#input-DNI-Edit').val(result.DNI);
+                $('#editarModal').find('input#input-Legajo-Edit').val(result.Legajo);
                 $('#editarModal').find('input#input-Nombre-Edit').val(result.Nombre);
                 $('#editarModal').find('input#input-Apellido-Edit').val(result.Apellido);
             },

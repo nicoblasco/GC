@@ -287,11 +287,11 @@
                                 <div class="col-sm-3">
                                     <label>Estado del vehiculo</label>
                                     @*<select class="form-control input-sm" id="ddlEstadoVehiculo" disabled>
-                                            <option>No Retenido</option>
-                                            <option>Retenido</option>
-                                            <option>Liberado</option>
-                                            <option>Compactado</option>
-                                        </select>*@
+                            <option>No Retenido</option>
+                            <option>Retenido</option>
+                            <option>Liberado</option>
+                            <option>Compactado</option>
+                        </select>*@
 
                                     @Html.DropDownListFor(model => model.EstadoVehiculo, new SelectList(
        new List<Object>{
@@ -324,9 +324,9 @@
                                 <div class="col-sm-2">
                                     <label>Tipo Agente</label>
                                     @*<select class="form-control input-sm" id="ddlTipoAgente">
-                                            <option value="1">Inspector</option>
-                                            <option value="2">Policia</option>
-                                        </select>*@
+                            <option value="1">Inspector</option>
+                            <option value="2">Policia</option>
+                        </select>*@
 
                                     @Html.DropDownListFor(model => model.TipoAgente, new SelectList(
        new List<Object>{
@@ -341,7 +341,8 @@
                                 <div class="col-sm-3">
                                     <label>Agente</label>
                                     @Html.DropDownListFor(model => model.InspectorId, new SelectList(ViewBag.listaInspectores, "Id", "FullName"), new { @class = "form-control input-sm", id = "ddlInspector" })
-                                    @Html.DropDownListFor(model => model.Police, new SelectList(ViewBag.listaPolicias, "Id", "FullName"), new { @class = "form-control input-sm", id = "ddlPolicia" })
+                                    @*@Html.DropDownListFor(model => model.Police, new SelectList(ViewBag.listaPolicias, "Id", "FullName"), new { @class = "form-control input-sm", id = "ddlPolicia" })*@
+                                    @Html.EditorFor(model => model.Policia, new { htmlAttributes = new { @class = "form-control input-sm", id = "ddlPolicia", placeholder = "Policia" } })
                                 </div>
 
                             </div>
@@ -439,7 +440,10 @@
                     <!-- /. https://pbauerochse.github.io/searchable-option-list/examples.html#basic-usage -->
                     @if (PermissionViewModel.TienePermisoAlta(WindowHelper.GetWindowId("Actas", "Altas")))
                     {
-                        <button type="submit" class="btn btn-primary">Guardar</button>
+                        if (Model.EstadoVehiculo != "Liberado")
+                        {
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                        }
                     }
                 </div>
                 <!-- /.col-lg-12 -->
@@ -524,7 +528,10 @@
     var barriosJson = $.parseJSON(varListaBarrios.Data);
 
     var varListaCalles = @Html.Raw(Json.Encode(ViewBag.listaCalles));
-    var callesJson = $.parseJSON(varListaCalles.Data);
+        var callesJson = $.parseJSON(varListaCalles.Data);
+
+    var varListaPolicias = @Html.Raw(Json.Encode(ViewBag.listaPolicias));
+        var PoliciasJson = $.parseJSON(varListaPolicias.Data);
 
     $('#ddlBarrio').autocomplete({
         lookup: barriosJson,
@@ -538,7 +545,11 @@
         onSelect: function (suggestion) {
             $("#input-CalleId").val(suggestion.data);
         }
-    });
+        });
+
+        $('#ddlPolicia').autocomplete({
+            lookup: PoliciasJson
+        });
 
     // Fechas
     $(function () {

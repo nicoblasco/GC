@@ -196,6 +196,10 @@
     <Compile Include="Helpers\BootstrapExtensions.cs" />
     <Compile Include="Helpers\SessionHelper.cs" />
     <Compile Include="Helpers\WindowHelper.cs" />
+    <Compile Include="Migrations\201812150111134_InitialCreate.cs" />
+    <Compile Include="Migrations\201812150111134_InitialCreate.Designer.cs">
+      <DependentUpon>201812150111134_InitialCreate.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Act.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
@@ -226,6 +230,7 @@
     <Compile Include="Validations\DateGreaterThanAttribute.cs" />
     <Compile Include="ViewModel\ActIndexViewModel.cs" />
     <Compile Include="ViewModel\InfractorViewModel.cs" />
+    <Compile Include="ViewModel\LiberationViewModel.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="ViewModel\PermissionViewModel.cs" />
   </ItemGroup>
@@ -560,6 +565,11 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201812150111134_InitialCreate.resx">
+      <DependentUpon>201812150111134_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

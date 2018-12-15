@@ -48,7 +48,7 @@
     @Html.HiddenFor(model => model.Id, new { @Value = ViewBag.Id })
     <div id="page-wrapper">
         <div class="row">
-            <h1 class="page-header" style="margin: 10px;">Actas</h1>
+            <h1 class="page-header" style="margin: 10px;">Liberaciones</h1>
 
             <form id="form-create" role="form" class="form-horizontal">
                 <div class="col-lg-12">
@@ -341,6 +341,7 @@
 
     //Desabilito los campos que no voy a usar
 
+        $('#input-NroLiberacion').prop("disabled", true);
         $('#dt-Carga').attr("readonly", "readonly");
         $('#input-NroActa').prop("disabled", true);
         $('#input-Usuario').prop("disabled", true);

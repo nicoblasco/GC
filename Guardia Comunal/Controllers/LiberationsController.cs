@@ -12,6 +12,7 @@ using Newtonsoft.Json;
 using Guardia_Comunal.ViewModel;
 using Guardia_Comunal.Helpers;
 using Guardia_Comunal.Tags;
+using System.Web.Configuration;
 
 namespace Guardia_Comunal.Controllers
 {
@@ -164,12 +165,18 @@ namespace Guardia_Comunal.Controllers
         // GET: Liberations/Create
         public ActionResult Create(int? id)
         {
-            Liberation liberation = new Liberation();
+            LiberationViewModel liberation = new LiberationViewModel();
             liberation.Acta = new Act();
             liberation.Acta = db.Acts.Find(id);
 
 
             liberation.Person = db.People.Where(x => x.DNI == liberation.Acta.DNI).FirstOrDefault();
+            liberation.NroMotor = liberation.Acta.NroMotor;
+            liberation.NroChasis = liberation.Acta.NroChasis;
+            liberation.Dominio = liberation.Acta.Dominio;
+
+
+
 
             if (liberation.Person == null)
             {
@@ -201,13 +208,36 @@ namespace Guardia_Comunal.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ActaId,LiberationPlaceId,NroLiberacion,FechaDeLiberacion,NroJuzgado,FechaCarga,Convenio,Cuotas,Acarreo,NroRecibo,Importe,MontoEnCuotas,FechaEmisionRecibo,Enable,UsuarioId,Person,PersonId")] Liberation liberation)
+        public ActionResult Create([Bind(Include = "ActaId,LiberationPlaceId,NroLiberacion,FechaDeLiberacion,NroJuzgado,FechaCarga,Convenio,Cuotas,Acarreo,NroRecibo,Importe,MontoEnCuotas,FechaEmisionRecibo,Enable,UsuarioId,Person,PersonId,Dominio,NroMotor,NroChasis")] LiberationViewModel liberationvm)
         {
             ModelState.Remove("PersonId");
+            ModelState.Remove("DomainId");
+            ModelState.Remove("Dominio");
+            ModelState.Remove("NroMotor");
+            ModelState.Remove("NroChasis");
 
             if (ModelState.IsValid)
             {
-                liberation.Enable = true;
+                Liberation liberation = new Liberation {
+                    ActaId = liberationvm.ActaId,
+                    Acarreo = liberationvm.Acarreo,
+                    Convenio = liberationvm.Convenio,
+                    Cuotas = liberationvm.Cuotas,
+                    Enable = true,
+                    FechaCarga = liberationvm.FechaCarga,
+                    FechaDeLiberacion = liberationvm.FechaDeLiberacion,
+                    FechaEmisionRecibo = liberationvm.FechaEmisionRecibo,
+                    Importe = liberationvm.Importe,
+                    LiberationPlaceId = liberationvm.LiberationPlaceId,
+                    MontoEnCuotas = liberationvm.MontoEnCuotas,
+                    NroJuzgado = liberationvm.NroJuzgado,
+                    NroLiberacion = liberationvm.NroLiberacion,
+                    NroRecibo = liberationvm.NroRecibo,
+                    UsuarioId = liberationvm.UsuarioId, 
+                    Person = liberationvm.Person,
+                    PersonId = liberationvm.PersonId
+                    
+                };
 
                 if (liberation.PersonId != 0)
                 {
@@ -218,26 +248,50 @@ namespace Guardia_Comunal.Controllers
                     }
                 }
 
-                Act act = db.Acts.Find(liberation.ActaId);
+                Act act = db.Acts.Find(liberationvm.ActaId);
 
-                liberation.Person.Nombre= liberation.Person.Nombre?.ToUpper();
-                liberation.Person.Altura = liberation.Person.Altura?.ToUpper();
-                liberation.Person.Apellido = liberation.Person.Apellido?.ToUpper();
-                liberation.Person.EntreCalle = liberation.Person.EntreCalle?.ToUpper();
-                liberation.Person.Partido = liberation.Person.Partido?.ToUpper();
-                liberation.Person.Barrio = liberation.Person.Barrio?.ToUpper();
-                liberation.Person.Calle = liberation.Person.Calle?.ToUpper();
+                liberation.Person.Nombre= liberationvm.Person.Nombre?.ToUpper();
+                liberation.Person.Altura = liberationvm.Person.Altura?.ToUpper();
+                liberation.Person.Apellido = liberationvm.Person.Apellido?.ToUpper();
+                liberation.Person.EntreCalle = liberationvm.Person.EntreCalle?.ToUpper();
+                liberation.Person.Partido = liberationvm.Person.Partido?.ToUpper();
+                liberation.Person.Barrio = liberationvm.Person.Barrio?.ToUpper();
+                liberation.Person.Calle = liberationvm.Person.Calle?.ToUpper();
 
 
                 act.FechaEstado = DateTime.Now;
                 act.EstadoVehiculo = "Liberado";
+                if (liberationvm.Dominio!=null)
+                {
+                    act.Dominio = liberationvm.Dominio;
+                    act.DomainId = liberationvm.DomainId;
+                }
+                if (liberationvm.NroChasis != null)
+                    act.NroChasis = liberationvm.NroChasis;
+                if (liberationvm.NroMotor != null)
+                    act.NroMotor = liberationvm.NroMotor;
+
+
+                //Obtengo la ultima
+                int? NroOsMax = db.Liberations.Max(x => (int?)x.Numero);
+                if (NroOsMax == null || NroOsMax==0)
+                {
+                    liberation.Numero = Convert.ToInt32(WebConfigurationManager.AppSettings["LiberacionesCodigoInicial"]);
+                }
+                else
+                {
+                    liberation.Numero = Convert.ToInt32(NroOsMax) + 1;
+                }
+
+
+                liberation.NroLiberacion = liberation.Numero.ToString();
                 db.Liberations.Add(liberation);
                 db.Entry(act).State = EntityState.Modified;
                 db.SaveChanges();
 
                 TempData["message"] = "Los cambios se han grabado correctamente.";
                 //Audito
-                AuditHelper.Auditar("Alta", liberation.Id.ToString(), "Liberations", ModuleDescription, WindowDescription);
+                AuditHelper.Auditar("Alta", "Id -" + liberation.Id.ToString() + " / Acta -" + liberation.Acta.NroActa, "Liberations", ModuleDescription, WindowDescription);
 
                 return RedirectToAction("Index", "Acts");
             }
@@ -305,7 +359,7 @@ namespace Guardia_Comunal.Controllers
                 db.SaveChanges();
                 TempData["message"] = "Los cambios se han grabado correctamente.";
                 //Audito
-                AuditHelper.Auditar("Modificacion", liberation.Id.ToString(), "Liberations", ModuleDescription, WindowDescription);
+                AuditHelper.Auditar("Modificacion", "Id -" + liberation.Id.ToString() + " / Acta -" + liberation.Acta.NroActa, "Liberations", ModuleDescription, WindowDescription);
 
                 return RedirectToAction("Index", "Acts");
             }
@@ -337,7 +391,7 @@ namespace Guardia_Comunal.Controllers
             db.SaveChanges();
 
             //Audito
-            AuditHelper.Auditar("Baja", liberation.Id.ToString(), "Liberations", ModuleDescription, WindowDescription);
+            AuditHelper.Auditar("Baja", "Id -" + liberation.Id.ToString() + " / Acta -" + liberation.Acta.NroActa, "Liberations", ModuleDescription, WindowDescription);
 
             return RedirectToAction("Index");
         }

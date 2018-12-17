@@ -40,6 +40,9 @@ namespace Guardia_Comunal.ViewModel
         [Required(AllowEmptyStrings = false, ErrorMessage = "Requerido")]
         public DateTime FechaEmisionRecibo { get; set; }
 
+
+
+
         //Validacion de Datos obligatorios
         [Required(AllowEmptyStrings = false, ErrorMessage = "Requerido")]
         public int DomainId { get; set; }        

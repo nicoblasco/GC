@@ -36,7 +36,6 @@ namespace GuardiaComunal.Models
         public int? StreetId { get; set; }
         public virtual Street Street { get; set; }
 
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Requerido")]
         public string Altura { get; set; }
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "Requerido")]
@@ -99,6 +98,7 @@ namespace GuardiaComunal.Models
         // -----------Datos del Acta
         [Required(AllowEmptyStrings = false, ErrorMessage = "Requerido")]
         public string TipoAgente { get; set; }
+
         public int? InspectorId { get; set; }
         public virtual Inspector Inspector { get; set; }
 
@@ -124,6 +124,7 @@ namespace GuardiaComunal.Models
 
         [ScriptIgnore]
         public virtual ICollection<Contravention> Contraventions { get; set; }
+
 
         public virtual int[] SelectedContraventions { get; set; }
 

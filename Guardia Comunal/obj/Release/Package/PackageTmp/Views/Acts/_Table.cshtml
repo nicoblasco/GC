@@ -54,6 +54,12 @@
         word-wrap: break-word;
     }
 
+    .not-active {
+        pointer-events: none;
+        cursor: default;
+        text-decoration: none;
+        color: gainsboro;
+    }
 </style>
 @if (PermissionViewModel.TienePermisoAcesso(WindowHelper.GetWindowId("Actas", "Buscar")))
 {

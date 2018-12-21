@@ -44,7 +44,7 @@
 
 
 @section scripts {
-@Scripts.Render("~/Scripts/jquery.datetimepicker.full.min.js")
+    @Scripts.Render("~/Scripts/jquery.datetimepicker.full.min.js")
     <script>
 
 
@@ -111,7 +111,12 @@
                             $('td:eq(0)', nRow).append("<span class='fa fa-check-square span-btn' type='button' value='C' data-toggle='tooltip' data-placement='top' title='Liberar' id='btn_Liberar_Edit'/> ");
                         }
                         else {
-                            $('td:eq(0)', nRow).append("<span class='fa fa-check-square span-btn' type='button' value='C' data-toggle='tooltip' data-placement='top' title='Liberar' id='btn_Liberar'/> ");
+                            if (aData.Estado == "Retenido") {
+                                $('td:eq(0)', nRow).append("<span class='fa fa-check-square span-btn' type='button' value='C' data-toggle='tooltip' data-placement='top' title='Liberar' id='btn_Liberar'/> ");
+                            }
+                            else {
+                                $('td:eq(0)', nRow).append("<span class='fa fa-check-square span-btn not-active'  type='button' value='C' data-toggle='tooltip' data-placement='top' title='Liberar' id='btn_Liberar'/> ");
+                            }
                         }
                     }
 

@@ -492,7 +492,7 @@ namespace Guardia_Comunal.Controllers
                     return new HttpStatusCodeResult(404, ex.Message.Replace("\r\n", ""));
                     //return View(act);
                 }
-                return RedirectToAction("Index", "Acts");
+                return RedirectToAction("Create", "Acts");
             }
             return View(act);
             //return View(act);
@@ -635,6 +635,7 @@ namespace Guardia_Comunal.Controllers
                 act.NroLicencia = actviewwmodel.NroLicencia;
                 act.VehicleTypeId = actviewwmodel.VehicleTypeId;
                 act.DomainId = actviewwmodel.DomainId;
+                act.Dominio = actviewwmodel.Dominio;
                 act.VehicleBrandId = actviewwmodel.VehicleBrandId;
                 act.VehicleModelId = actviewwmodel.VehicleModelId;
                 act.Color = actviewwmodel.Color;

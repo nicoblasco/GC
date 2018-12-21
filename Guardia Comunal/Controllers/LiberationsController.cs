@@ -208,7 +208,7 @@ namespace Guardia_Comunal.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ActaId,LiberationPlaceId,NroLiberacion,FechaDeLiberacion,NroJuzgado,FechaCarga,Convenio,Cuotas,Acarreo,NroRecibo,Importe,MontoEnCuotas,FechaEmisionRecibo,Enable,UsuarioId,Person,PersonId,Dominio,NroMotor,NroChasis")] LiberationViewModel liberationvm)
+        public ActionResult Create([Bind(Include = "ActaId,LiberationPlaceId,NroLiberacion,FechaDeLiberacion,NroJuzgado,FechaCarga,Convenio,Cuotas,Acarreo,NroRecibo,Importe,MontoEnCuotas,FechaEmisionRecibo,Enable,UsuarioId,Person,PersonId,Dominio,DomainId,NroMotor,NroChasis")] LiberationViewModel liberationvm)
         {
             ModelState.Remove("PersonId");
             ModelState.Remove("DomainId");

@@ -34,6 +34,10 @@
     .sol-container {
         padding: 0px;
     }
+
+    .red {
+        color: #a94442;
+    }
 </style>
 
 
@@ -60,7 +64,7 @@
                         <div class="panel-body">
                             <div class="form-group">
                                 <div class="col-sm-3">
-                                    <label>Nro. Acta</label>
+                                    <label>Nro. Acta</label><span class="red"> * </span>
                                     @Html.EditorFor(model => model.Acta.NroActa, new { htmlAttributes = new { @class = "form-control input-sm", id = "input-NroActa", name = "input-NroActa", placeholder = "Nro. Acta" } })
 
                                 </div>
@@ -70,12 +74,12 @@
                                     @Html.ValidationMessageFor(model => model.NroLiberacion, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-sm-2">
-                                    <label>Liberado desde</label>
+                                    <label>Liberado desde</label><span class="red"> * </span>
                                     @Html.DropDownListFor(model => model.LiberationPlaceId, new SelectList(ViewBag.listaLiberationPlace, "Id", "Descripcion"), new { @class = "form-control input-sm", id = "ddlLiberationPlace" })
                                     @Html.ValidationMessageFor(model => model.LiberationPlace, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-sm-3">
-                                    <label>Fecha/Hora de Liberación</label>
+                                    <label>Fecha/Hora de Liberación</label><span class="red"> * </span>
                                     @Html.EditorFor(model => model.FechaDeLiberacion, new { htmlAttributes = new { @class = "form-control input-sm", id = "dt-FechaDeLiberacion", name = "dtFechaDeLiberacion", @type = "datetime" } })
                                     @Html.ValidationMessageFor(model => model.FechaDeLiberacion, "", new { @class = "text-danger" })
                                 </div>
@@ -83,7 +87,7 @@
                             <!-- /.Calle y Altura -->
                             <div class="form-group">
                                 <div class="col-sm-3">
-                                    <label>Fecha de Infracción</label>
+                                    <label>Fecha de Infracción</label><span class="red"> * </span>
                                     @Html.EditorFor(model => model.Acta.FechaInfraccion, new { htmlAttributes = new { @class = "form-control input-sm", id = "dt-Infraccion", name = "dtInfraccion", @type = "datetime" } })
                                     @Html.ValidationMessageFor(model => model.Acta.FechaInfraccion, "", new { @class = "text-danger" })
                                     @Html.ValidationMessageFor(model => model.Acta.FechaInfraccion, "", new { @class = "text-danger" })
@@ -93,11 +97,11 @@
                                     @Html.EditorFor(model => model.NroJuzgado, new { htmlAttributes = new { @class = "form-control input-sm", id = "input-NroLiberacion", name = "input-NroLiberacion", placeholder = "Nro de Liberación" } })
                                 </div>
                                 <div class="col-sm-3">
-                                    <label>Fecha/Hora de Carga</label>
+                                    <label>Fecha/Hora de Carga</label><span class="red"> * </span>
                                     @Html.EditorFor(model => model.FechaCarga, new { htmlAttributes = new { @class = "form-control input-sm", id = "dt-Carga", name = "dtCarga" } })
                                 </div>
                                 <div class="col-sm-2">
-                                    <label>Usuario de Carga</label>
+                                    <label>Usuario de Carga</label><span class="red"> * </span>
                                     <input class="form-control input-sm" id="input-Usuario" value="@SessionHelper.GetUserName()" name="inputUsuario" placeholder="Usuario de Carga" type="text" disabled>
                                     @Html.EditorFor(model => model.UsuarioId, new { htmlAttributes = new { @Value = SessionHelper.GetUser(), @class = "form-control input-sm", id = "input-UsuarioId", name = "inputUsuarioId", style = "display:none" } })
                                 </div>
@@ -114,17 +118,17 @@
                         <div class="panel-body">
                             <div class="form-group">
                                 <div class="col-sm-3">
-                                    <label>DNI Titular</label>
+                                    <label>DNI Titular</label><span class="red"> * </span>
                                     @Html.EditorFor(model => model.Person.DNI, new { htmlAttributes = new { @type = "number", @class = "form-control input-sm", id = "input-DNI", name = "inputDNI", placeholder = "DNI" } })
                                     @Html.ValidationMessageFor(model => model.Person.DNI, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-sm-3">
-                                    <label>Apellido</label>
+                                    <label>Apellido</label><span class="red"> * </span>
                                     @Html.EditorFor(model => model.Person.Apellido, new { htmlAttributes = new { @class = "form-control input-sm", id = "input-Apellido", name = "inputApellido", placeholder = "Apellido" } })
                                     @Html.ValidationMessageFor(model => model.Person.Apellido, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-sm-3">
-                                    <label>Nombre</label>
+                                    <label>Nombre</label><span class="red"> * </span>
                                     @Html.EditorFor(model => model.Person.Nombre, new { htmlAttributes = new { @class = "form-control input-sm", id = "input-Nombre", name = "inputNombre", placeholder = "Nombre" } })
                                     @Html.ValidationMessageFor(model => model.Person.Nombre, "", new { @class = "text-danger" })
                                 </div>
@@ -172,7 +176,7 @@
                         <div class="panel-body">
                             <div class="form-group">
                                 <div class="col-sm-3">
-                                    <label>Tipo de Vehiculo</label>
+                                    <label>Tipo de Vehiculo</label><span class="red"> * </span>
                                     @Html.DropDownListFor(model => model.Acta.VehicleTypeId, new SelectList(ViewBag.listaTipos, "Id", "Descripcion"), "Seleccione...", htmlAttributes:
      new
      {
@@ -184,11 +188,11 @@
                                     @Html.ValidationMessageFor(model => model.Acta.VehicleTypeId, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-sm-3">
-                                    <label>Tipo de Dominio</label>
+                                    <label>Tipo de Dominio</label><span class="red"> * </span>
                                     @Html.DropDownListFor(model => model.Acta.DomainId, new SelectList(ViewBag.listaDominios, "Id", "Descripcion"), new { @class = "form-control input-sm" })
                                 </div>
                                 <div class="col-sm-3">
-                                    <label>Dominio</label>
+                                    <label>Dominio</label><span class="red"> * </span>
                                     @Html.EditorFor(model => model.Acta.Dominio, new { htmlAttributes = new { @class = "form-control input-sm", id = "input-TipoDominio", name = "inputTipoDominio", placeholder = "Dominio" } })
                                     @Html.ValidationMessageFor(model => model.Acta.Dominio, "", new { @class = "text-danger" })
                                 </div>
@@ -217,11 +221,11 @@
                                     @Html.ValidationMessageFor(model => model.Acta.Color, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-sm-3">
-                                    <label>Nro Motor</label>
+                                    <label>Nro Motor</label><span class="red"> * </span>
                                     @Html.EditorFor(model => model.Acta.NroMotor, new { htmlAttributes = new { @class = "form-control input-sm", id = "input-NroMotor", name = "inputNroMotor", placeholder = "Nro Motor" } })
                                 </div>
                                 <div class="col-sm-3">
-                                    <label>Nro Chasis</label>
+                                    <label>Nro Chasis</label><span class="red"> * </span>
                                     @Html.EditorFor(model => model.Acta.NroChasis, new { htmlAttributes = new { @class = "form-control input-sm", id = "input-NroChasis", name = "inputNroChasis", placeholder = "Nro Chasis" } })
                                 </div>
                             </div>
@@ -241,12 +245,12 @@
                                     @Html.EditorFor(model => model.Convenio, new { htmlAttributes = new { @class = "form-control input-sm", id = "input-Convenio", placeholder = "Convenio" } })
                                 </div>
                                 <div class="col-sm-2">
-                                    <label>Cuotas</label>
+                                    <label>Cuotas</label><span class="red"> * </span>
                                     @Html.EditorFor(model => model.Cuotas, new { htmlAttributes = new { @class = "form-control input-sm", id = "input-Cuotas", placeholder = "Cant Cuotas" } })
                                     @Html.ValidationMessageFor(model => model.Cuotas, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-sm-2">
-                                    <label>Acarreo</label>
+                                    <label>Acarreo</label><span class="red"> * </span>
                                     <div class="form-group input-group">
                                         <span class="input-group-addon">$</span>
                                         @Html.EditorFor(model => model.Acarreo, new { htmlAttributes = new { @class = "form-control input-sm", id = "input-Acarreo", placeholder = "Acarreo" } })
@@ -254,12 +258,12 @@
                                     @Html.ValidationMessageFor(model => model.Acarreo, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-sm-2">
-                                    <label>Nro. Recibo</label>
+                                    <label>Nro. Recibo</label><span class="red"> * </span>
                                     @Html.EditorFor(model => model.NroRecibo, new { htmlAttributes = new { @class = "form-control input-sm", id = "input-NroRecibo", placeholder = "Nro de Recibo" } })
                                     @Html.ValidationMessageFor(model => model.NroRecibo, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-sm-2">
-                                    <label>Importe</label>
+                                    <label>Importe</label><span class="red"> * </span>
                                     <div class="form-group input-group">
                                         <span class="input-group-addon">$</span>
                                         @Html.EditorFor(model => model.Importe, new { htmlAttributes = new { @class = "form-control input-sm", id = "input-Importe", placeholder = "Importe" } })
@@ -269,7 +273,7 @@
                             </div>
                             <div class="form-group" style="margin-left: 0px;">
                                 <div class="col-sm-2">
-                                    <label>Monto en Cuotas</label>
+                                    <label>Monto en Cuotas</label><span class="red"> * </span>
                                     <div class="form-group input-group">
                                         <span class="input-group-addon">$</span>
                                         @Html.EditorFor(model => model.MontoEnCuotas, new { htmlAttributes = new { @class = "form-control input-sm", id = "input-MontoEnCuotas", placeholder = "Monto En Cuotas" } })
@@ -277,7 +281,7 @@
                                     @Html.ValidationMessageFor(model => model.MontoEnCuotas, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-sm-3">
-                                    <label>Fecha/ Emisión del Recibo</label>
+                                    <label>Fecha/ Emisión del Recibo</label><span class="red"> * </span>
                                     @Html.EditorFor(model => model.FechaEmisionRecibo, new { htmlAttributes = new { @class = "form-control input-sm", id = "dt-FechaEmisionRecibo", name = "dtFechaEmisionRecibo", @type = "datetime" } })
                                     @Html.ValidationMessageFor(model => model.FechaEmisionRecibo, "", new { @class = "text-danger" })
                                 </div>

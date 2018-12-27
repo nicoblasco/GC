@@ -291,7 +291,11 @@
                     <!-- /. https://pbauerochse.github.io/searchable-option-list/examples.html#basic-usage -->
                     @if (PermissionViewModel.TienePermisoAlta(WindowHelper.GetWindowId("Actas", "Liberacion")))
                     {
-                        <button type="submit" class="btn btn-primary">Guardar</button>
+                        if (Model.Acta.EstadoVehiculo != "Liberado")
+                        {
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                        }
+
                     }
                 </div>
                 <!-- /.col-lg-12 -->
